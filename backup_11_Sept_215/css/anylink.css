@@ -1,0 +1,97 @@
+.anylinkcss{
+visibility: hidden;
+position:absolute;
+font-family: arial;
+line-height: 17px;
+z-index: 200;
+background-color: #000;
+width: 260px;
+text-align:left;
+font-size:11px;
+font-weight:bold;
+border:1px solid #006C00;
+}
+
+.anylinkcss a{
+color: #fff;
+width: 100%;
+display: block;
+text-indent: 3px;
+border-bottom: 1px dotted #ccc;
+padding: 6px 0;
+text-decoration: none;
+text-indent: 5px;
+}
+
+.anylinkcss a:hover{ /*hover background color*/
+background:#6A8B05;
+color: #fff;
+}
+
+/***********/
+
+.anylinkcss2{
+visibility: hidden;
+position:absolute;
+font-family: tahoma,Verdana, Helvetica, sans-serif;
+line-height: 17px;
+z-index: 200;
+background-color: #333;
+width: 260px;
+text-align:left;
+font-size:11px;
+font-weight:bold;
+}
+
+.anylinkcss2 a{
+color: #ccc;
+width: 100%;
+display: block;
+text-indent: 3px;
+border-bottom: 1px dotted #ccc;
+padding: 4px 0;
+text-decoration: none;
+text-indent: 5px;
+}
+
+.anylinkcss2 a:hover{ /*hover background color*/
+background:#5B8AC4;
+color: #fff;
+}
+
+
+/****************/
+
+
+.anylinkcssTop{
+visibility: hidden;
+position:absolute;
+font-family: Calibri, tahoma,Verdana, Helvetica, sans-serif;
+line-height: 18px;
+z-index: 200;
+background-color: #EDCE60;
+width: 260px;
+text-align:left;
+font-weight:bold;
+border:1px solid #000;
+border-top:0;
+
+}
+
+.anylinkcssTop a{
+color: #000;
+width: 100%;
+display: block;
+text-indent: 3px;
+border-bottom: 1px dotted #666;
+padding: 4px 0;
+text-decoration: none;
+text-indent: 5px;
+text-shadow: #fff 1px 1px 1px;
+}
+
+.anylinkcssTop a:hover{ /*hover background color*/
+background-color: #f4f4f4;
+color: #000;
+
+}

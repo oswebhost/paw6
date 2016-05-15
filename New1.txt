@@ -1,0 +1,7 @@
+For building custom shopping carts: Store the following credential information in a secure location with limited access.
+
+Credential	   API Signature
+API Username	 sendgifts2philippines_api1.yahoo.com
+API Password	 HQC4U8DJS3ZTQ9HJ
+Signature	     AvUj4I3UpMa4Qr12GlyKSKGFCqGgAHIB97zez-hYCZMYlrqc8JGfjAIW
+Request Date	 Jul 16, 2013 21:58:38 GMT+08:00

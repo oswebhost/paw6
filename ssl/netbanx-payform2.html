@@ -1,0 +1,45 @@
+<!-- START OF MULTIPAY-PAYFORM -->
+
+<TMPL_INCLUDE NAME="netbanx-formcheck.tmpl">
+
+<form name="payform" action="<TMPL_VAR NAME="PAYSCRIPT_URL">" onSubmit="return netbanxFormCheck()" method="post">
+
+<div align="center">
+
+<font class="netbanx-label" face="Arial, Geneva, Helvetica" size="2" color="#000000">
+  <b>Please complete the form below</b>
+</font>
+
+<table border="0" cellspacing="0" cellpadding="4">
+<tr>
+  <td align="right" valign="middle">
+  <font class="netbanx-label" face="Arial, Geneva, Helvetica" size="2" color="#000000">
+  <b>Amount to pay:</b>
+  </font>
+  </td>
+  <td align="left" valign="middle">
+  <font class="netbanx-label" face="Arial, Geneva, Helvetica" size="2" color="#000000">
+  <TMPL_VAR NAME="CURRENCY_SYMBOL"><TMPL_VAR NAME="MAJOR_AMOUNT"> (<TMPL_VAR NAME="CURRENCY_NAME">)
+  </font>
+  </td>
+</tr>
+<tr>
+  <td align="right" valign="middle">
+  <font class="netbanx-label" face="Arial, Geneva, Helvetica" size="2" color="#000000">
+  <b>Merchant:</b>
+  </font>
+  </td>
+  <td align="left" valign="middle">
+  <font class="netbanx-label" face="Arial, Geneva, Helvetica" size="2" color="#000000">
+  <TMPL_VAR NAME="MERCHANT">
+  </font>
+  </td>
+</tr>
+</table>
+
+<TMPL_INCLUDE NAME="netbanx-payfields2.tmpl">
+
+</div>
+</form>
+
+<!-- END OF MULTIPAY-PAYFORM -->

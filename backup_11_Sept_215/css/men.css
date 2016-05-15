@@ -1,0 +1,117 @@
+.MainMenu {
+	padding-right:1px;
+}
+.MainMenu H2,.MainMenu H3 {
+	font-family: arial, "MS Sans Serif", Geneva, sans-serif;
+	color: #000;
+	font-size: 16px;
+	vertical-align: middle;
+	text-align:left;
+	margin:0;
+	padding:0;
+	cursor: pointer;
+
+}
+.MainMenu div { border:0px solid #ccc;margin-bottom:2px;padding:0 }
+
+.MainMenu H2 IMG {
+	margin: 0;
+	vertical-align: middle;
+}
+.MainMenu UL {
+
+	color: #000000;
+	padding: 0 0 0 0;
+	margin: 0px 0 0px 0;
+	list-style-type: none;
+}
+
+.MainMenu LI{
+	margin: 0 0 1px 0;
+	border-bottom: 0px solid #ccc;
+	line-height:27px;
+}
+
+
+.MainMenu A,  .MainMenu A:visited {
+	font-family: arial;
+	color: #000;
+	font-size:11px;
+	text-decoration: none;
+	display:block;
+	background:url(../images/v4/side-menu-bg1.jpg) repeat-x;
+	font-weight: bold;
+	padding-left:1px;
+}
+.MainMenu A span {font-size:11px; color:#0B76B0;}
+
+.MainMenu A:hover {
+	color:#ffffff;
+	background: #000;
+	font-weight:bold;
+	padding-left:2px;
+	text-decoration:none;
+}
+.MainMenu A:hover span {font-size:12px; color:#000;}
+
+.MainMenu A.none{padding:0}
+.MainMenu A:hover.none {background:none;padding-left:0px;}
+
+/****************/
+.MainMenu2 {
+	padding-right:1px;
+}
+.MainMenu2 H2 {
+	font-family: verdana, arial, "MS Sans Serif", Geneva, sans-serif;
+	color: #FFFFFF;
+	font-size: 12px;
+	vertical-align: middle;
+	text-align:left;
+	margin:0;
+	padding:0;
+
+}
+.MainMenu2 div { border:1px solid #ccc;margin-bottom:10px;padding:0 }
+
+.MainMenu2 H2 IMG {
+	margin: 0;
+	vertical-align: middle;
+}
+.MainMenu2 UL {
+
+	color: #000000;
+	padding: 0 0 0 0;
+	margin: 0px 0 0px 0;
+	list-style-type: none;
+}
+
+.MainMenu2 LI {
+	margin: 0 0 1px 0;
+	border-bottom: 0px solid #ccc;
+	line-height:27px;
+}
+
+.MainMenu2 A,  .MainMenu2 A:visited {
+	font-family: Helvetica, Tahoma, Geneva, sans-serif;
+	color: #000;
+	font-size:11px;
+	text-decoration: none;
+	display:block;
+	background:url(../images/v4/side-menu-bg2.jpg) repeat-x;
+	font-weight: bold;
+	padding-left:0px;
+
+}
+.MainMenu2 A span {font-size:12px; color:#0B76B0;}
+
+.MainMenu2 A:hover {
+	color:#ffffff;
+	background: #5B8AC4;
+	font-weight:bold;
+	padding-left:0px;
+	text-decoration:none;
+}
+.MainMenu2 A:hover span {font-size:11px; color:#000;}
+
+
+

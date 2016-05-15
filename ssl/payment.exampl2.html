@@ -1,0 +1,200 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Final//EN">
+
+<html>
+<head>
+<meta http-equiv="pragma" content="no-cache">
+<meta name="keywords" content="Online,On-line,Instant,Immediate,Debit,Credit,Card,Transaction,Clearance">
+<meta name="description" content="NetBanx Online Card Transaction Clearance Form">
+<title>NetBanx Online Card Transaction Clearance Form</title>
+<script language="JavaScript">
+<!-- //
+
+// The following code forces images to load in case they have not done.
+
+function init()
+{
+  if ((navigator.appName == "Microsoft Internet Explorer") && (document.images))
+  {     // check is IE and doc has images
+    make_sure = setInterval("checkImages()", 10000);
+    checkImages();
+  }
+}
+
+function checkImages()
+{
+  if ((navigator.appName == "Microsoft Internet Explorer") && (document.images))
+  {     // check is IE and doc has images
+    var counter = 0;                                      // initialise counter for checking.
+    for(i=0; i<document.images.length; i++)
+    {              // loop through images
+      if (document.images[i].readyState != ("complete" || "loading"))
+      {   // check for complete and if not...
+        refresh_the_image = document.images[i];           //
+        var image_source = refresh_the_image.src;         // ... refresh them!
+        refresh_the_image.src = "";                       //
+        refresh_the_image.src = image_source;             //
+      }else
+      {                                              // ... or...
+        counter ++;                                       // counter goes up by 1
+      }
+      if (counter == (document.images.length-1))
+      {         // if the counter has gone up by one for every image...
+        clearInterval(make_sure);                         // ... STOP!  They're all complete.
+      }
+    }
+  }
+}
+
+//-->
+</script>
+<style type="text/css">
+body:link      {color: #000000; text-decoration: none; font-weight: bold}
+body:active    {color: #000000; text-decoration: none; font-weight: bold}
+body:visited   {color: #000000; text-decoration: none; font-weight: bold}
+body           {color: #000000; background-color: #FFFFFF; font-size: 12pt;}
+a        {color: #000000; text-decoration: none; font-weight: bold}
+a:hover  {color: #FFD518; text-decoration: none; font-weight: bold}
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" alink="#000000" vlink="#000000" link="#000000" onLoad="init()">
+<div align="center">
+
+  <table bgcolor="#282EAB" width="100%" cellpadding="5" cellspacing="0" border="0">
+  <tr>
+    <td align="left" width="400">
+    <img src="https://www.netbanx.com/netbanx/images/yourlogo.gif" alt="NetBanx" border=0>
+    </td>
+    <td align="right" valign="top">
+    &nbsp;
+    </td>
+  </tr>
+  </table>
+  <table bgcolor="#002766" width="100%" cellpadding="5" cellspacing="0" border="0">
+  <tr>
+    <td>
+    <div align="left">
+      <font face="Arial, Geneva, Helvetica" size="3" color="#CEDBFF">
+      <b>NetBanx Online Transaction Clearance Form</b>
+      </font>
+    </div>
+    </td>
+  </tr>
+  </table>
+
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr>
+    <td valign="top" width="90" height="100%" bgcolor="#FFD800">
+    <table bgcolor="#FFD800" width="90" height="100%" cellpadding="4" cellspacing="0" border="0">
+    <tr>
+      <td align="center" valign="top" height="510">
+      &nbsp;
+      </td>
+    </tr>
+    </table>
+    </td>
+    <td valign="top">
+    <div align="left">
+      <table bgcolor="#FFFFFF" cellpadding="5" cellspacing="0" border="0">
+      <tr>
+        <td valign="top">
+        <font face="Arial, Geneva, Helvetica" size="2" color="#000000">
+
+        <p>
+        This transaction is being carried out over a secure link. All Netbanx
+        transactions are encoded for your security.
+        </p>
+
+        <div align="center">
+          <!-- You may not alter the contents of the payform template   -->
+          <TMPL_INCLUDE NAME="netbanx-formcheck.tmpl">
+          <FORM name="payform" action="<TMPL_VAR NAME=PAYSCRIPT_URL>" OnSubmit="return netbanxFormCheck()" method="post">
+
+          <table cellpadding="4" cellspacing="0" align="center" width="500" border="0">
+          <tr>
+            <td align="right"><b>Order No: </b></td>
+			<td align="left"><TMPL_VAR NAME="orderno">
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" align="center">
+            <HR width="50%">
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" align="center">
+            <select name="product_code">
+              <option value="01" selected>1st Product @ &pound; 3.50</option>
+              <option value="02">2nd Product @ &pound; 2.50</option>
+              <option value="03">3rd Product @ &pound; 1.50</option>
+            </select>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" align="center">
+            <HR width="50%">
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" align="center"><b>Please enter your delivery details</b></td>
+          </tr>
+          <tr>
+            <td align="right"><b>Address:&nbsp;</b></td>
+			<td align="left"><input type="text" name="delivery_address1" size=20>
+            </td>
+          </tr>
+          <tr>
+            <td align="right">&nbsp;</td>
+			<td align="left"><input type="text" name="delivery_address2" size=20>
+            </td>
+          </tr>
+          <tr>
+            <td align="right">&nbsp;</td>
+			<td align="left"><input type="text" name="delivery_address3" size=20>
+            </td>
+          </tr>
+          <tr>
+            <td align="right"><b>Town/city:&nbsp;</b></td>
+			<td align="left"><input type="text" name="delivery_town" size=20>
+            </td>
+          </tr>
+          <tr>
+            <td align="right"><b>County:&nbsp;</b></td>
+			<td align="left"><input type="text" name="delivery_county" size=20>
+            </td>
+          </tr>
+          <tr>
+            <td align="right"><b>Country:&nbsp;</b></td>
+			<td align="left"><input type="text" name="delivery_country" size=20>
+            </td>
+          </tr>
+          </table>
+
+          <TMPL_INCLUDE NAME="netbanx-payfields2.tmpl">
+
+          </form>
+          <!-- You may not alter the contents of the payform template   -->
+
+        </div>
+        </td>
+      </tr>
+      </table>
+    </div>
+    </td>
+  </tr>
+  </table>
+
+  <table bgcolor="#282EAB" width="100%" height="40" cellpadding="5" cellspacing="0" border="0">
+  <tr>
+    <td align="left">
+    <font face="Arial, Geneva, Helvetica" size="2" color="#CEDBFF">
+    &nbsp;
+    </font>
+    </td>
+  </tr>
+  </table>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,68 @@
+<script language="JavaScript">
+<!-- //engage cloaking device
+
+netbanx_transmitted = 0;
+
+function netbanxFormCheck()
+{
+
+  if (document.payform.email.value == "")
+  {
+    alert("Please enter your email address");
+    document.payform.email.focus();
+    return false;
+  }
+
+  if (document.payform.email.value.indexOf("@") == -1)
+  {
+    alert("Please enter a valid email address (you have not entered an @ sign)");
+    document.payform.email.focus();
+    return false;
+  }
+
+  if (document.payform.email.value.indexOf(".") == -1)
+  {
+    alert("Please enter a valid email address (you have not entered a full stop anywhere)");
+    document.payform.email.focus();
+    return false;
+  }
+
+  if (document.payform.postcode.value == "")
+  {
+    alert("The postcode must be entered.\n(If you do not have a postcode, please enter \"none\".)");
+    document.payform.postcode.focus();
+    return false;
+  }
+
+  if (document.payform.card_number.value == "")
+  {
+    alert("Please enter your credit or debit card number");
+    document.payform.card_number.focus();
+    return false;
+  }
+
+  if ( (document.payform.expiry1.selectedIndex == 0) && (document.payform.expiry2.selectedIndex == 0) )
+  {
+    alert("Please enter your expiry date correctly");
+    return false;
+  }
+
+  if (!netbanx_transmitted)
+  {
+    response = confirm('Netbanx will now validate your credit card.\n\nClick OK to Continue\n\nNOTE: \nDo not click on the \'Transmit\' button again\nuntil you have received confirmation or rejection of your payment.');
+    if (response)
+    {
+      document.bgColor=12632256;
+      netbanx_transmitted = 1;
+      return true;
+    } else {
+      return false;
+    }
+  } else {
+    alert('It would appear that you have already sent off a validation.\n\nIf this is not the case then press reload and try again');
+    return false;
+  }
+}
+
+//-->
+</script>

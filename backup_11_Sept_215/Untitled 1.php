@@ -1,0 +1,374 @@
+<?	
+include("config.ini.php");
+include("function.ini.php");
+
+
+if ($_GET['weekno']>0){
+    $cur = $_GET['weekno'];
+}else{
+    $cur = cur_week();
+}
+
+
+
+   $query1 = "SELECT * from setting"; 
+   $result = mysql_query($query1) or die(mysql_error()); 
+	while ($row = mysql_fetch_array($result)):
+		$updating = $row["updating"];$sended=$row["seasonended"];
+		$lastweek = $row["weekno"];
+	endwhile;
+	
+ $pwk = $weekno-1;
+ $nwk = $weekno+1;
+
+  if ($LOG=="N") : $purl .= "&LOG=N"; endif;
+ $purl .= "&WEEKNO=";
+
+ $ltable="<a class=blue href=ltable.php?DIV=$DIV#table>";
+ $grid="<a class=blue target=_blank class=prv href=full.php?DIV=$DIV#table>";
+ $query1 = "SELECT * FROM setting"; 
+ $result = mysql_query($query1) or die( mysql_error() ); 
+ while ($row = mysql_fetch_array($result)):
+		$last_update =$row["lastupdate"];
+		$cur_week    =$row["weekno"];
+  endwhile;
+  mysql_free_result($result); 
+  $result = mysql_query("SELECT * FROM fixtures WHERE `weekno`='$weekno' and season='$season' limit 1") or die(mysql_error()); 
+ $num_of_rows = mysql_num_rows ($result) ;
+ while ($row = mysql_fetch_array($result)):
+		$wdate   =$row["wdate"];
+  endwhile;
+
+  mysql_free_result($result); 
+
+  $pic =  $weekno ."/pic";
+  
+$query1="SELECT h.*, abs(h.ht_hedge-h.at_hedge) as hedgedif, f.hgoal,f.agoal,f.h_s,f.a_s,f.gotit,f.match_date, f.match_time,date_format(f.match_date,'%d-%b-%y') as mdate2 from cur_hedge h, fixtures f where h.weekno='$weekno' and h.season='$season' and h.div <>'MP' and h.div<>'UP' and h.div<>'NC' and h.div <>'RP' and h.div <>'FA' and h.div <>'SA' and h.div <>'IN' and h.`div`<>'NC' and h.matchno=f.mid and f.season=h.season and f.weekno=h.weekno" ;
+ 
+ switch ($_GET[PERIOD])
+  {
+    case 1: $period = " ";  $_prerid="Full Week (Mon - Sun)"; break;
+    case 2: $period = " and weekday(f.match_date)>4"; $_prerid="Weekend (Sat - Sun)"; break;
+    case 3: $period = " and weekday(f.match_date)<5"; $_prerid="Midweek (Mon - Fri)"; break;
+  }
+  
+  
+ 
+ if ($_GET['MPRED']=='HW'):
+	$query1 .= " and f.hgoal>f.agoal ";
+	$CAPTION = "HOME CALLS";
+	$bg = " bgcolor='#f4f4f4' ";
+  elseif($_GET['MPRED']=="AW"):
+   $query1 .= " and f.hgoal<f.agoal ";
+	$CAPTION = "AWAY CALLS";
+	$bg = " bgcolor='#f4f4f4' ";
+  else:
+	 $query1 .= " and f.hgoal=f.agoal ";
+     $CAPTION = "DRAWS CALLS";
+	 $bg = " bgcolor='#f4f4f4' ";
+  endif;
+  
+  
+  switch ($_GET[SORTBY])
+  {
+    case 1: $ordered_by = " ORDER BY h.ht_hedge desc"; break;
+    case 2: $ordered_by = " ORDER BY h.at_hedge desc"; break;
+    case 3: $ordered_by = " ORDER BY hedgedif ";   break;
+    case 4: $ordered_by = " ORDER BY h.avg_hedge desc"; break;
+  }
+  
+  $query1 .= $period . $ordered_by ;
+
+  $result = mysql_query($query1) or die(" $query1 --" .  mysql_error() ); 
+   $data="";
+   if (mysql_num_rows($result)== 0):
+	  $data ="<tr><td colspan=8 align=center height=80><span class='error'>No Matches This Week</span></td></tr>";
+   endif;
+   $pic = "/pic/" ;
+   $pic =  $weekno ."/pic";
+
+   $number=0;
+ 	    while ($row = mysql_fetch_array($result)):
+		   $number++;
+		   $rowcol = rowcol($number);
+		   $char = printv('v');
+		   $matchno = trim($row["matchno"]);
+		   if ($matchno>0 and trim($row["hgoal"])!="N" and ($weekno==$cur_week)) :
+			   $picurl = $pic . $matchno  . ".htm";
+			   $mywin = "mywin" . $matchno;
+			   $window ='<a title="Click to view PIC" class=md href="javascript:PicWin(';
+			   $window .= "'" . $picurl ."'" ;
+			   $window .= ')">';
+		   else:
+					$window="";
+		   endif;
+		   if ( ($_GET['DIV']=='FA') or ($_GET['DIV']=='SC')) :
+				$window="";
+				$h_team = explode("(",$row["hteam"]) ;
+				$h_team = $h_team[0] ;
+
+				$a_team = explode("(",$row["ateam"]) ;
+				$a_team = $a_team[0] ;
+		   else:
+				$h_team = $row["hteam"] ;
+				$a_team = $row["ateam"] ;
+		   endif ;
+	    
+      $data.="<tr $rowcol>";
+      $data.="<td  style=\"text-align: center\" height=\"12\">";
+      $data.="$number</td>";
+      
+      
+      $data .= "<td  style=\"text-align: center\" >";
+  	  if ($season==curseason()){      
+        $data.= "<a target='_blank' $h2 class='md2' href='team-performance-chart.php?id=$matchno'>". $row["mdate"]. "&nbsp;<font size='1'>" . mtime($row['match_time']) . "</font></a></td>";
+   		}else{
+        $data.= $row["mdate2"];
+      }   
+      $data .= "</td>";
+      
+    $data.="<td  style=\"text-align: left\">";
+    $data.= trim($row["hteam"]) ;
+    $data.= "&nbsp;$char&nbsp;"  ;
+    $data.= trim($row["ateam"]) ."</td>";
+    
+    
+    $data.= "<td  style=\"text-align: center\">" . trim($row["div"]) ."</td>";
+    
+    $asl = trim($row["hgoal"]) ."-" . trim($row["agoal"]) ;
+    $act = trim($row["h_s"]) ."-" . trim($row["a_s"]) ;
+    
+    if (asl_pr_team($row["hteam"],$row["ateam"],$season)) :
+		    if ($asl==$act){
+		      $data .= "<td  style=\"text-align: center\" bgcolor='#D3EBAB'><b><font color='#4444444'><i>" . trim($row["hgoal"] . ' - ' . $row["agoal"]) ."</i></b></font></td>";
+        }else{
+		  	 $data.= "<td  style=\"text-align: center\"><font color='#4444444'><i>" . trim($row["hgoal"] . ' - ' . $row["agoal"]) ."</i></font></td>";
+		  	}
+		  else:
+		     if ($asl==$act){
+			    $data.= "<td  style=\"text-align: center\" bgcolor='#D3EBAB'><b>" . trim($row["hgoal"] . ' - ' . $row["agoal"]) ."</b></td>";
+			  }else{
+          $data.= "<td  style=\"text-align: center\">" . trim($row["hgoal"] . ' - ' . $row["agoal"]) ."</td>";
+        }
+		  endif;
+		  
+		  if ($row["gotit"]==1){
+		     if($asl==$act){
+		        $data.= "<td  style=\"text-align: center\" bgcolor='#D3EBAB'><b>" . trim($row["h_s"] . ' - ' . $row["a_s"]) ."</b></td>";
+         }else{
+  		    $data.= "<td  style=\"text-align: center\"><b>" . trim($row["h_s"] . ' - ' . $row["a_s"]) ."</b></td>";
+  		  }
+      }else{
+       
+       $data.= "<td  style=\"text-align: center\">" . trim($row["h_s"] . ' - ' . $row["a_s"]) ."</td>";
+       
+       }
+
+      
+     if ($_GET["SORTBY"]=="1"){  
+		     $data.= "<td  bgcolor='#D3EBAB' style=\"text-align: center\">";
+          }else{
+             $data.= "<td  $rowcol style=\"text-align: center\">";
+     }
+   $data.= num2($row["ht_hedge"]) ."</td>";
+
+     if ($_GET["SORTBY"]=="2"){  
+		     $data.= "<td  bgcolor='#D3EBAB' style=\"text-align: center\">";
+          }else{
+             $data.= "<td  $rowcol style=\"text-align: center\">";
+          }
+    $data.= num2($row["at_hedge"]) . "</td>";
+
+    if ($_GET["SORTBY"]=="4"){  
+		     $data.= "<td  bgcolor='#D3EBAB' style=\"text-align: center\">";
+          }else{
+             $data.= "<td  $rowcol style=\"text-align: center\">";
+    }
+    $data.=  num2($row["avg_hedge"]) . "</td>";
+    
+      if ($_GET["SORTBY"]=="3"){  
+		     $data.= "<td  bgcolor='#D3EBAB' style=\"text-align: center\">";
+          }else{
+             $data.= "<td  $rowcol style=\"text-align: center\">";
+       }
+      
+       $data.= num20($row["hedgedif"]) . "</td>";
+      
+		  $data.= "</tr>";
+
+       endwhile;
+
+
+$page_title = "$season Week No $weekno $CAPTION Hedge Betting Reliance Factor";
+include("header.ini.php");
+
+page_header("Hedge Betting Reliance Factors" ); 
+
+?>
+
+
+
+
+
+<div style="padding-bottom:5px"></div>
+ 
+  <table border="0" cellpadding="2" cellspacing="0" style="border:1px solid #ccc;margin:0 auto 10px auto;" bordercolor="#f4f4f4" width="560">
+  
+	  <form method="GET" action="correct-score-hedge-reliability-listing.php">
+		<tr bgcolor="#f4f4f4">	 
+    		<td><b><font size="2" color="#0000FF">Season</font></b></td>
+            <td><b><font size="2" color="#0000FF">Week No</font></b></td>
+    	    <td><b><font size="2" color="#0000FF">Bet Type</font></b></td>
+            <td><b><font size="2" color="#0000FF">Sort By</font></b></td>
+            <td ><b><font size="2" color="#0000FF">Period</font></b></td>
+		  
+         </tr>
+         
+         <tr bgcolor="#f4f4f4">	 
+         <td>  
+		 <select size="1" name="season" class="text" style="width:80px;">
+		  <? 
+		   
+			  $sqry = mysql_query("SELECT distinct(season) as season from cur_hedge order by season desc") or die (mysql_error()) ;
+			 while ($sr = mysql_fetch_array($sqry)) : 
+		  ?>
+		      <option value="<?= $sr["season"] ?>" <?echo selected($season_value,$sr["season"])?>><?= $sr["season"] ?></option>
+		  
+		  <? endwhile; ?>
+		  </select>
+		</td>
+		  
+		  <td>
+		  <select size="1" name="weekno" class="text" style="width:60px;">
+
+		  <? for ($i=1; $i<=47; $i++) : ?>
+			  <option value="<?= $i;?>" <? if($i==$cur): echo " selected"; endif;?>>&nbsp;<?= $i;?>&nbsp;&nbsp;&nbsp;</option>
+		  <? endfor;?>		 
+
+		  </select>
+		  </td>
+		  <td>
+            <select size="1" name="MPRED" class="text">
+		          <option value="HW" <?echo selected($_GET['MPRED'],'HW')?>>Home Calls</option> 
+		  		  <option value="AW" <?echo selected($_GET['MPRED'],'AW')?>>Away Calls</option> 
+		  
+		      </select>		 
+             </td>
+    		  <td>
+    		  <select size="1" name="SORTBY" class="text" style="width:180px;">
+      		   <option value="1" <?echo selected($_GET['SORTBY'],'1')?>>Home Team Reliance Factors</option> 
+               <option value="2" <?echo selected($_GET['SORTBY'],'2')?>>Away Team Reliance Factors</option>
+               <option value="4" <?echo selected($_GET['SORTBY'],'4')?>>Average Reliance Factors</option>
+   		  </select>
+    		  </td>
+		 
+    		  
+    		  <td>
+    		  <select size="1" name="PERIOD" class="text" style="width:110px;">
+    		   <option value="1" <?echo selected($_GET['PERIOD'],'1')?>>Full Week (Mon - Sun)</option> 
+               <option value="2" <?echo selected($_GET['PERIOD'],'2')?>>Weekend (Sat - Sun)</option>
+               <option value="3" <?echo selected($_GET['PERIOD'],'3')?>></option>Midweek (Mon - Fri)</option>
+    		  </select>
+    		  </td>
+		  </tr>   
+          
+                 
+		  
+		  
+		  <tr bgcolor="#f4f4f4">	 
+		  <td colspan='5' align='center'>
+		  <input type="submit" value="View Data" name="B1" class="bt">
+
+		  </td>
+		</tr>	</form>
+	  </table>
+      
+ <? if ($_GET['B1']=='View Data') { ?>
+ 
+      
+<table  width="100%" align="center">
+<tr>
+	<td >  </td>
+	<td align="center"><span class='bot'></span></td>
+	<td align="right"> <? echo printscr(); ?></td>
+</tr>
+</table>
+     
+   <!-- startprint -->
+        
+ <? week_box_new($CAPTION . " - CORRECT SCORES" ."<br><font size='1' color='#000000'>$_prerid</font>", $weekno, $wdate, $season, 560); ?>
+
+
+<div style='text-align:center;padding:8px 25px;font-size:11px;font-family:verdana;'>
+
+The following shows the "Correct Scores" Reliance Factors up to the end of the previous week (until midnight on Sunday), listed in order of Reliability, based on the past 10 matches played at either the Home or Away venue (as appropriate) for all Staying Teams (not for Promoted or Relegated Teams). 
+</div> 
+
+
+    
+     
+    
+
+
+<table border="1" cellpadding="2" style="border-collapse: collapse" bordercolor="#CDCDCD" width="560" align="center"  bgcolor="#F6F6F6" >
+<tr>
+  <td width="2%" bgcolor="#D3EBAB" style="text-align: center" height="18">
+  <IMG SRC="images/tbcap/refno.gif" BORDER="0" ALT="Ref"></td>
+  <td width="5%" bgcolor="#D3EBAB" style="text-align: center" height="18">
+		  <?if ($season==curseason()){ ?>
+	     <IMG SRC="images/tbcap/datepic.gif"  BORDER="0" ALT="">
+      <? }else { ?>     
+        <IMG SRC="images/tbcap/date.gif"  BORDER="0" ALT="">
+      <?}?> 
+     </td>
+  <td  bgcolor="#D3EBAB" style="text-align: center"><IMG SRC="images/tbcap/flist.gif" BORDER="0" ALT=""></td>
+  
+  <td bgcolor="#D3EBAB" style="text-align: center"><IMG SRC="images/tbcap/div.gif" BORDER="0" ALT=""></td>
+  <td bgcolor="#D3EBAB" style="text-align: center"><IMG SRC="images/tbcap/asl.gif" BORDER="0" ALT=""></td>
+  <td bgcolor="#D3EBAB" style="text-align: center"><IMG SRC="images/tbcap/act.gif" BORDER="0" ALT=""></td>
+
+  <td bgcolor="#D3EBAB" style="text-align: center"><IMG SRC="images/tbcap/hteam.gif" BORDER="0" ALT=""></td>
+  <td  bgcolor="#D3EBAB" style="text-align: center"><IMG SRC="images/tbcap/ateam.gif" BORDER="0" ALT=""></td>
+  
+  <td bgcolor="#D3EBAB" style="text-align: center"><IMG SRC="images/tbcap/avg.gif" BORDER="0" ALT=""></td>
+  
+  <td  bgcolor="#D3EBAB" style="text-align: center"><IMG SRC="images/tbcap/difpos.gif" BORDER="0" ALT=""></td>
+
+  
+  
+</tr>
+			
+			 <?  echo $data;  ?>
+</table>
+   
+<div style='padding-top:4px;padding-left:5px;font-size:11px;'>
+
+<font size="1" color="blue"><b>ASL</font></b> = <font color='black'>Anticipated Score-Line</FONT> |
+<font size="1" color="blue"><b>Act Res</font></b> = <font color='black'>Actual Result</FONT> | 
+<font size="1" color="blue"><b>Diff</font></b> = <font color='black'>Difference in Hedge Betting Reliance Factor</FONT> <br /> 	
+<font size="1" color="blue"><b>Avg</font></b> = <font color='black'>Average Hedge Betting Reliance Factor</FONT> | 
+<font size="1" color="blue"><b><i>Italicised score-line</i></font></b> = <font color='black'>relegated and/or promoted teams playing</FONT><br>
+
+
+</div>
+
+           
+<div style='padding-left:15px;padding-right:15px;font-size:11px;'>
+
+<p>The above figures are "relative" only, and relate to how near to (or far away from) the ACTUAL Score-Lines the Program's originally posted "Anticipated Scorelines" (ASL's) have been, looking backwards over the past 10 matches.</p>
+
+<p>If the "Hedge Betting Reliance Factor" for a team is low, then it means that the ASL has been way off the mark many times, and therefore that team's ASL is unreliable and inappropriate for use when deciding Correct Scores "Hedge Betting".</p> 
+
+</div>
+
+<BR>&nbsp;<BR>&nbsp;<BR>
+
+
+
+
+
+ <!-- stopprint -->
+
+<? }
+
+include("footer.ini.php"); ?>

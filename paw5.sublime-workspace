@@ -1,0 +1,564 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"dis",
+				"distinct"
+			],
+			[
+				"paw",
+				"paw_correct"
+			],
+			[
+				"font",
+				"font-size"
+			],
+			[
+				"text-",
+				"text-transform"
+			],
+			[
+				"session",
+				"session_start"
+			],
+			[
+				"a",
+				"lower-alpha"
+			],
+			[
+				"list-",
+				"list-style-type"
+			],
+			[
+				"category",
+				"category_name"
+			],
+			[
+				"border-",
+				"border-collapse"
+			],
+			[
+				"border-s",
+				"border-style"
+			],
+			[
+				"cat",
+				"category"
+			],
+			[
+				"arr",
+				"arry_div_sa"
+			],
+			[
+				"cur",
+				"curseason"
+			],
+			[
+				"gl",
+				"globals	$GLOBALS['…']"
+			],
+			[
+				"_",
+				"_SESSION"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "/F/wos/www/oscom/extras/upgrade-22rc2a.html",
+			"settings":
+			{
+				"buffer_size": 668045,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/C/Users/Boom/Downloads/Compressed/STSv4.6_1/STSv4.6/doc/install.html",
+			"settings":
+			{
+				"buffer_size": 18117,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/Boom/Desktop/lighthouse/index.html",
+			"settings":
+			{
+				"buffer_size": 12881,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"selected_items":
+		[
+		],
+		"width": 392.0
+	},
+	"console":
+	{
+		"height": 125.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/F/wos/www/nshop/catalog/includes/sts_templates/index.php_1.html",
+		"/C/Users/Boom/Downloads/Compressed/osC Import-Login v1.0.6/Manual Install - Import.html",
+		"/F/wos/www/nshop/catalog/includes/sts_templates/index.php.html",
+		"/F/wos/www/myadmin/config.sample.inc.php",
+		"/F/wos/www/myadmin/config.inc.php",
+		"/D/pics/38/pic7154.htm",
+		"/C/Windows/system32/http",
+		"/C/Users/Boom/Desktop/psds4203/readme.htm",
+		"/F/wos/www/leisure/templates/argos_theme/jquery/textsizer.js",
+		"/C/Users/Boom/Downloads/articles_ajax-post-data-example_code1.html",
+		"/C/Users/Boom/AppData/Local/Temp/$$_8366/jquery-ui-1.10.3.custom/development-bundle/demos/sortable/index.html",
+		"/D/sqlfiles/New folder/example2/example2.htm",
+		"/D/sqlfiles/New folder/example2/exampleconfig2.js",
+		"/D/sqlfiles/New folder/example2/chainedselects.js",
+		"/F/wos/www/paw5/soccer-selections-analysis-tool.php",
+		"/F/wos/www/paw5/bettingadvice-class.php",
+		"/F/wos/www/paw5/awaber.php",
+		"/C/Users/Boom/AppData/Local/Temp/unnamed.htm",
+		"/C/Users/Boom/AppData/Local/Temp/IDM_Setup_Temp/http",
+		"/C/Users/Boom/AppData/Roaming/IDM/http",
+		"/D/pics/am/1/pic6.htm",
+		"/F/wos/www/myadmin/libraries/config/ConfigFile.class.php",
+		"/F/wos/www/paw5/googlefb442e697d202f76.html",
+		"/F/wos/www/paw5/ease-eu.sql",
+		"/F/wos/www/paw5/header.ini.php",
+		"/F/wos/www/paw5/asianhandycap-class.php",
+		"/F/wos/www/paw5/full-asian-listing.php",
+		"/F/wos/www/paw5/function.ini.php",
+		"/F/wos/www/paw5/full-underover-listing.php",
+		"/F/wos/www/paw5/soccer-league-tables.php",
+		"/F/wos/www/paw5/full-winonly-listing.php",
+		"/F/wos/www/paw5/current-soccer-fixtures.php",
+		"/F/wos/www/paw5/soccer-team-reliability-data.php",
+		"/F/wos/www/ci/system/database/DB.php",
+		"/F/wos/www/paw5/print.php",
+		"/F/wos/www/paw5/soccer-correct-scores-predictions.php",
+		"/F/wos/www/paw5/soccer-correct-scores-betting.php",
+		"/F/wos/www/paw5/index.php",
+		"/F/wos/www/paw5/full-overround-listing.php",
+		"/F/wos/www/paw5/overround-class.php",
+		"/F/wos/www/paw5/prediction-details.php",
+		"/F/wos/www/paw5/segregated-selections.php",
+		"/F/wos/www/paw5/team-performance-chart.php",
+		"/F/wos/www/paw5/prediction-performance-segregated.php",
+		"/F/wos/www/paw5/soccer-predictions-performance-1X2.php",
+		"/F/wos/www/paw5/full-odds-listing.php",
+		"/F/wos/www/paw5/css/style_v4.css",
+		"/C/Users/Boom/AppData/Local/Temp/$$_A52B/index.html",
+		"/C/Users/Boom/AppData/Local/Temp/$$_C853/chainedselects.html",
+		"/C/Users/Boom/AppData/Local/Temp/$$_40C0/parser.html",
+		"/F/wos/www/paw5/leftm.ini.php",
+		"/F/wos/www/paw5/sitemap.php",
+		"/F/wos/www/paw5/sitemap.xml",
+		"/F/wos/www/paw5/ror.xml",
+		"/C/Users/Boom/Downloads/googlefb442e697d202f76.html",
+		"/C/Users/Boom/Downloads/googleab61ae65fbb99a0f.html",
+		"/F/wos/www/paw5/hypes/2012-2013/week24.html",
+		"/F/wos/www/paw5/page-header.ini.php",
+		"/F/wos/www/paw5/soccer-prediction-data-analysis.php",
+		"/F/wos/www/paw5/soccer-win-probability-data.php",
+		"/F/wos/www/paw5/soccer-double-chance-reliability.php",
+		"/F/wos/www/paw5/soccer-1X2-value-bets.php",
+		"/F/wos/www/paw5/full.php",
+		"/F/wos/www/paw5/function2.ini",
+		"/F/wos/www/paw5/authorization.php",
+		"/F/wos/www/paw5/odds-listing.php",
+		"/F/wos/www/paw5/full-dcodds-listing.php",
+		"/F/wos/www/paw5/calltype-listing.php",
+		"/F/wos/www/paw5/bookie-paw-expectations.php",
+		"/F/wos/www/paw5/quality-soccer-prediction-tools.php",
+		"/F/wos/www/paw5/soccer-betting-odds-over-rounds.php",
+		"/F/wos/www/paw5/index-4Jan13.php",
+		"/F/wos/www/paw5/soccer-bettingadvice-for-academics.php",
+		"/F/wos/www/paw5/soccer-bettingadvice-for-advanced-bettors.php",
+		"/F/wos/www/paw5/bettingadvice-detail.php",
+		"/F/wos/www/paw5/prediction-by-probability-listing.php",
+		"/F/wos/www/paw5/ease-sa.sql",
+		"/F/wos/www/paw5/soccer-home-win-predictions.php",
+		"/C/Users/Boom/Desktop/idealthor/core/notice.html",
+		"/F/wos/www/paw5/successful-cc.php",
+		"/F/wos/www/paw5/subscribe-new.php",
+		"/F/wos/www/paw5/make_payment.php",
+		"/F/wos/www/paw3/make_payment.php",
+		"/F/wos/www/paw5/successful-repeat.php",
+		"/F/wos/www/paw5/asl-chat.php",
+		"/F/wos/www/paw5/bookies-odds-soccer-betting.php",
+		"/F/wos/www/paw5/free-soccer-1X2-predictions.php",
+		"/F/wos/www/paw5/soccer-away-win-predictions.php",
+		"/F/wos/www/paw5/soccer-correct-score-hedge-betting.php",
+		"/F/wos/www/paw5/soccer-winnings-jackpot-calculator.php",
+		"/F/wos/www/paw5/soccer-predictions-by-division.php",
+		"/F/wos/www/paw5/socce-predictions-backup-data.php",
+		"/F/wos/www/paw5/soccer-weekly-review.php",
+		"/F/wos/www/paw5/win-only-soccer-predictions.php",
+		"/F/wos/www/paw5/anticipated-score-line-summary.php",
+		"/F/wos/www/paw5/anticipated-score-line.php",
+		"/F/wos/www/paw5/double-chance-soccer-predictions.php",
+		"/F/wos/www/paw5/soccer-double-chance-betting.php",
+		"/F/wos/www/paw5/soccer-prediction-performance-correct-scores.php",
+		"/F/wos/www/paw5/soccer-prediction-performance-by-division.php",
+		"/F/wos/www/paw5/soccer-prediction-performance-all-divisions.php",
+		"/F/wos/www/paw5/prediction-performance-all-divisions-list.php",
+		"/F/wos/www/paw5/soccer-prediction-performance-divisions.php",
+		"/F/wos/www/paw5/soccer-segregated-selections-performance.php",
+		"/F/wos/www/paw5/segregated-selections-performance.php",
+		"/F/wos/www/paw5/prediction-performance-by-divisions.php",
+		"/F/wos/www/paw5/bookie-soccer-success-rate.php",
+		"/F/wos/www/paw5/soccer-prediction-comparisons.php",
+		"/F/wos/www/paw5/soccer-result-matrices.php",
+		"/F/wos/www/paw5/headtohead.php",
+		"/F/wos/www/paw5/bettingadvice.php",
+		"/F/wos/www/paw5/betting-advice.php",
+		"/F/wos/www/paw5/bettingadvice-downloadable.php",
+		"/F/wos/www/paw5/bettingadvice-for-advanced-bettors.php",
+		"/F/wos/www/paw5/bettingadvice-for-novices.php",
+		"/F/wos/www/paw5/subscribe-old.php",
+		"/F/wos/www/paw5/thankyou-cc.php",
+		"/F/wos/www/paw5/failure.php",
+		"/F/wos/www/paw5/signup_log.txt",
+		"/F/wos/www/paw5/make_payment-old.php",
+		"/F/wos/www/paw5/admin/bettingadvice.php",
+		"/D/pics/20/pic3352.htm",
+		"/F/wos/www/paw5/admin/spaw.ini.php",
+		"/F/wos/www/paw5/admin/spaw2/spaw_control.class.php",
+		"/F/wos/www/paw5/admin/spaw2/spacer.gif",
+		"/F/wos/www/paw5/admin/spaw2/spaw.inc.php",
+		"/F/wos/www/paw5/ltable-rank.php",
+		"/F/wos/www/paw5/ltable-rank-home.php"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"credit",
+			"type=\"text\"",
+			"01-jan-1900",
+			"curweek",
+			"cur_week",
+			"curweek",
+			"ResultChar(",
+			"Head to Head",
+			"head to head",
+			"double change call",
+			"hidden",
+			".pr{",
+			"League Standings Week",
+			".pr",
+			"pr",
+			".padd",
+			"padded",
+			"justify",
+			"table",
+			"td",
+			"KEY for data shown above",
+			"key2",
+			"faq",
+			"green",
+			"verdana",
+			"bt",
+			"segregated-selections.php",
+			"HW",
+			"print",
+			"localhost/paw5",
+			"print",
+			"localhost/paw5",
+			"print",
+			"localhost/paw5/",
+			"print",
+			"localhost/paw5",
+			"localhost/paw5/",
+			"http://localhost/paw5/",
+			"localhost/paw5",
+			"faq",
+			"align=center",
+			"style=\"text-align: center\"",
+			"align=\"center\"",
+			"align='center'",
+			"class",
+			"std",
+			";\n",
+			"european",
+			"test",
+			"id=\"testC3\"",
+			"Rounded tooltipssss",
+			"Hooked test",
+			"newsbox3",
+			"class='ctd' class=\"prob\"",
+			"class='ctd'  class=\"prob\"",
+			"style=\"text-align: center\"",
+			"bgcolor=\"#D2D2FF\"",
+			"../",
+			"style=\"text-align: center\"",
+			"bgcolor=\"#D2D2FF\"",
+			"style=\"text-align: center\"",
+			"style=\"text-align: center;padding:5px;\" ",
+			" class=\"ctd\"",
+			"class=\"prob\"",
+			"style=\"text-align: center;\"",
+			" bgcolor=\"#D2D2FF\"",
+			"style=\"text-align: center\"",
+			"style='font-weight:bold;text-align:center;'",
+			"style='width:10%;text-align:center;'",
+			"style='text-align:center;'",
+			"style='font-weight:bold;text-align:center;'",
+			"style='width:10%;text-align:center;'",
+			"style='text-align:center;'",
+			"bar_data",
+			"class=\"mytd3\"",
+			"style=\"text-align: center\" ",
+			"style=\"text-align: center\"",
+			"style=\"text-align: center;padding:5px;\"",
+			"style='font-weight:bold;text-align:center;'",
+			"style='width:10%;text-align:center;'",
+			"style='font-weight:bold;text-align:center;'",
+			"style='width:10%;text-align:center;'",
+			"style='text-align:center;'",
+			"style=\"text-align: center\" height=\"18\" ",
+			"style=\"text-align: center\" height=\"12\" ",
+			"height=\"18\"",
+			"height=\"12\"",
+			" height=\"12\" ",
+			"style=\"text-align: center\"",
+			"style=\\\"text-align: center\\\" height=\\\"12\\\"",
+			"style='text-align:center'",
+			" style=\"text-align: center\" height=\"1\"",
+			"<? last_saason_rank(\nlast_saason_rank(",
+			"last_saason_rank(",
+			"ResultChar(",
+			"otherteams(",
+			"gotasl_"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"bot",
+			"type=\"hidden\"",
+			"text",
+			"bettingadvice",
+			"arial",
+			"away-win-calls.php",
+			"AW",
+			"soccer-predictions.com",
+			"class=\"ctd\"",
+			"class='ctd'",
+			"class='ctd prob'",
+			"class='ctd'",
+			"",
+			"images/",
+			"class='ctd'",
+			"",
+			"class='ctd'",
+			"class='ctd padd'",
+			"",
+			"class='prob ctd'",
+			"class='ctd'",
+			"",
+			"class=\"ctd\"",
+			"class=\"ctd bold\"",
+			"class=\"ctd\"",
+			"class=\"ctd bold\"",
+			"style='width:10%' class=\"ctd\"",
+			"class=\"ctd\"",
+			"class=\"mytd3 ctd\"",
+			"",
+			"class='ctd'",
+			"class='ctd padd'",
+			"class='ctd bold'",
+			"class='ctd' style=\"width:10%\"",
+			"class='ctd bold'",
+			"class='ctd' style=\"width:10%\"",
+			"class='ctd'",
+			"",
+			"class='ctd'"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "/F/wos/www/oscom/extras/upgrade-22rc2a.html",
+					"settings":
+					{
+						"buffer_size": 668045,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/C/Users/Boom/Downloads/Compressed/STSv4.6_1/STSv4.6/doc/install.html",
+					"settings":
+					{
+						"buffer_size": 18117,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/C/Users/Boom/Desktop/lighthouse/index.html",
+					"settings":
+					{
+						"buffer_size": 12881,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"replace":
+	{
+		"height": 62.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"show_minimap": false,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 92.0,
+	"status_bar_visible": true
+}

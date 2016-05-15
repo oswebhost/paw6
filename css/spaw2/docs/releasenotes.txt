@@ -1,0 +1,29 @@
+SPAW Editor PHP Edition
+Version 2.0.6
+
+2.0.6 Release Notes
+
+Thanks to everyone who downloaded and tried SPAW Editor v.2! 
+Your feedback was extremely helpful.
+
+This release adds a couple of new features like predefined "quick links" in
+hyperlink dialog and CSS class field in image properties dialog. It also fixes
+a long-standing issue with invalid HTML resulting in content multiplying under
+IE among other bugfixes.
+
+Numerous language files were updated and fixed by the community. Thanks! 
+
+For a complete list of changes see changelog.txt 
+
+---
+This release includes some language files that were ported from version 1.
+This means that some of the messages will appear in English instead of the
+language of a specific language file. In case you are fluent in any language
+that wasn't updated for version 2, we would really appreciate if you could invest
+a little of your time to bring these files up to date.
+
+We will post all the updates in our blog at http://blog.solmetra.com
+
+We would really like to hear your feedback either through our forums at 
+http://forums.solmetra.com, comments in our blog at http://blog.solmetra.com or 
+email at spaw@solmetra.com
