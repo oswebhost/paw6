@@ -1,4 +1,5 @@
 <?php
+
 // 11-june-2015 copy saved as patbackup/...._20150611
 
 // need to work on Win Only Bookies and DC call bookies
@@ -8,8 +9,8 @@ session_start();
 ob_end_clean();
 ob_start();
 
-include("config.ini.php");
-include("function.ini.php");
+require_once("config.ini.php");
+require_once("function.ini.php");
 
 $odd_max_diff =  20;
 
@@ -639,7 +640,7 @@ $desc = "A novel interactive online source of past soccer fixtures linked to the
 <link rel="shortcut icon" href="<?=$domain?>/images/betware.ico" />
 <meta http-equiv="Content-Language" content="en-us" />
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
-<meta name="title" content="Soccer Predictions Analysis Tool (SoccerPAT) <?echo $page_title ?>" />
+<meta name="title" content="Soccer Predictions Analysis Tool (SoccerPAT) <?php echo $page_title ?>" />
 
 <link rel="stylesheet" type="text/css" href="<?=$domain?>/css/style_v4.css" media="screen" />
 <meta name="description" content="<?php echo $desc;?>" />
@@ -666,34 +667,35 @@ function tell(url)
 
 <div style="padding-bottom:5px"></div>
 
-<? if (isset($_GET['db'])){ 
+<?php
+    if (isset($_GET['db'])){ 
 
-    if (strlen($errlog)>0){
-    	echo "<div class='errordiv' style='width:835px;margin:0 auto 10px auto;'>$errlog</div>";
-    }        
+        if (strlen($errlog)>0){
+            echo "<div class='errordiv' style='width:835px;margin:0 auto 10px auto;'>$errlog</div>";
+        }        
 
-if ($db=='sa'){
-  //$pat_url = "db=eu&season=2014-2015";
-  $wk_to_show = cur_week('eu') -1;
-  //$pat_url = "db=eu&season=2014-2015&DIV=0&BETTING=1&SORTBY=13&ordered=1&PERIOD=1&CALL=3&min_odd=0.00&max_odd=0.00&limitedto=6&PROPTION=1&CALLPARAM=0&B1=View+Data&weekno=" .$wk_to_show ;
-  
-   $pat_url = "db=eu&season=". curseason("eu") ."&DIV=0&BETTING=1&SORTBY=13&ordered=1&PERIOD=1&CALL=3&PROPTION=1&ASL2GET=all&limitedto=6&min_odd=0.00&max_odd=0.00&CALLPARAM=0&CALLAS=0&weekno=" .$wk_to_show ;
-}else{
-   $wk_to_show = cur_week('sa') -1;
-   $pat_url = "db=sa&season=2015&DIV=0&BETTING=1&SORTBY=13&ordered=1&PERIOD=1&CALL=3&min_odd=0.00&max_odd=0.00&limitedto=6&PROPTION=1&CALLPARAM=0&weekno=" .$wk_to_show ;
-}   
+        if ($db=='sa'){
+          //$pat_url = "db=eu&season=2014-2015";
+          $wk_to_show = cur_week('eu') -1;
+          //$pat_url = "db=eu&season=2014-2015&DIV=0&BETTING=1&SORTBY=13&ordered=1&PERIOD=1&CALL=3&min_odd=0.00&max_odd=0.00&limitedto=6&PROPTION=1&CALLPARAM=0&B1=View+Data&weekno=" .$wk_to_show ;
+          
+           $pat_url = "db=eu&season=". curseason("eu") ."&DIV=0&BETTING=1&SORTBY=13&ordered=1&PERIOD=1&CALL=3&PROPTION=1&ASL2GET=all&limitedto=6&min_odd=0.00&max_odd=0.00&CALLPARAM=0&CALLAS=0&weekno=" .$wk_to_show ;
+        }else{
+           $wk_to_show = cur_week('sa') -1;
+           $pat_url = "db=sa&season=2015&DIV=0&BETTING=1&SORTBY=13&ordered=1&PERIOD=1&CALL=3&min_odd=0.00&max_odd=0.00&limitedto=6&PROPTION=1&CALLPARAM=0&weekno=" .$wk_to_show ;
+        }   
 
 //echo $pat_url;
 ?>
 
 <div style='width:1010px; margin:auto auto;'>
-<div class="report_blue_heading" style="float:left;width: 200px;"><?echo site($db);?></div>
+<div class="report_blue_heading" style="float:left;width: 200px;"><?php echo site($db);?></div>
 
 <div class="report_blue_heading" style="float:left;width: 560px; font-size:11px; text-transform:none;font-weight:normal;color:white;background:blue;">
 	Have some fun - try interacting with and changing the parameters below to see the different outcomes possible!
 </div>
 
-<div class="report_blue_link" style="float:right;width: 220px;"><a href='soccer-predictions-analysis-tool.php?<?echo $pat_url;?>'  class='sbar'>Click here</a> for <?echo site_other($db);?></div>
+<div class="report_blue_link" style="float:right;width: 220px;"><a href='soccer-predictions-analysis-tool.php?<?php echo $pat_url;?>'  class='sbar'>Click here</a> for <?php echo site_other($db);?></div>
 <div class='clear'></div>
 </div>
 
@@ -701,8 +703,8 @@ if ($db=='sa'){
 
 <table border="0" cellpadding="2" cellspacing="0" style="border:1px solid #ccc;margin:auto auto;background:#E1EFFD;" bordercolor="#f4f4f4" width="1000">
 	 
-	  <form method="get" action="<?echo $PHP_SELEF;?>">
-        <input type="hidden" name="db" value="<?echo $_GET['db'];?>"/>
+	  <form method="get" action="<?php echo $PHP_SELF;?>">
+        <input type="hidden" name="db" value="<?php echo $_GET['db'];?>"/>
 		
 
 		<tr>
@@ -710,7 +712,7 @@ if ($db=='sa'){
     		<td width='120' class='rtd'><b><font size="2" color="#0000FF">Season</font></b></td>
     		<td width="100">
 		    <select size="1" name="season" class="text" style='padding:3px;width:140px;' onChange="this.form.submit();">
-			  <? 
+			  <?php 
 			   
 				  $sqry = "SELECT distinct(season) as season from fixtures order by season desc limit 3" ;
 				  if ($db=='eu'){
@@ -720,11 +722,13 @@ if ($db=='sa'){
 	              }
 	              $temp->execute();
 	              
-	             while ($sr = $temp->fetch()) : 
-			  ?>
-			      <option value="<?= $sr["season"] ?>" <?echo selected($_GET['season'],$sr["season"])?>><?= $sr["season"] ?></option>
-			  
-			  <? endwhile; ?>
+	             while ($sr = $temp->fetch()){
+    			  ?>
+    			    <option value="<?php echo $sr["season"] ?>" <?php echo selected($_GET['season'],$sr["season"])?>>
+                        <?php echo $sr["season"] ?>
+                    </option>
+    			  
+    			  <?php } ?>
 			  </select>
 			</td>
 
@@ -734,14 +738,16 @@ if ($db=='sa'){
 		 <td>
 		  <select size="1" name="weekno" class="text"  style='padding:3px;'>
 
-		  <? 
+	<?php
         $max_week = find_last_week_of_season(curseason($db),$db) ;
         if (isset($_GET['season'])){
           $max_week = find_last_week_of_season($_GET['season'],$db) ;
         }
-        for ($i=$max_week; $i>=1; $i--) : ?>
-			     <option value="<?= $i;?>" <? if($i==$weekno): echo " selected"; endif;?>>&nbsp;<?= $i;?>&nbsp;&nbsp;&nbsp;</option>
-		  <? endfor;?>		 
+        for ($i=$max_week; $i>=1; $i--){ ?>
+			    <option value="<?php echo $i;?>" <? if($i==$weekno): echo " selected"; endif;?>>
+                    &nbsp;<?php echo $i;?>&nbsp;&nbsp;&nbsp;
+                </option>
+		  <?php } ?>		 
 
 		  </select>
 
@@ -755,27 +761,29 @@ if ($db=='sa'){
 	      <td>
 		   <select size="1" name="DIV" class="text" style="width:200px; padding:3px;">
 
-            <? if ($db=='eu'){ ?>
-		            <option value="0" <?echo selected($_GET['DIV'],'0')?>>UK/European Premier Divisions</option> 
-                    <option value="1" <?echo selected($_GET['DIV'],'1')?>>UK/European Major Divisions</option> 
-                    <option value="2" <?echo selected($_GET['DIV'],'2')?>>UK Minor Divisions</option> 
-					<option value="99" <?echo selected($_GET['DIV'],'99')?>>All Divisions</option> 
+            <?php if($db=='eu'){ ?>
+		            <option value="0" <?php echo selected($_GET['DIV'],'0')?>>UK/European Premier Divisions</option> 
+                    <option value="1" <?php echo selected($_GET['DIV'],'1')?>>UK/European Major Divisions</option> 
+                    <option value="2" <?php echo selected($_GET['DIV'],'2')?>>UK Minor Divisions</option> 
+					<option value="99" <?php echo selected($_GET['DIV'],'99')?>>All Divisions</option> 
             
                     <optgroup label="One Division Only">
-          			<? for ($_i=0; $_i<count($arry_div); $_i++){ ?>
-          			   <? if ($_i<>4 and $_i<>9 and $_i<>18){ ?>
-          					<option value="<? echo $arry_div[$_i];?>" <? echo selected($_GET['DIV'], $arry_div[$_i]);?>><? echo divname($arry_div[$_i]); ?></option>
-          			   <? } ?>
-          			<? } ?>
+          			<?php for($_i=0; $_i<count($arry_div); $_i++){ ?>
+          			   <?php if($_i<>4 and $_i<>9 and $_i<>18){ ?>
+          					<option value="<?php echo $arry_div[$_i];?>" <?php echo selected($_GET['DIV'], $arry_div[$_i]);?>><?php echo divname($arry_div[$_i]); ?></option>
+          			   <?php } ?>
+          			<?php } ?>
                     </optgroup>
-             <?}?>
+             <?php } ?>
 
-            <? if ($db=='sa'){ ?>
-          		    <option value="0" <?echo selected($_GET['DIV'],'0')?>>All Divisions</option> 
-          			<? for ($_i=0; $_i<count($arry_div_sa); $_i++){ ?>
-          				<option value="<? echo $arry_div_sa[$_i];?>" <? echo selected($_GET['DIV'], $arry_div_sa[$_i]);?>><? echo divname($arry_div_sa[$_i]); ?></option>
-          			<? } ?>
-             <?}?>
+            <?php if($db=='sa'){ ?>
+          		    <option value="0" <?php echo selected($_GET['DIV'],'0')?>>All Divisions</option> 
+          			<?php for($_i=0; $_i<count($arry_div_sa); $_i++){ ?>
+          				<option value="<?php echo $arry_div_sa[$_i];?>" <?php echo selected($_GET['DIV'], $arry_div_sa[$_i]);?>>
+                                <?php echo divname($arry_div_sa[$_i]); ?>
+                        </option>
+          			<?php } ?>
+             <?php } ?>
 
 			</select>
 		  </td>
@@ -787,12 +795,12 @@ if ($db=='sa'){
             <td class='rtd'><b><font size="2" color="#0000FF">Bet Types </font></b></td>
             <td>
                 <select size="1" name="BETTING" class="text" style="width:140px;padding:3px;" onchange="this.form.submit();">
-              		 <option value="1" <?echo selected($_GET['BETTING'],'1')?>>1X2 Betting</option> 
-                     <option value="2" <?echo selected($_GET['BETTING'],'2')?>>Double Chance Betting</option>
-                     <option value="3" <?echo selected($_GET['BETTING'],'3')?>>Win Only Betting</option>
+              		 <option value="1" <?php echo selected($_GET['BETTING'],'1')?>>1X2 Betting</option> 
+                     <option value="2" <?php echo selected($_GET['BETTING'],'2')?>>Double Chance Betting</option>
+                     <option value="3" <?php echo selected($_GET['BETTING'],'3')?>>Win Only Betting</option>
                      
-                     <option value="4" <?echo selected($_GET['BETTING'],'4')?>>Under 2.5 Goals Betting</option>
-                     <option value="5" <?echo selected($_GET['BETTING'],'5')?>>Over 2.5 Goals Betting</option>
+                     <option value="4" <?php echo selected($_GET['BETTING'],'4')?>>Under 2.5 Goals Betting</option>
+                     <option value="5" <?php echo selected($_GET['BETTING'],'5')?>>Over 2.5 Goals Betting</option>
 					
       		  </select>
             
@@ -802,145 +810,143 @@ if ($db=='sa'){
             <td>
     		 <select size="1" name="SORTBY" class="text" style="width:180px;padding:3px;">
              
-          <? if ($_GET['BETTING']=="1"){ ?>   
+          <?php if($_GET['BETTING']=="1"){ ?>   
               <optgroup label="1X2 Odds">  
-                <option value="10" <?echo selected($_GET['SORTBY'],'10')?>>1X2 Home Wins Odds</option>
-                <option value="11" <?echo selected($_GET['SORTBY'],'11')?>>1X2 Away Wins Odds</option>
-                <option value="12" <?echo selected($_GET['SORTBY'],'12')?>>1X2 Draw Odds</option>
+                <option value="10" <?php echo selected($_GET['SORTBY'],'10')?>>1X2 Home Wins Odds</option>
+                <option value="11" <?php echo selected($_GET['SORTBY'],'11')?>>1X2 Away Wins Odds</option>
+                <option value="12" <?php echo selected($_GET['SORTBY'],'12')?>>1X2 Draw Odds</option>
               </optgroup>
 			     <optgroup label="Goals">  
-           		 <option value="13" <?echo selected($_GET['SORTBY'],'13')?>> Total Goals Predicted</option>
-           		 <option value="14" <?echo selected($_GET['SORTBY'],'14')?>> ASL Goal Difference</option>
+           		 <option value="13" <?php echo selected($_GET['SORTBY'],'13')?>> Total Goals Predicted</option>
+           		 <option value="14" <?php echo selected($_GET['SORTBY'],'14')?>> ASL Goal Difference</option>
              </optgroup>
-          <?}?>
+          <?php } ?>
           
-           <? if ($_GET['BETTING']=="2"){ ?>   
+           <?php if($_GET['BETTING']=="2"){ ?>   
 		     <optgroup label="1X2 Odds">  
-                <option value="10" <?echo selected($_GET['SORTBY'],'10')?>>1X2 Home Wins Odds</option>
-                <option value="11" <?echo selected($_GET['SORTBY'],'11')?>>1X2 Away Wins Odds</option>
-                <option value="12" <?echo selected($_GET['SORTBY'],'12')?>>1X2 Draw Odds</option>
+                <option value="10" <?php echo selected($_GET['SORTBY'],'10')?>>1X2 Home Wins Odds</option>
+                <option value="11" <?php echo selected($_GET['SORTBY'],'11')?>>1X2 Away Wins Odds</option>
+                <option value="12" <?php echo selected($_GET['SORTBY'],'12')?>>1X2 Draw Odds</option>
               </optgroup>
 			  
               <optgroup label="Double Chance Odds">  
-                <option value="20" <?echo selected($_GET['SORTBY'],'20')?>>DC 1/X Odds</option>
-                <option value="21" <?echo selected($_GET['SORTBY'],'21')?>>DC 2/X Odds</option>
-                <option value="22" <?echo selected($_GET['SORTBY'],'22')?>>DC 1/2 Odds</option>
+                <option value="20" <?php echo selected($_GET['SORTBY'],'20')?>>DC 1/X Odds</option>
+                <option value="21" <?php echo selected($_GET['SORTBY'],'21')?>>DC 2/X Odds</option>
+                <option value="22" <?php echo selected($_GET['SORTBY'],'22')?>>DC 1/2 Odds</option>
               </optgroup>
 			  
 			  </optgroup>
 			     <optgroup label="Goals">  
-           		  <option value="13" <?echo selected($_GET['SORTBY'],'13')?>> Total Goals Predicted</option>
-           		  <option value="14" <?echo selected($_GET['SORTBY'],'14')?>> ASL Goal Difference</option>
+           		  <option value="13" <?php echo selected($_GET['SORTBY'],'13')?>> Total Goals Predicted</option>
+           		  <option value="14" <?php echo selected($_GET['SORTBY'],'14')?>> ASL Goal Difference</option>
              </optgroup>
 			
-          <?}?>
+          <?php } ?>
           
-          <? if ($_GET['BETTING']=="3"){ ?>   
+          <?php if($_GET['BETTING']=="3"){ ?>   
 
 			 <optgroup label="1X2 Odds">  
-                <option value="10" <?echo selected($_GET['SORTBY'],'10')?>>1X2 Home Wins Odds</option>
-                <option value="11" <?echo selected($_GET['SORTBY'],'11')?>>1X2 Away Wins Odds</option>
-                <option value="12" <?echo selected($_GET['SORTBY'],'12')?>>1X2 Draw Odds</option>
+                <option value="10" <?php echo selected($_GET['SORTBY'],'10')?>>1X2 Home Wins Odds</option>
+                <option value="11" <?php echo selected($_GET['SORTBY'],'11')?>>1X2 Away Wins Odds</option>
+                <option value="12" <?php echo selected($_GET['SORTBY'],'12')?>>1X2 Draw Odds</option>
               </optgroup>
 
               <optgroup label="Win Only Odds">  
-                <option value="30" <?echo selected($_GET['SORTBY'],'30')?>>Home Win Only Odds</option>
-                <option value="31" <?echo selected($_GET['SORTBY'],'31')?>>Away Win Only Odds</option>
+                <option value="30" <?php echo selected($_GET['SORTBY'],'30')?>>Home Win Only Odds</option>
+                <option value="31" <?php echo selected($_GET['SORTBY'],'31')?>>Away Win Only Odds</option>
               </optgroup>
 			  
 			  </optgroup>
 			     <optgroup label="Goals">  
-           		  <option value="13" <?echo selected($_GET['SORTBY'],'13')?>> Total Goals Predicted</option>
-           		  <option value="14" <?echo selected($_GET['SORTBY'],'14')?>> ASL Goal Difference</option>
+           		  <option value="13" <?php echo selected($_GET['SORTBY'],'13')?>> Total Goals Predicted</option>
+           		  <option value="14" <?php echo selected($_GET['SORTBY'],'14')?>> ASL Goal Difference</option>
              </optgroup>
-          <?}?>
+          <?php } ?>
           
-          <? if ($_GET['BETTING']=="4" or $_GET['BETTING']=="5"){ ?>   
+          <?php if($_GET['BETTING']=="4" or $_GET['BETTING']=="5"){ ?>   
 		     <optgroup label="1X2 Odds">  
-                <option value="10" <?echo selected($_GET['SORTBY'],'10')?>>1X2 Home Wins Odds</option>
-                <option value="11" <?echo selected($_GET['SORTBY'],'11')?>>1X2 Away Wins Odds</option>
-                <option value="12" <?echo selected($_GET['SORTBY'],'12')?>>1X2 Draw Odds</option>
+                <option value="10" <?php echo selected($_GET['SORTBY'],'10')?>>1X2 Home Wins Odds</option>
+                <option value="11" <?php echo selected($_GET['SORTBY'],'11')?>>1X2 Away Wins Odds</option>
+                <option value="12" <?php echo selected($_GET['SORTBY'],'12')?>>1X2 Draw Odds</option>
               </optgroup>
 			  
               <optgroup label="Under/Over Odds">  
-                <option value="40" <?echo selected($_GET['SORTBY'],'40')?>>Under 2.5 Goals Odds</option>
-                <option value="41" <?echo selected($_GET['SORTBY'],'41')?>>Over 2.5 Goals Odds</option>
+                <option value="40" <?php echo selected($_GET['SORTBY'],'40')?>>Under 2.5 Goals Odds</option>
+                <option value="41" <?php echo selected($_GET['SORTBY'],'41')?>>Over 2.5 Goals Odds</option>
               </optgroup>
 
              <optgroup label="Goals">  
-           		 <option value="13" <?echo selected($_GET['SORTBY'],'13')?>> Total Goals Predicted</option>
-           		 <option value="14" <?echo selected($_GET['SORTBY'],'14')?>> ASL Goal Difference</option>
+           		 <option value="13" <?php echo selected($_GET['SORTBY'],'13')?>> Total Goals Predicted</option>
+           		 <option value="14" <?php echo selected($_GET['SORTBY'],'14')?>> ASL Goal Difference</option>
              </optgroup>
 
 			  
 			  
-          <?}?>
+          <?php } ?>
           
           
-           <? if ($_GET['BETTING']=="6"){ // asian handicap  ?>   
+           <?php if($_GET['BETTING']=="6"){ // asian handicap  ?>   
               <optgroup label="Asian Handicap Odds">  
-                <option value="80" <?echo selected($_GET['SORTBY'],'80')?>>Home Win Odds</option>
-                <option value="81" <?echo selected($_GET['SORTBY'],'81')?>>Away Win Odds</option>
+                <option value="80" <?php echo selected($_GET['SORTBY'],'80')?>>Home Win Odds</option>
+                <option value="81" <?php echo selected($_GET['SORTBY'],'81')?>>Away Win Odds</option>
               </optgroup>
               <optgroup label="Asian Handicap Value">  
-                <option value="82" <?echo selected($_GET['SORTBY'],'82')?>>Home Team Handicap</option>
-                <option value="83" <?echo selected($_GET['SORTBY'],'83')?>>Away Team Handicap</option>
+                <option value="82" <?php echo selected($_GET['SORTBY'],'82')?>>Home Team Handicap</option>
+                <option value="83" <?php echo selected($_GET['SORTBY'],'83')?>>Away Team Handicap</option>
               </optgroup>
-          <?}?>
+          <?php } ?>
           
     
 
           <optgroup label="Probabilities">    
-            <option value="7" <?echo selected($_GET['SORTBY'],'7')?>>Home Win Probabilities</option>
-            <option value="8" <?echo selected($_GET['SORTBY'],'8')?>>Away Win Probabilities</option>
-            <option value="9" <?echo selected($_GET['SORTBY'],'9')?>>Draw Probabilities</option>
+            <option value="7" <?php echo selected($_GET['SORTBY'],'7')?>>Home Win Probabilities</option>
+            <option value="8" <?php echo selected($_GET['SORTBY'],'8')?>>Away Win Probabilities</option>
+            <option value="9" <?php echo selected($_GET['SORTBY'],'9')?>>Draw Probabilities</option>
             
-            <option value="50" <?echo selected($_GET['SORTBY'],'50')?>>DC 1/X Probabilities</option>
-            <option value="51" <?echo selected($_GET['SORTBY'],'51')?>>DC 2/X Probabilities</option>
+            <option value="50" <?php echo selected($_GET['SORTBY'],'50')?>>DC 1/X Probabilities</option>
+            <option value="51" <?php echo selected($_GET['SORTBY'],'51')?>>DC 2/X Probabilities</option>
 
           </optgroup>    
           
           <optgroup label="All Inclusive Reliabilities">  
-            <option value="70" <?echo selected($_GET['SORTBY'],'70')?>>Home Team AI Reliability</option>
-            <option value="71" <?echo selected($_GET['SORTBY'],'71')?>>Away Team AI Reliability</option>
-            <option value="72" <?echo selected($_GET['SORTBY'],'72')?>>Average AI Reliability</option>
+            <option value="70" <?php echo selected($_GET['SORTBY'],'70')?>>Home Team AI Reliability</option>
+            <option value="71" <?php echo selected($_GET['SORTBY'],'71')?>>Away Team AI Reliability</option>
+            <option value="72" <?php echo selected($_GET['SORTBY'],'72')?>>Average AI Reliability</option>
           </optgroup>
           
           <optgroup label="General Prediction Reliabilities">  
-            <option value="60" <?echo selected($_GET['SORTBY'],'60')?>>Home Team GP Reliability</option>
-            <option value="61" <?echo selected($_GET['SORTBY'],'61')?>>Away Team GP Reliability</option>
-            <option value="62" <?echo selected($_GET['SORTBY'],'62')?>>Average GP Reliability</option>
+            <option value="60" <?php echo selected($_GET['SORTBY'],'60')?>>Home Team GP Reliability</option>
+            <option value="61" <?php echo selected($_GET['SORTBY'],'61')?>>Away Team GP Reliability</option>
+            <option value="62" <?php echo selected($_GET['SORTBY'],'62')?>>Average GP Reliability</option>
           </optgroup>
           
           <optgroup label="Prediction Type Reliabilities">  
-            <option value="1" <?echo selected($_GET['SORTBY'],'1')?>>Home Team PT Reliability</option> 
-            <option value="2" <?echo selected($_GET['SORTBY'],'2')?>>Away Team PT Reliability</option>
-            <option value="3" <?echo selected($_GET['SORTBY'],'3')?>>Average PT Reliabilities</option>
+            <option value="1" <?php echo selected($_GET['SORTBY'],'1')?>>Home Team PT Reliability</option> 
+            <option value="2" <?php echo selected($_GET['SORTBY'],'2')?>>Away Team PT Reliability</option>
+            <option value="3" <?php echo selected($_GET['SORTBY'],'3')?>>Average PT Reliabilities</option>
           </optgroup>    
           
           <optgroup label="Double Chance Reliabilities">  
-            <option value="4" <?echo selected($_GET['SORTBY'],'4')?>>Home Team DC Reliability</option>
-            <option value="5" <?echo selected($_GET['SORTBY'],'5')?>>Away Team DC Reliability</option>
-            <option value="6" <?echo selected($_GET['SORTBY'],'6')?>>Average DC RReliability</option>
+            <option value="4" <?php echo selected($_GET['SORTBY'],'4')?>>Home Team DC Reliability</option>
+            <option value="5" <?php echo selected($_GET['SORTBY'],'5')?>>Away Team DC Reliability</option>
+            <option value="6" <?php echo selected($_GET['SORTBY'],'6')?>>Average DC RReliability</option>
           </optgroup>
 
-        
-          
-          
-    		  </select>
+         
+    	</select>
 
     		  	<select size="1" name="ordered" class="text" style="width:85px;padding:3px;" >
-                	<option value="1" <? if ($_GET['ordered']==1) echo 'selected';?>>Low-High</option>
-                	<option value="2" <? if ($_GET['ordered']==2) echo 'selected';?>>High-Low</option>
+                	<option value="1" <?php if($_GET['ordered']==1) echo 'selected';?>>Low-High</option>
+                	<option value="2" <?php if($_GET['ordered']==2) echo 'selected';?>>High-Low</option>
 		  		</select>
     		  </td>
 
             <td class='rtd'><b><font size="2" color="#0000FF">Period/Date</font></b></td>
               <td>
       		  <select size="1" name="PERIOD" class="text" style="width:200px;padding:3px;">
-          		 <option value="1" <?echo selected($_GET['PERIOD'],'1')?>>Full Week (Mon - Sun)</option> 
-                 <option value="2" <?echo selected($_GET['PERIOD'],'2')?>>Weekend (Sat - Sun)</option>
-                 <option value="3" <?echo selected($_GET['PERIOD'],'3')?>>Midweek (Mon - Fri)</option>
+          		 <option value="1" <?php echo selected($_GET['PERIOD'],'1')?>>Full Week (Mon - Sun)</option> 
+                 <option value="2" <?php echo selected($_GET['PERIOD'],'2')?>>Weekend (Sat - Sun)</option>
+                 <option value="3" <?php echo selected($_GET['PERIOD'],'3')?>>Midweek (Mon - Fri)</option>
 
                  <?php echo fixture_date($season, $weekno, $db, $_GET['PERIOD'], $divs) ;?>
 
@@ -955,40 +961,37 @@ if ($db=='sa'){
               <td>
     		  <select size="1" name="CALL" class="text" style="width:140px;padding:3px;" onchange="this.form.submit();">
               
-               <? if ($_GET['BETTING']==1 or $_GET['BETTING']==4 or $_GET['BETTING']==5){ ?>
-			       <option value="0" <?echo selected($_GET['CALL'],'0')?>>[ Select ]</option> 
-        		   <option value="1" <?echo selected($_GET['CALL'],'1')?>>Home Win Calls (PaW)</option> 
-                   <option value="2" <?echo selected($_GET['CALL'],'2')?>>Away Win Calls (PaW)</option>
-                   <option value="3" <?echo selected($_GET['CALL'],'3')?>>Draw Calls (PaW)</option>
-			   <?}?>
-			   <? if ($_GET['BETTING']==1 or $_GET['BETTING']==4 or $_GET['BETTING']==5){ ?>
-        		   <option value="6" <?echo selected($_GET['CALL'],'6')?>>Home Win Calls (Bookie)</option> 
-                   <option value="7" <?echo selected($_GET['CALL'],'7')?>>Away Win Calls (Bookie)</option>
-                   <option value="8" <?echo selected($_GET['CALL'],'8')?>>Draw Calls (Bookie)</option>
-				<?}?>
-               
-               
-               <? if ($_GET['BETTING']==2){ ?>
-			       <option value="0" <?echo selected($_GET['CALL'],'0')?>>[ Select ]</option> 			   
-        		   <option value="1" <?echo selected($_GET['CALL'],'1')?>>Home Win/Draw Calls (PaW)</option> 
-                   <option value="2" <?echo selected($_GET['CALL'],'2')?>>Away Win/Draw Calls (PaW)</option>
-				   
-           		   <option value="16" <?echo selected($_GET['CALL'],'16')?>>Home Win/Draw Calls (Bookie)</option> 
-                   <option value="17" <?echo selected($_GET['CALL'],'17')?>>Away Win/Draw Calls (Bookie)</option>
+               <?php if($_GET['BETTING']==1 or $_GET['BETTING']==4 or $_GET['BETTING']==5){ ?>
+			       <option value="0" <?php echo selected($_GET['CALL'],'0')?>>[ Select ]</option> 
+        		   <option value="1" <?php echo selected($_GET['CALL'],'1')?>>Home Win Calls (PaW)</option> 
+                   <option value="2" <?php echo selected($_GET['CALL'],'2')?>>Away Win Calls (PaW)</option>
+                   <option value="3" <?php echo selected($_GET['CALL'],'3')?>>Draw Calls (PaW)</option>
+			   <?php } ?>
 
-				   
-               <?}?>
+			   <?php if($_GET['BETTING']==1 or $_GET['BETTING']==4 or $_GET['BETTING']==5){ ?>
+        		   <option value="6" <?php echo selected($_GET['CALL'],'6')?>>Home Win Calls (Bookie)</option> 
+                   <option value="7" <?php echo selected($_GET['CALL'],'7')?>>Away Win Calls (Bookie)</option>
+                   <option value="8" <?php echo selected($_GET['CALL'],'8')?>>Draw Calls (Bookie)</option>
+				<?php } ?>
                
                
-                 <? if ($_GET['BETTING']==3 ){ ?>
-			       <option value="0" <?echo selected($_GET['CALL'],'0')?>>[ Select ]</option> 				 
-        		   <option value="1" <?echo selected($_GET['CALL'],'1')?>>Home Win Calls (PaW)</option> 
-                   <option value="2" <?echo selected($_GET['CALL'],'2')?>>Away Win Calls (PaW)</option>
-
-        		   <option value="11" <?echo selected($_GET['CALL'],'11')?>>Home Win Calls (Bookie)</option> 
-                   <option value="12" <?echo selected($_GET['CALL'],'12')?>>Away Win Calls (Bookie)</option>
+               <?php if($_GET['BETTING']==2){ ?>
+			       <option value="0" <?php echo selected($_GET['CALL'],'0')?>>[ Select ]</option> 			   
+        		   <option value="1" <?php echo selected($_GET['CALL'],'1')?>>Home Win/Draw Calls (PaW)</option> 
+                   <option value="2" <?php echo selected($_GET['CALL'],'2')?>>Away Win/Draw Calls (PaW)</option>
+           		   <option value="16" <?php echo selected($_GET['CALL'],'16')?>>Home Win/Draw Calls (Bookie)</option> 
+                   <option value="17" <?php echo selected($_GET['CALL'],'17')?>>Away Win/Draw Calls (Bookie)</option>
+               <?php } ?>
+               
+               
+                 <?php if($_GET['BETTING']==3 ){ ?>
+			       <option value="0" <?php echo selected($_GET['CALL'],'0')?>>[ Select ]</option> 				 
+        		   <option value="1" <?php echo selected($_GET['CALL'],'1')?>>Home Win Calls (PaW)</option> 
+                   <option value="2" <?php echo selected($_GET['CALL'],'2')?>>Away Win Calls (PaW)</option>
+        		   <option value="11" <?php echo selected($_GET['CALL'],'11')?>>Home Win Calls (Bookie)</option> 
+                   <option value="12" <?php echo selected($_GET['CALL'],'12')?>>Away Win Calls (Bookie)</option>
 				   
-               <?}?>
+               <?php } ?>
 
 
 
@@ -998,9 +1001,9 @@ if ($db=='sa'){
           <td class='rtd'><b><font size="2" color="#0000FF">Rel/Prom Treatment</font></b></td>
               <td class='ltd'>
               <select size="1" name="PROPTION" class="text" style="width:140px;padding:3px;">
-                  <option value="1" <?echo selected($_GET['PROPTION'],'1')?>>Staying Teams Only</option>
-                  <option value="2" <?echo selected($_GET['PROPTION'],'2')?>>All Teams (incl R/P)</option>
-                  <option value="3" <?echo selected($_GET['PROPTION'],'3')?>>Just R/P Matches</option>
+                  <option value="1" <?php echo selected($_GET['PROPTION'],'1')?>>Staying Teams Only</option>
+                  <option value="2" <?php echo selected($_GET['PROPTION'],'2')?>>All Teams (incl R/P)</option>
+                  <option value="3" <?php echo selected($_GET['PROPTION'],'3')?>>Just R/P Matches</option>
               </select>
 			  
 			  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><font size="2" color="#0000FF">ASL</font></b>&nbsp;&nbsp;
@@ -1008,33 +1011,33 @@ if ($db=='sa'){
               	<option value="all">ALL</option>
               	
                <?php if ($_GET['CALL']==3 or $_GET['CALL']==8 ){ ?>
-              		<option value="00" <?echo selected($_GET['ASL2GET'],'00')?> >0-0</option>
-              		<option value="11" <?echo selected($_GET['ASL2GET'],'11')?> >1-1</option>
-              		<option value="22" <?echo selected($_GET['ASL2GET'],'22')?> >2-2</option>
-              		<option value="33" <?echo selected($_GET['ASL2GET'],'33')?> >3-3</option>
+              		<option value="00" <?php echo selected($_GET['ASL2GET'],'00')?> >0-0</option>
+              		<option value="11" <?php echo selected($_GET['ASL2GET'],'11')?> >1-1</option>
+              		<option value="22" <?php echo selected($_GET['ASL2GET'],'22')?> >2-2</option>
+              		<option value="33" <?php echo selected($_GET['ASL2GET'],'33')?> >3-3</option>
               <?php }?>
 			
 			   <?php if ($_GET['CALL']==1 or $_GET['CALL']==6 ){ ?>
-					<option value="10" <?echo selected($_GET['ASL2GET'],'10')?> >1-0</option>
-              		<option value="20" <?echo selected($_GET['ASL2GET'],'20')?> >2-0</option>
-              		<option value="21" <?echo selected($_GET['ASL2GET'],'21')?> >2-1</option>
-              		<option value="30" <?echo selected($_GET['ASL2GET'],'30')?> >3-0</option>
-              		<option value="31" <?echo selected($_GET['ASL2GET'],'31')?> >3-1</option>
-              		<option value="32" <?echo selected($_GET['ASL2GET'],'32')?> >3-2</option>
-              		<option value="40" <?echo selected($_GET['ASL2GET'],'40')?> >4-0</option>
-              		<option value="41" <?echo selected($_GET['ASL2GET'],'41')?> >4-1</option>
+					<option value="10" <?php echo selected($_GET['ASL2GET'],'10')?> >1-0</option>
+              		<option value="20" <?php echo selected($_GET['ASL2GET'],'20')?> >2-0</option>
+              		<option value="21" <?php echo selected($_GET['ASL2GET'],'21')?> >2-1</option>
+              		<option value="30" <?php echo selected($_GET['ASL2GET'],'30')?> >3-0</option>
+              		<option value="31" <?php echo selected($_GET['ASL2GET'],'31')?> >3-1</option>
+              		<option value="32" <?php echo selected($_GET['ASL2GET'],'32')?> >3-2</option>
+              		<option value="40" <?php echo selected($_GET['ASL2GET'],'40')?> >4-0</option>
+              		<option value="41" <?php echo selected($_GET['ASL2GET'],'41')?> >4-1</option>
                <?php }?>		
  			   
  			   <?php if ($_GET['CALL']==2 or $_GET['CALL']==7 ){ ?>
  			   		
-					<option value="01" <?echo selected($_GET['ASL2GET'],'01')?> >0-1</option>
-              		<option value="02" <?echo selected($_GET['ASL2GET'],'02')?> >0-2</option>
-              		<option value="12" <?echo selected($_GET['ASL2GET'],'12')?> >1-2</option>
-              		<option value="03" <?echo selected($_GET['ASL2GET'],'03')?> >0-3</option>
-              		<option value="13" <?echo selected($_GET['ASL2GET'],'13')?> >1-3</option>
-              		<option value="23" <?echo selected($_GET['ASL2GET'],'23')?> >2-3</option>
-              		<option value="04" <?echo selected($_GET['ASL2GET'],'04')?> >0-4</option>
-              		<option value="14" <?echo selected($_GET['ASL2GET'],'14')?> >1-4</option>
+					<option value="01" <?php echo selected($_GET['ASL2GET'],'01')?> >0-1</option>
+              		<option value="02" <?php echo selected($_GET['ASL2GET'],'02')?> >0-2</option>
+              		<option value="12" <?php echo selected($_GET['ASL2GET'],'12')?> >1-2</option>
+              		<option value="03" <?php echo selected($_GET['ASL2GET'],'03')?> >0-3</option>
+              		<option value="13" <?php echo selected($_GET['ASL2GET'],'13')?> >1-3</option>
+              		<option value="23" <?php echo selected($_GET['ASL2GET'],'23')?> >2-3</option>
+              		<option value="04" <?php echo selected($_GET['ASL2GET'],'04')?> >0-4</option>
+              		<option value="14" <?php echo selected($_GET['ASL2GET'],'14')?> >1-4</option>
               <?php }?>
               
               </select>
@@ -1072,31 +1075,31 @@ if ($db=='sa'){
 
               	<select size="1" name="CALLPARAM" class="text" style="width:180px;padding:3px;">
 
-              <? if ($_GET['BETTING']<>6){ ?>	
+              <?php if($_GET['BETTING']<>6){ ?>	
                
-                 <? if ($_GET['BETTING']==1 and $_GET['CALL']>5 and $_GET['CALL']<8){ ?>	
+                 <?php if($_GET['BETTING']==1 and $_GET['CALL']>5 and $_GET['CALL']<8){ ?>	
 				 
-					  <option value="0" <?echo selected($_GET['CALLPARAM'],'0')?>>All Matches</option> 
-					  <option value="1" <?echo selected($_GET['CALLPARAM'],'1')?>>Bookie Aligned with PaW</option> 
-					  <option value="2" <?echo selected($_GET['CALLPARAM'],'2')?>>Bookie Opposite to PaW</option>
+					  <option value="0" <?php echo selected($_GET['CALLPARAM'],'0')?>>All Matches</option> 
+					  <option value="1" <?php echo selected($_GET['CALLPARAM'],'1')?>>Bookie Aligned with PaW</option> 
+					  <option value="2" <?php echo selected($_GET['CALLPARAM'],'2')?>>Bookie Opposite to PaW</option>
              
-				 <?} elseif ($_GET['BETTING']==1 and $_GET['CALL']==8 ){ ?>	
+				 <?php }elseif($_GET['BETTING']==1 and $_GET['CALL']==8 ){ ?>	
 				 
-					  <option value="0" <?echo selected($_GET['CALLPARAM'],'0')?>>All Matches</option> 
+					  <option value="0" <?php echo selected($_GET['CALLPARAM'],'0')?>>All Matches</option> 
 					
-				<?}else{ ?>
+				<?php }else{ ?>
 
-					  <option value="0" <?echo selected($_GET['CALLPARAM'],'0')?>>All Matches</option> 
-					  <option value="1" <?echo selected($_GET['CALLPARAM'],'1')?>>PaW Aligned with Bookie</option> 
-					  <option value="2" <?echo selected($_GET['CALLPARAM'],'2')?>>PaW Opposite to Bookie</option>
+					  <option value="0" <?php echo selected($_GET['CALLPARAM'],'0')?>>All Matches</option> 
+					  <option value="1" <?php echo selected($_GET['CALLPARAM'],'1')?>>PaW Aligned with Bookie</option> 
+					  <option value="2" <?php echo selected($_GET['CALLPARAM'],'2')?>>PaW Opposite to Bookie</option>
 				
-				<?} ?>
+				<?php } ?>	
 			 
-			 <?}else{ ?>
+			 <?php }else{ ?>
              
-				<option value="0" <?echo selected($_GET['CALLPARAM'],'0')?>>All Matches</option>
+				<option value="0" <?php echo selected($_GET['CALLPARAM'],'0')?>>All Matches</option>
              
-			 <?} ?>	 
+			 <?php } ?>		 
 
                </select>
 
@@ -1110,16 +1113,16 @@ if ($db=='sa'){
 			
 			<td>	
 				<select size="1" name="CALLAS" class="text" style="width:198px;padding:3px;" >
-				   <option value="0" <?echo selected($_GET['CALLAS'],'0')?>>No Reverse Call</option> 
-                   <option value="2" <?echo selected($_GET['CALLAS'],'2')?>>Call as Aways</option>
-                   <option value="3" <?echo selected($_GET['CALLAS'],'3')?>>Call as Draws</option>
-				   <option value="5" <?echo selected($_GET['CALLAS'],'5')?>>Use Bookies Call</option> 
+				   <option value="0" <?php echo selected($_GET['CALLAS'],'0')?>>No Reverse Call</option> 
+                   <option value="2" <?php echo selected($_GET['CALLAS'],'2')?>>Call as Aways</option>
+                   <option value="3" <?php echo selected($_GET['CALLAS'],'3')?>>Call as Draws</option>
+				   <option value="5" <?php echo selected($_GET['CALLAS'],'5')?>>Use Bookies Call</option> 
 				  
-				   <option value="20" <?echo selected($_GET['CALLAS'],'20')?>>Double Chance 1/X</option> 
-				   <option value="22" <?echo selected($_GET['CALLAS'],'22')?>>Double Chance 2/X</option> 
-   				   <option value="21" <?echo selected($_GET['CALLAS'],'21')?>>Double Chance 1/2</option> 
-				   <option value="26" <?echo selected($_GET['CALLAS'],'26')?>>Home Win Only (D=NB)</option> 
-				   <option value="25" <?echo selected($_GET['CALLAS'],'25')?>>Away Win Only (D=NB)</option> 
+				   <option value="20" <?php echo selected($_GET['CALLAS'],'20')?>>Double Chance 1/X</option> 
+				   <option value="22" <?php echo selected($_GET['CALLAS'],'22')?>>Double Chance 2/X</option> 
+   				   <option value="21" <?php echo selected($_GET['CALLAS'],'21')?>>Double Chance 1/2</option> 
+				   <option value="26" <?php echo selected($_GET['CALLAS'],'26')?>>Home Win Only (D=NB)</option> 
+				   <option value="25" <?php echo selected($_GET['CALLAS'],'25')?>>Away Win Only (D=NB)</option> 
 				   
 				</select>
 			</td>
@@ -1130,16 +1133,16 @@ if ($db=='sa'){
 			
 			<td>	
 				<select size="1" name="CALLAS" class="text" style="width:198px;padding:3px;" >
-				   <option value="0" <?echo selected($_GET['CALLAS'],'0')?>>No Reverse Call</option> 
-				   <option value="1" <?echo selected($_GET['CALLAS'],'1')?>>Call as Homes</option> 
-                   <option value="3" <?echo selected($_GET['CALLAS'],'3')?>>Call as Draws</option>
-				   <option value="5" <?echo selected($_GET['CALLAS'],'5')?>>Use Bookies Call</option> 
+				   <option value="0" <?php echo selected($_GET['CALLAS'],'0')?>>No Reverse Call</option> 
+				   <option value="1" <?php echo selected($_GET['CALLAS'],'1')?>>Call as Homes</option> 
+                   <option value="3" <?php echo selected($_GET['CALLAS'],'3')?>>Call as Draws</option>
+				   <option value="5" <?php echo selected($_GET['CALLAS'],'5')?>>Use Bookies Call</option> 
 
-				   <option value="20" <?echo selected($_GET['CALLAS'],'20')?>>Double Chance 1/X</option> 
-				   <option value="22" <?echo selected($_GET['CALLAS'],'22')?>>Double Chance 2/X</option> 
-   				   <option value="21" <?echo selected($_GET['CALLAS'],'21')?>>Double Chance 1/2</option> 
-				   <option value="25" <?echo selected($_GET['CALLAS'],'25')?>>Away Win Only (D=NB)</option> 
-				   <option value="26" <?echo selected($_GET['CALLAS'],'26')?>>Home Win Only (D=NB)</option> 
+				   <option value="20" <?php echo selected($_GET['CALLAS'],'20')?>>Double Chance 1/X</option> 
+				   <option value="22" <?php echo selected($_GET['CALLAS'],'22')?>>Double Chance 2/X</option> 
+   				   <option value="21" <?php echo selected($_GET['CALLAS'],'21')?>>Double Chance 1/2</option> 
+				   <option value="25" <?php echo selected($_GET['CALLAS'],'25')?>>Away Win Only (D=NB)</option> 
+				   <option value="26" <?php echo selected($_GET['CALLAS'],'26')?>>Home Win Only (D=NB)</option> 
 
 			   </select>
 			</td>
@@ -1150,10 +1153,10 @@ if ($db=='sa'){
 			
 			<td>	
 				<select size="1" name="CALLAS" class="text" style="width:198px;padding:3px;" >
-				   <option value="0" <?echo selected($_GET['CALLAS'],'0')?>>No Reverse Call</option> 
-				   <option value="1" <?echo selected($_GET['CALLAS'],'1')?>>Call as Homes</option> 
-                   <option value="2" <?echo selected($_GET['CALLAS'],'2')?>>Call as Aways</option>
-				   <option value="5" <?echo selected($_GET['CALLAS'],'5')?>>Use Bookies Call</option> 
+				   <option value="0" <?php echo selected($_GET['CALLAS'],'0')?>>No Reverse Call</option> 
+				   <option value="1" <?php echo selected($_GET['CALLAS'],'1')?>>Call as Homes</option> 
+                   <option value="2" <?php echo selected($_GET['CALLAS'],'2')?>>Call as Aways</option>
+				   <option value="5" <?php echo selected($_GET['CALLAS'],'5')?>>Use Bookies Call</option> 
 
 			   </select>
 			</td>
@@ -1166,16 +1169,16 @@ if ($db=='sa'){
 			
 			<td>	
 				<select size="1" name="CALLAS" class="text" style="width:198px;padding:3px;" >
-				   <option value="0" <?echo selected($_GET['CALLAS'],'0')?>>No Reverse Call</option> 
-                   <option value="2" <?echo selected($_GET['CALLAS'],'2')?>>Call as Aways </option>
-                   <option value="3" <?echo selected($_GET['CALLAS'],'3')?>>Call as Draws</option>
-				   <option value="4" <?echo selected($_GET['CALLAS'],'4')?>>Use PaW Calls</option>
+				   <option value="0" <?php echo selected($_GET['CALLAS'],'0')?>>No Reverse Call</option> 
+                   <option value="2" <?php echo selected($_GET['CALLAS'],'2')?>>Call as Aways </option>
+                   <option value="3" <?php echo selected($_GET['CALLAS'],'3')?>>Call as Draws</option>
+				   <option value="4" <?php echo selected($_GET['CALLAS'],'4')?>>Use PaW Calls</option>
 
-				   <option value="20" <?echo selected($_GET['CALLAS'],'20')?>>Double Chance 1/X</option> 
-				   <option value="22" <?echo selected($_GET['CALLAS'],'22')?>>Double Chance 2/X</option> 
-   				   <option value="21" <?echo selected($_GET['CALLAS'],'21')?>>Double Chance 1/2</option> 
-				   <option value="25" <?echo selected($_GET['CALLAS'],'25')?>>Away Win Only (D=NB)</option> 
-				   <option value="26" <?echo selected($_GET['CALLAS'],'26')?>>Home Win Only (D=NB)</option> 
+				   <option value="20" <?php echo selected($_GET['CALLAS'],'20')?>>Double Chance 1/X</option> 
+				   <option value="22" <?php echo selected($_GET['CALLAS'],'22')?>>Double Chance 2/X</option> 
+   				   <option value="21" <?php echo selected($_GET['CALLAS'],'21')?>>Double Chance 1/2</option> 
+				   <option value="25" <?php echo selected($_GET['CALLAS'],'25')?>>Away Win Only (D=NB)</option> 
+				   <option value="26" <?php echo selected($_GET['CALLAS'],'26')?>>Home Win Only (D=NB)</option> 
 				   
 				</select>
 			</td>
@@ -1186,16 +1189,16 @@ if ($db=='sa'){
 			
 			<td>	
 				<select size="1" name="CALLAS" class="text" style="width:198px;padding:3px;" >
-				   <option value="0" <?echo selected($_GET['CALLAS'],'0')?>>No Reverse Call</option> 
-				   <option value="1" <?echo selected($_GET['CALLAS'],'1')?>>Call as Homes</option> 
-                   <option value="3" <?echo selected($_GET['CALLAS'],'3')?>>Call as Draws</option>
-				   <option value="4" <?echo selected($_GET['CALLAS'],'4')?>>Use PaW Calls</option>
+				   <option value="0" <?php echo selected($_GET['CALLAS'],'0')?>>No Reverse Call</option> 
+				   <option value="1" <?php echo selected($_GET['CALLAS'],'1')?>>Call as Homes</option> 
+                   <option value="3" <?php echo selected($_GET['CALLAS'],'3')?>>Call as Draws</option>
+				   <option value="4" <?php echo selected($_GET['CALLAS'],'4')?>>Use PaW Calls</option>
 
-				   <option value="20" <?echo selected($_GET['CALLAS'],'20')?>>Double Chance 1/X</option> 
-				   <option value="22" <?echo selected($_GET['CALLAS'],'22')?>>Double Chance 2/X</option> 
-   				   <option value="21" <?echo selected($_GET['CALLAS'],'21')?>>Double Chance 1/2</option> 
-				   <option value="26" <?echo selected($_GET['CALLAS'],'26')?>>Home Win Only (D=NB)</option> 
-  				   <option value="25" <?echo selected($_GET['CALLAS'],'25')?>>Away Win Only (D=NB)</option> 
+				   <option value="20" <?php echo selected($_GET['CALLAS'],'20')?>>Double Chance 1/X</option> 
+				   <option value="22" <?php echo selected($_GET['CALLAS'],'22')?>>Double Chance 2/X</option> 
+   				   <option value="21" <?php echo selected($_GET['CALLAS'],'21')?>>Double Chance 1/2</option> 
+				   <option value="26" <?php echo selected($_GET['CALLAS'],'26')?>>Home Win Only (D=NB)</option> 
+  				   <option value="25" <?php echo selected($_GET['CALLAS'],'25')?>>Away Win Only (D=NB)</option> 
 				   
 				</select>
 			</td>
@@ -1206,10 +1209,10 @@ if ($db=='sa'){
 			
 			<td>	
 				<select size="1" name="CALLAS" class="text" style="width:198px;padding:3px;" >
-				   <option value="0" <?echo selected($_GET['CALLAS'],'0')?>>No Reverse Call</option> 
-				   <option value="1" <?echo selected($_GET['CALLAS'],'1')?>>Call as Homes</option> 
-                   <option value="2" <?echo selected($_GET['CALLAS'],'2')?>>Call as Aways</option>
-				   <option value="4" <?echo selected($_GET['CALLAS'],'4')?>>Use PaW Calls</option>
+				   <option value="0" <?php echo selected($_GET['CALLAS'],'0')?>>No Reverse Call</option> 
+				   <option value="1" <?php echo selected($_GET['CALLAS'],'1')?>>Call as Homes</option> 
+                   <option value="2" <?php echo selected($_GET['CALLAS'],'2')?>>Call as Aways</option>
+				   <option value="4" <?php echo selected($_GET['CALLAS'],'4')?>>Use PaW Calls</option>
 				</select>
 			</td>
 			<?php } ?>
@@ -1219,8 +1222,8 @@ if ($db=='sa'){
 			
 			<td>	
 				<select size="1" name="CALLAS" class="text" style="width:198px;padding:3px;" >
-				   <option value="0" <?echo selected($_GET['CALLAS'],'0')?>>No Reverse Call</option> 
-				   <option value="10" <?echo selected($_GET['CALLAS'],'10')?>>Call as Under 2.5</option> 
+				   <option value="0" <?php echo selected($_GET['CALLAS'],'0')?>>No Reverse Call</option> 
+				   <option value="10" <?php echo selected($_GET['CALLAS'],'10')?>>Call as Under 2.5</option> 
 				</select>
 			</td>
 			<?php } ?>
@@ -1230,8 +1233,8 @@ if ($db=='sa'){
 			
 			<td>	
 				<select size="1" name="CALLAS" class="text" style="width:198px;padding:3px;" >
-				   <option value="0" <?echo selected($_GET['CALLAS'],'0')?>>No Reverse Call</option> 
-				   <option value="11" <?echo selected($_GET['CALLAS'],'11')?>>Call as Over 2.5</option> 
+				   <option value="0" <?php echo selected($_GET['CALLAS'],'0')?>>No Reverse Call</option> 
+				   <option value="11" <?php echo selected($_GET['CALLAS'],'11')?>>Call as Over 2.5</option> 
 				</select>
 			</td>
 			<?php } ?>
@@ -1241,9 +1244,9 @@ if ($db=='sa'){
 			
 			<td>	
 				<select size="1" name="CALLAS" class="text" style="width:198px;padding:3px;" >
-				   <option value="0" <?echo selected($_GET['CALLAS'],'0')?>>No Reverse Call</option> 
-                   <option value="7" <?echo selected($_GET['CALLAS'],'7')?>>Away Win/Draw Call</option>
-                   <option value="9" <?echo selected($_GET['CALLAS'],'9')?>>Home Win/Away Win</option>
+				   <option value="0" <?php echo selected($_GET['CALLAS'],'0')?>>No Reverse Call</option> 
+                   <option value="7" <?php echo selected($_GET['CALLAS'],'7')?>>Away Win/Draw Call</option>
+                   <option value="9" <?php echo selected($_GET['CALLAS'],'9')?>>Home Win/Away Win</option>
 				</select>
 			</td>
 			<?php } ?>
@@ -1253,9 +1256,9 @@ if ($db=='sa'){
 			
 			<td>	
 				<select size="1" name="CALLAS" class="text" style="width:198px;padding:3px;" >
-				   <option value="0" <?echo selected($_GET['CALLAS'],'0')?>>No Reverse Call</option> 
-                   <option value="8" <?echo selected($_GET['CALLAS'],'8')?>>Home Win/Draw Call</option>
-                   <option value="9" <?echo selected($_GET['CALLAS'],'9')?>>Home Win/Away Win</option>
+				   <option value="0" <?php echo selected($_GET['CALLAS'],'0')?>>No Reverse Call</option> 
+                   <option value="8" <?php echo selected($_GET['CALLAS'],'8')?>>Home Win/Draw Call</option>
+                   <option value="9" <?php echo selected($_GET['CALLAS'],'9')?>>Home Win/Away Win</option>
 				</select>
 			</td>
 			<?php } ?>
@@ -1265,10 +1268,10 @@ if ($db=='sa'){
 			
 			<td>	
 				<select size="1" name="CALLAS" class="text" style="width:198px;padding:3px;" >
-				   <option value="0"  <?echo selected($_GET['CALLAS'],'0')?>>No Reverse Call</option> 
-                   <option value="12" <?echo selected($_GET['CALLAS'],'12')?>>Calls as Away Wins (WO)</option>
-				   <option value="14" <?echo selected($_GET['CALLAS'],'14')?>>Call as Draws (1X2)</option>
-			   <!--<option value="15" <?echo selected($_GET['CALLAS'],'15')?>>Call as Aways (1X2)</option> -->
+				   <option value="0"  <?php echo selected($_GET['CALLAS'],'0')?>>No Reverse Call</option> 
+                   <option value="12" <?php echo selected($_GET['CALLAS'],'12')?>>Calls as Away Wins (WO)</option>
+				   <option value="14" <?php echo selected($_GET['CALLAS'],'14')?>>Call as Draws (1X2)</option>
+			   <!--<option value="15" <?php echo selected($_GET['CALLAS'],'15')?>>Call as Aways (1X2)</option> -->
 				</select>
 			</td>
 			<?php } ?>
@@ -1278,10 +1281,10 @@ if ($db=='sa'){
 			
 			<td>	
 				<select size="1" name="CALLAS" class="text" style="width:198px;padding:3px;" >
-				   <option value="0" <?echo selected($_GET['CALLAS'],'0')?>>No Reverse Call</option> 
-                   <option value="13" <?echo selected($_GET['CALLAS'],'13')?>>Call as Home Wins (WO)</option>
-				   <option value="14" <?echo selected($_GET['CALLAS'],'14')?>>Call as Draws (1X2)</option>
-			  <!-- <option value="16" <?echo selected($_GET['CALLAS'],'16')?>>Call as Homes (1X2)</option> -->
+				   <option value="0" <?php echo selected($_GET['CALLAS'],'0')?>>No Reverse Call</option> 
+                   <option value="13" <?php echo selected($_GET['CALLAS'],'13')?>>Call as Home Wins (WO)</option>
+				   <option value="14" <?php echo selected($_GET['CALLAS'],'14')?>>Call as Draws (1X2)</option>
+			  <!-- <option value="16" <?php echo selected($_GET['CALLAS'],'16')?>>Call as Homes (1X2)</option> -->
 				</select>
 			</td>
 			<?php } ?>
@@ -1304,15 +1307,15 @@ if ($db=='sa'){
 	
 </form>
 
-<?}else{
+<?php }else{
     
-    include("select-option.ini.php");
+    require_once("select-option.ini.php");
     
 } ?>
 
 
 
-<? if ($_GET['B1']=='View Data') { ?>
+<?php if($_GET['B1']=='View Data') { ?>
 
 
 
@@ -1323,14 +1326,14 @@ if ($db=='sa'){
 <tr>
   <td></td>
   <td align="center"><span class='bot'></span></td>
-  <td align="right"> <? echo printscr(); ?></td>
+  <td align="right"> <?php echo printscr(); ?></td>
 </tr>
 </table>
 
 <!-- startprint -->
 
 
-<? 
+<?php
     if ( ($db=='eu') and ($_GET['DIV']=='0')){
         $cdiv= divname('0');
     }elseif ( ($db=='sa') and ($_GET['DIV']=='0')){
@@ -1429,11 +1432,11 @@ week_box_new_3rows("Soccer Predictions Analysis Tool", $weekno, $wdate, $season,
   <td width="5%" class='ctd' rowspan="2"><img src="images/tbcap/refno.gif"  border='0' alt=''/></td>
   <td class='ctd' width="20%"   rowspan="2">
    
-   <?if ($season==curseason($db)){ ?>
+   <?php if($season==curseason($db)){ ?>
         <img src="images/tbcap/datepic.gif"  border='0' alt=''/>
-    <? }else { ?>     
+    <?php }else{ ?>    
         <img  src="images/tbcap/date.gif"  border='0' alt=''/>
-    <?}?> 
+    <?php } ?> 
    
     </td>
 
@@ -1449,57 +1452,56 @@ week_box_new_3rows("Soccer Predictions Analysis Tool", $weekno, $wdate, $season,
     <td width="6%"  class='ctd' style='padding:0' rowspan="2"><img src="images/tbcap/asltotgls.gif" border='0' alt=''/></td>
     <td width="6%"  class='ctd dark' style='padding:0' rowspan="2"><img src="images/tbcap/actgls.gif" border='0' alt=''/></td>
 
- <? if ($_GET['BETTING']=="6"){?>
+    <?php if($_GET['BETTING']=="6"){?>
       <td class='ctd' rowspan="2" style='padding:0 20px'><img src="images/tbcap/h-cap.gif" border='0' alt=''/></td>
       <td class='ctd  dark' rowspan="2" style='padding:0 20px'><img src="images/tbcap/odds.gif" border='0' alt=''/></td>
-   <?}?>
+   <?php } ?>
    
    
     <td class='ctd dark' colspan="3"><img src="images/tbcap/probs2.gif" border='0' alt=''/></td>
    
-   <? if ($_GET['BETTING']<>"6"){?>
+   <?php if($_GET['BETTING']<>"6"){?>
     <td class='ctd dark' colspan="2"><img src="images/tbcap/dcprobs2.gif" border='0' alt=''/></td>
-   <? } ?> 
+   <?php } ?> 
     
-    <? if ($_GET['SORTBY']>6 and $_GET['SORTBY']<60){ ?>
+    <?php if($_GET['SORTBY']>6 and $_GET['SORTBY']<60){ ?>
         <td class='ctd dark' colspan="3"><img src="images/tbcap/1x2rebinfo.gif" border='0' alt=''/></td>
-    <?}?>
+    <?php } ?>
     
     
-    <? if ($_GET['SORTBY'] == 1 or $_GET['SORTBY'] == 2 or $_GET['SORTBY'] == 3 or $_GET['SORTBY']> 79){ ?>
+    <?php if($_GET['SORTBY'] == 1 or $_GET['SORTBY'] == 2 or $_GET['SORTBY'] == 3 or $_GET['SORTBY']> 79){ ?>
         <td class='ctd dark' colspan="3"><img src="images/tbcap/1x2rebinfo.gif" border='0' alt=''/></td>
-    <?}?>
+    <?php } ?>
 
-    <? if ($_GET['SORTBY'] == 4 or $_GET['SORTBY'] == 5 or $_GET['SORTBY'] == 6){ ?>
+    <?php if($_GET['SORTBY'] == 4 or $_GET['SORTBY'] == 5 or $_GET['SORTBY'] == 6){ ?>
         <td class='ctd dark' colspan="3"><img src="images/tbcap/dcrebinfo.gif" border='0' alt=''/></td>
-    <?}?>
+    <?php } ?>
    
-    <? if ($_GET['SORTBY'] == 60 or $_GET['SORTBY'] == 61 or $_GET['SORTBY'] == 62){ ?>
+    <?php if($_GET['SORTBY'] == 60 or $_GET['SORTBY'] == 61 or $_GET['SORTBY'] == 62){ ?>
         <td class='ctd dark' colspan="3"><img src="images/tbcap/gprrebinfo.gif" border='0' alt=''/></td>
-    <?}?>
+    <?php } ?>
     
-   <? if ($_GET['SORTBY'] == 70 or $_GET['SORTBY'] == 71 or $_GET['SORTBY'] == 72){ ?>
+   <?php if($_GET['SORTBY'] == 70 or $_GET['SORTBY'] == 71 or $_GET['SORTBY'] == 72){ ?>
         <td class='ctd dark' colspan="3"><img src="images/tbcap/airrebinfo.gif" border='0' alt=''/></td>
-    <?}?>
+    <?php } ?>
     
-    <? //if ($_GET['BETTING']==1){?>
         <td class='ctd' colspan="3"><img src="images/tbcap/odd2.gif" border='0' alt=''/></td>
-    <?//}?>
 
-    <? if ($_GET['BETTING']==2 or $_GET['CALLAS']==20 or $_GET['CALLAS']==21 or $_GET['CALLAS']==22){?>
-        <td class='ldark ctd' colspan="3"><img src="images/tbcap/dc_odds.gif" border='0' alt=''/></td>
-    <?}?>
+    <?php if($_GET['BETTING']==2 or $_GET['CALLAS']==20 or $_GET['CALLAS']==21 or $_GET['CALLAS']==22){?>
+        <td class='ldark ctd' colspan="3"><img src="images/tbcap/dc_odds.gif" border='0' alt=''/>   </td>
+    <?php } ?>
     
-     <? if ($_GET['BETTING']==3 or $_GET['CALLAS']==25 or $_GET['CALLAS']==26){?>
+     <?php if($_GET['BETTING']==3 or $_GET['CALLAS']==25 or $_GET['CALLAS']==26){?>
         <td class='ctd ldark' colspan="2"><img src="images/tbcap/winonly_odds.gif" border='0' alt=''/></td>
-    <?}?>
+    <?php } ?>
     
-     <? if ($_GET['BETTING']=="4" or $_GET['BETTING']=="5"){?>
-        <td class='ctd' colspan="2"><img src="images/tbcap/uo_odds.gif" border='0' alt=''/></td>
-     <?}?>
-      <? if ($_GET['CALLAS']==5){?>	  
+     <?php if($_GET['BETTING']=="4" or $_GET['BETTING']=="5"){?>
+        <td class='ctd ldark' colspan="2"><img src="images/tbcap/uo_odds.gif" border='0' alt=''/></td>
+     <?php } ?>
+
+     <?php if($_GET['CALLAS']==5){?>	  
 	  <td class='ctd' rowspan='2'><img src="images/tbcap/bookie_call.gif" border='0' alt=''/></td>
-  <?}?>
+    <?php } ?>
 
 </tr>
 
@@ -1508,10 +1510,10 @@ week_box_new_3rows("Soccer Predictions Analysis Tool", $weekno, $wdate, $season,
   <td class='ctd'><img src="images/tbcap/d.gif" border='0' alt=''/></td>
   <td class='ctd dark'><img src="images/tbcap/aW.gif" border='0' alt=''/></td>
  
- <? if ($_GET['BETTING']<>"6"){?>
+ <?php if($_GET['BETTING']<>"6"){?>
   <td class='ctd'><img src="images/tbcap/1xnew.gif" border='0' alt=''/></td>
   <td class='ctd dark'><img src="images/tbcap/2xnew.gif" border='0' alt=''/></td>
- <? } ?>
+ <?php } ?>
       
   <td class='ctd '><img src="images/tbcap/hteam-sm.gif" border='0' alt=''/></td>
   <td class='ctd'><img src="images/tbcap/ateam-sm.gif" border='0' alt=''/></td>
@@ -1524,38 +1526,38 @@ week_box_new_3rows("Soccer Predictions Analysis Tool", $weekno, $wdate, $season,
   <td class='ctd'><img src="images/tbcap/a.gif" border='0' alt=''/></td>
 
 
-  <? if ($_GET['BETTING']==2 or $_GET['CALLAS']==20 or $_GET['CALLAS']==21 or $_GET['CALLAS']==22){?>
+  <?php if($_GET['BETTING']==2 or $_GET['CALLAS']==20 or $_GET['CALLAS']==21 or $_GET['CALLAS']==22){?>
       <td class='ctd ldark'><img src="images/tbcap/1xnew.gif" border='0' alt=''/></td>
       <td class='ctd'><img src="images/tbcap/2xnew.gif" border='0' alt=''/></td>
       <td class='ctd'><img src="images/tbcap/12new.gif" border='0' alt=''/></td>
-  <?}?>
+  <?php } ?>
 
 
-  <? if ($_GET['BETTING']==2){?>
+  <?php if($_GET['BETTING']==311){?>
       <td class='ctd ldark'><img src="images/tbcap/htwin.gif" border='0' alt=''/></td>
       <td class='ctd'><img src="images/tbcap/atwin.gif" border='0' alt=''/></td>
-  <?}?>
+  <?php } ?>
   
-  <? if ($_GET['BETTING']==1 and ($_GET['CALLAS']==25 or $_GET['CALLAS']==26) ){?>
+  <?php if($_GET['BETTING']==1 and ($_GET['CALLAS']==25 or $_GET['CALLAS']==26) ){?>
       <td class='ctd ldark'><img src="images/tbcap/htwin.gif" border='0' alt=''/></td>
       <td class='ctd'><img src="images/tbcap/atwin.gif" border='0' alt=''/></td>
-  <?}?>
+  <?php } ?>
   
- <? if ($_GET['BETTING']==3){?>
-      <td class='ctd '><img src="images/tbcap/htwin.gif" border='0' alt=''/></td>
+ <?php if($_GET['BETTING']==3){?>
+      <td class='ctd ldark'><img src="images/tbcap/htwin.gif" border='0' alt=''/></td>
       <td class='ctd'><img src="images/tbcap/atwin.gif" border='0' alt=''/></td>
-  <?}?>
+  <?php } ?>
   
-    <? if ($_GET['BETTING']=="4" or $_GET['BETTING']=="5"){?>
-      <td class='ctd '><img src="images/tbcap/u25.gif" border='0' alt=''/></td>
+    <?php if($_GET['BETTING']=="4" or $_GET['BETTING']=="5"){?>
+      <td class='ctd ldark'><img src="images/tbcap/u25.gif" border='0' alt=''/></td>
       <td class='ctd'><img src="images/tbcap/o25.gif" border='0' alt=''/></td>
-   <?}?>
+   <?php } ?>
    
   
   
 </tr>
 
-<?  
+<?php  
    
     
     if ($db=='eu'){
@@ -2143,156 +2145,156 @@ week_box_new_3rows("Soccer Predictions Analysis Tool", $weekno, $wdate, $season,
 	
 
 ?>  
-<tr <?echo rowcol($number);?> class='row'>
+<tr <?php echo rowcol($number);?> class='row'>
 
-    <td class="ctd padd"><?echo $number; ?></td>
-     <?if ($season==curseason($db)){ ?>                                   
-     <td class="ctd "><a class='md2' <?echo $ffh;?> href="javascript:tell('team-performance-chart.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo $row['mdate'] . " " . substr($row['match_time'],0,5); ?></a></td>
-     <?}else{?>
-     <td class="ctd "><?echo $row['mdate'] . " " . substr($row['match_time'],0,5); ?></td>
-     <?}?>
+    <td class="ctd padd"><?php echo $number; ?></td>
+     <?php if($season==curseason($db)){ ?>                                   
+     <td class="ctd "><a class='md2' <?php echo $ffh;?> href="javascript:tell('team-performance-chart.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo $row['mdate'] . " " . substr($row['match_time'],0,5); ?></a></td>
+     <?php }else{ ?>
+     <td class="ctd "><?php echo $row['mdate'] . " " . substr($row['match_time'],0,5); ?></td>
+     <?php } ?>
 
-     <td class='padd'><?echo $row['hteam'] . printv(' v ') . $row['ateam'];?>
+     <td class='padd'><?php echo $row['hteam'] . printv(' v ') . $row['ateam'];?>
      </td>
      
-     <td class="ctd"><?echo ($row["div"]); ?></td>
-    <!-- <td class="ctd"><?echo ($row["pawrank"]); ?></td> -->
+     <td class="ctd"><?php echo ($row["div"]); ?></td>
+    <!-- <td class="ctd"><?php echo ($row["pawrank"]); ?></td> -->
     
     
 	<?php if ($_GET['CALL']>3 and $_GET['CALLAS']==0) { ?>
-		<td class="ctd <?echo $pr;?>"><?echo $row['hgoal'] . dash() . $row['agoal'] ;?></td>
-		<td class="ctd  <?echo $asl_class;?>"><?echo $row['h_s'] . dash() . $row['a_s']; ?></td>
+		<td class="ctd <?php echo $pr;?>"><?php echo $row['hgoal'] . dash() . $row['agoal'] ;?></td>
+		<td class="ctd  <?php echo $asl_class;?>"><?php echo $row['h_s'] . dash() . $row['a_s']; ?></td>
 	<?php } ?>
 	
 	<?php if ($_GET['CALL']>3 and ($_GET['CALLAS']>0 and $_GET['CALLAS']<4) ) { ?>
-		<td class="ctd <?echo $pr;?>"><?echo $row['hgoal'] . dash() . $row['agoal'] ;?></td>
-		<td class="ctd  <?echo $asl_class;?>"><?echo $row['h_s'] . dash() . $row['a_s']; ?></td>
+		<td class="ctd <?php echo $pr;?>"><?php echo $row['hgoal'] . dash() . $row['agoal'] ;?></td>
+		<td class="ctd  <?php echo $asl_class;?>"><?php echo $row['h_s'] . dash() . $row['a_s']; ?></td>
 	<?php } ?>
 	
 	<?php if ($_GET['CALLAS']>0 and $_GET['CALLAS']>4)  { ?>
-		<td class="ctd <?echo $pr;?>"><?echo $row['hgoal'] . dash() . $row['agoal'] ;?></td>
-		<td class="ctd  <?echo $asl_class;?>"><?echo $row['h_s'] . dash() . $row['a_s']; ?></td>
+		<td class="ctd <?php echo $pr;?>"><?php echo $row['hgoal'] . dash() . $row['agoal'] ;?></td>
+		<td class="ctd  <?php echo $asl_class;?>"><?php echo $row['h_s'] . dash() . $row['a_s']; ?></td>
 	<?php } ?>
 	
 	<?php if ($_GET['CALL']<=3 and ($_GET['CALLAS']>0 and $_GET['CALLAS']<4) ) { ?>
-		<td class="ctd <?echo $pr;?>"><?echo $row['hgoal'] . dash() . $row['agoal'] ;?></td>
-		<td class="ctd  <?echo $asl_class;?>"><?echo $row['h_s'] . dash() . $row['a_s']; ?></td>
+		<td class="ctd <?php echo $pr;?>"><?php echo $row['hgoal'] . dash() . $row['agoal'] ;?></td>
+		<td class="ctd  <?php echo $asl_class;?>"><?php echo $row['h_s'] . dash() . $row['a_s']; ?></td>
     <?php } ?>
 	
 	
 	<?php if ($_GET['CALL']<=3 and $_GET['CALLAS']==0) { ?>
-		<td class="ctd <?echo $asl_class . $pr;?>"><?echo $row['hgoal'] . dash() . $row['agoal'] ;?></td>
-		<td class="ctd  <?echo $asl_class;?>"><?echo $row['h_s'] . dash() . $row['a_s']; ?></td>
+		<td class="ctd <?php echo $asl_class . $pr;?>"><?php echo $row['hgoal'] . dash() . $row['agoal'] ;?></td>
+		<td class="ctd  <?php echo $asl_class;?>"><?php echo $row['h_s'] . dash() . $row['a_s']; ?></td>
     <?php } ?>
 	
 	<?php if ($_GET['CALL']>3 and $_GET['CALLAS']==4) { ?>
-		<td class="ctd <?echo $asl_class . $pr;?>"><?echo $row['hgoal'] . dash() . $row['agoal'] ;?></td>
-		<td class="ctd"><?echo $row['h_s'] . dash() . $row['a_s']; ?></td>
+		<td class="ctd <?php echo $asl_class . $pr;?>"><?php echo $row['hgoal'] . dash() . $row['agoal'] ;?></td>
+		<td class="ctd"><?php echo $row['h_s'] . dash() . $row['a_s']; ?></td>
 	<?php } ?>
 	
 
 
     <?php if ($_GET['CALL']==2){?>
-      <td class="ctd" <?echo ($_GET["SORTBY"]=='13'? "bgcolor='#D3EBAB'": "");?>><?echo num0($row['agoal'] + $row['hgoal']); ?></td>
-    <?}else{?>  
-      <td class="ctd" <?echo ($_GET["SORTBY"]=='13'? "bgcolor='#D3EBAB'": "");?>><?echo num0($row['hgoal'] + $row['agoal']); ?></td>
-    <?}?>
+      <td class="ctd" <?php echo ($_GET["SORTBY"]=='13'? "bgcolor='#D3EBAB'": "");?>><?php echo num0($row['agoal'] + $row['hgoal']); ?></td>
+    <?php }else{ ?>  
+      <td class="ctd" <?php echo ($_GET["SORTBY"]=='13'? "bgcolor='#D3EBAB'": "");?>><?php echo num0($row['hgoal'] + $row['agoal']); ?></td>
+    <?php } ?>
 	
 	<?php if($row['mvalue']==1){?>
-		<td class="ctd dark"><?echo num0($row['a_s'] + $row['h_s']); ?></td>
+		<td class="ctd dark"><?php echo num0($row['a_s'] + $row['h_s']); ?></td>
 	<?php }else{ ?>
      	<td class="ctd dark">-</td>
 	<?php } ?>
 	
 	<?php if($_GET["BETTING"]=="6") { ?>
-		<td class="ctd" <?echo (($_GET["SORTBY"]=='82' or $_GET["SORTBY"]=='83') ? "bgcolor='#D3EBAB'": "");?>><?echo ($row["ht_hcap"] ." / " . $row["at_hcap"]); ?></td>
-	    <td class="ctd dark" <?echo (($_GET["SORTBY"]=='80' or $_GET["SORTBY"]=='81') ? "bgcolor='#D3EBAB'": "");?>><?echo ($row["ht_odd"] ." / ". $row["at_odd"]); ?></td>
+		<td class="ctd" <?php echo (($_GET["SORTBY"]=='82' or $_GET["SORTBY"]=='83') ? "bgcolor='#D3EBAB'": "");?>><?php echo ($row["ht_hcap"] ." / " . $row["at_hcap"]); ?></td>
+	    <td class="ctd dark" <?php echo (($_GET["SORTBY"]=='80' or $_GET["SORTBY"]=='81') ? "bgcolor='#D3EBAB'": "");?>><?php echo ($row["ht_odd"] ." / ". $row["at_odd"]); ?></td>
 	<?php } ?>
     
-    <td class="ctd" <?echo ($_GET["SORTBY"]=='7'? "bgcolor='#D3EBAB'": "");?>><?echo ($row["hwinpb"]); ?></td>
-    <td class="ctd" <?echo ($_GET["SORTBY"]=='9'? "bgcolor='#D3EBAB'": "");?>><?echo ($row["drawpb"]); ?></td>
-    <td class="ctd dark" <?echo ($_GET["SORTBY"]=='8'? "bgcolor='#D3EBAB'": "");?>><?echo ($row["awinpb"]); ?></td>
+    <td class="ctd" <?php echo ($_GET["SORTBY"]=='7'? "bgcolor='#D3EBAB'": "");?>><?php echo ($row["hwinpb"]); ?></td>
+    <td class="ctd" <?php echo ($_GET["SORTBY"]=='9'? "bgcolor='#D3EBAB'": "");?>><?php echo ($row["drawpb"]); ?></td>
+    <td class="ctd dark" <?php echo ($_GET["SORTBY"]=='8'? "bgcolor='#D3EBAB'": "");?>><?php echo ($row["awinpb"]); ?></td>
 
- 	<? if ($_GET['BETTING']<>"6"){?>
+ 	<?php if($_GET['BETTING']<>"6"){?>
 	    
-	    <td class="ctd" <?echo ($_GET["SORTBY"]=='50'? "bgcolor='#D3EBAB'": "");?>><?echo num2(round($row["x1probs"]))  ; ?></td>
-	    <td class="ctd dark" <?echo ($_GET["SORTBY"]=='51'? "bgcolor='#D3EBAB'": "");?>><?echo num2(round($row["x2probs"])); ?></td>
+	    <td class="ctd" <?php echo ($_GET["SORTBY"]=='50'? "bgcolor='#D3EBAB'": "");?>><?php echo num2(round($row["x1probs"]))  ; ?></td>
+	    <td class="ctd dark" <?php echo ($_GET["SORTBY"]=='51'? "bgcolor='#D3EBAB'": "");?>><?php echo num2(round($row["x2probs"])); ?></td>
    
-   <? } ?>
+   <?php } ?>
    
-    <? if ($_GET['SORTBY']>6 and $_GET['SORTBY']<60){ ?>
-        <td class="ctd" <?echo ($_GET["SORTBY"]=='1'? "bgcolor='#D3EBAB'": "");?>><?echo ($row["ptr_ht"]); ?></td>
-        <td class="ctd" <?echo ($_GET["SORTBY"]=='2'? "bgcolor='#D3EBAB'": "");?>><?echo ($row["ptr_at"]); ?></td>
-        <td class="ctd dark" <?echo ($_GET["SORTBY"]=='3'? "bgcolor='#D3EBAB'": "");?>><?echo ($row["ptr_av"]); ?></td>
-    <?}?>
+    <?php if($_GET['SORTBY']>6 and $_GET['SORTBY']<60){ ?>
+        <td class="ctd" <?php echo ($_GET["SORTBY"]=='1'? "bgcolor='#D3EBAB'": "");?>><?php echo ($row["ptr_ht"]); ?></td>
+        <td class="ctd" <?php echo ($_GET["SORTBY"]=='2'? "bgcolor='#D3EBAB'": "");?>><?php echo ($row["ptr_at"]); ?></td>
+        <td class="ctd dark" <?php echo ($_GET["SORTBY"]=='3'? "bgcolor='#D3EBAB'": "");?>><?php echo ($row["ptr_av"]); ?></td>
+    <?php } ?>
     
-    <? if ($_GET['SORTBY'] == 1 or $_GET['SORTBY'] == 2 or $_GET['SORTBY'] == 3){ ?>
-        <td class="ctd" <?echo ($_GET["SORTBY"]=='1'? "bgcolor='#D3EBAB'": "");?>><?echo ($row["ptr_ht"]); ?></td>
-        <td class="ctd" <?echo ($_GET["SORTBY"]=='2'? "bgcolor='#D3EBAB'": "");?>><?echo ($row["ptr_at"]); ?></td>
-        <td class="ctd dark" <?echo ($_GET["SORTBY"]=='3'? "bgcolor='#D3EBAB'": "");?>><?echo ($row["ptr_av"]); ?></td>
-    <?}?>
+    <?php if($_GET['SORTBY'] == 1 or $_GET['SORTBY'] == 2 or $_GET['SORTBY'] == 3){ ?>
+        <td class="ctd" <?php echo ($_GET["SORTBY"]=='1'? "bgcolor='#D3EBAB'": "");?>><?php echo ($row["ptr_ht"]); ?></td>
+        <td class="ctd" <?php echo ($_GET["SORTBY"]=='2'? "bgcolor='#D3EBAB'": "");?>><?php echo ($row["ptr_at"]); ?></td>
+        <td class="ctd dark" <?php echo ($_GET["SORTBY"]=='3'? "bgcolor='#D3EBAB'": "");?>><?php echo ($row["ptr_av"]); ?></td>
+    <?php } ?>
     
-    <? if ($_GET['SORTBY'] == 4 or $_GET['SORTBY'] == 5 or $_GET['SORTBY'] == 6 or $_GET['SORTBY']>79){ ?>
-        <td class="ctd" <?echo ($_GET["SORTBY"]=='4'? "bgcolor='#D3EBAB'": "");?>><?echo ($row["dcr_ht"]); ?></td>
-        <td class="ctd" <?echo ($_GET["SORTBY"]=='5'? "bgcolor='#D3EBAB'": "");?>><?echo ($row["dcr_at"]); ?></td>
-        <td class="ctd dark" <?echo ($_GET["SORTBY"]=='6'? "bgcolor='#D3EBAB'": "");?>><?echo ($row["dcr_av"]); ?></td>     
-    <?}?>
+    <?php if($_GET['SORTBY'] == 4 or $_GET['SORTBY'] == 5 or $_GET['SORTBY'] == 6 or $_GET['SORTBY']>79){ ?>
+        <td class="ctd" <?php echo ($_GET["SORTBY"]=='4'? "bgcolor='#D3EBAB'": "");?>><?php echo ($row["dcr_ht"]); ?></td>
+        <td class="ctd" <?php echo ($_GET["SORTBY"]=='5'? "bgcolor='#D3EBAB'": "");?>><?php echo ($row["dcr_at"]); ?></td>
+        <td class="ctd dark" <?php echo ($_GET["SORTBY"]=='6'? "bgcolor='#D3EBAB'": "");?>><?php echo ($row["dcr_av"]); ?></td>     
+    <?php } ?>
     
-    <? if ($_GET['SORTBY'] == 60 or $_GET['SORTBY'] == 61 or $_GET['SORTBY'] == 62){ ?>
-        <td class="ctd" <?echo ($_GET["SORTBY"]=='60'? "bgcolor='#D3EBAB'": "");?>><?echo ($row["gpr_ht"]); ?></td>
-        <td class="ctd" <?echo ($_GET["SORTBY"]=='61'? "bgcolor='#D3EBAB'": "");?>><?echo ($row["gpr_at"]); ?></td>
-        <td class="ctd dark" <?echo ($_GET["SORTBY"]=='62'? "bgcolor='#D3EBAB'": "");?>><?echo ($row["gpr_av"]); ?></td>     
-    <?}?>
+    <?php if($_GET['SORTBY'] == 60 or $_GET['SORTBY'] == 61 or $_GET['SORTBY'] == 62){ ?>
+        <td class="ctd" <?php echo ($_GET["SORTBY"]=='60'? "bgcolor='#D3EBAB'": "");?>><?php echo ($row["gpr_ht"]); ?></td>
+        <td class="ctd" <?php echo ($_GET["SORTBY"]=='61'? "bgcolor='#D3EBAB'": "");?>><?php echo ($row["gpr_at"]); ?></td>
+        <td class="ctd dark" <?php echo ($_GET["SORTBY"]=='62'? "bgcolor='#D3EBAB'": "");?>><?php echo ($row["gpr_av"]); ?></td>     
+    <?php } ?>
    
-    <? if ($_GET['SORTBY'] == 70 or $_GET['SORTBY'] == 71 or $_GET['SORTBY'] == 72){ ?>
-        <td class="ctd" <?echo ($_GET["SORTBY"]=='70'? "bgcolor='#D3EBAB'": "");?>><?echo ($row["air_ht"]); ?></td>
-        <td class="ctd" <?echo ($_GET["SORTBY"]=='71'? "bgcolor='#D3EBAB'": "");?>><?echo ($row["air_at"]); ?></td>
-        <td class="ctd dark" <?echo ($_GET["SORTBY"]=='72'? "bgcolor='#D3EBAB'": "");?>><?echo ($row["air_av"]); ?></td>     
-    <?}?>    
+    <?php if($_GET['SORTBY'] == 70 or $_GET['SORTBY'] == 71 or $_GET['SORTBY'] == 72){ ?>
+        <td class="ctd" <?php echo ($_GET["SORTBY"]=='70'? "bgcolor='#D3EBAB'": "");?>><?php echo ($row["air_ht"]); ?></td>
+        <td class="ctd" <?php echo ($_GET["SORTBY"]=='71'? "bgcolor='#D3EBAB'": "");?>><?php echo ($row["air_at"]); ?></td>
+        <td class="ctd dark" <?php echo ($_GET["SORTBY"]=='72'? "bgcolor='#D3EBAB'": "");?>><?php echo ($row["air_av"]); ?></td>     
+    <?php } ?>    
     
 	
-    <? if ($_GET['CALLAS']==0){?>
-        <td class="ctd <?echo (($_GET["BETTING"]=='1' and ($_GET['CALL']=='1' or $_GET['CALL']=='6') ) ?  $asl_class2: "")?>" <?echo ($_GET["SORTBY"]=='10'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["h_odd"]); ?></a></td>
-        <td class="ctd <?echo (($_GET["BETTING"]=='1' and ($_GET['CALL']=='3' or $_GET['CALL']=='8')) ?  $asl_class2: "")?>" <?echo ($_GET["SORTBY"]=='12'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["d_odd"]); ?></a></td>
-        <td class="ctd <?echo (($_GET["BETTING"]=='1' and ($_GET['CALL']=='2' or $_GET['CALL']=='7')) ?  $asl_class2: "")?>" <?echo ($_GET["SORTBY"]=='11'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["a_odd"]); ?></a></td>
-    <?}?>
+    <?php if($_GET['CALLAS']==0){?>
+        <td class="ctd <?php echo (($_GET["BETTING"]=='1' and ($_GET['CALL']=='1' or $_GET['CALL']=='6') ) ?  $asl_class2: "")?>" <?php echo ($_GET["SORTBY"]=='10'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["h_odd"]); ?></a></td>
+        <td class="ctd <?php echo (($_GET["BETTING"]=='1' and ($_GET['CALL']=='3' or $_GET['CALL']=='8')) ?  $asl_class2: "")?>" <?php echo ($_GET["SORTBY"]=='12'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["d_odd"]); ?></a></td>
+        <td class="ctd <?php echo (($_GET["BETTING"]=='1' and ($_GET['CALL']=='2' or $_GET['CALL']=='7')) ?  $asl_class2: "")?>" <?php echo ($_GET["SORTBY"]=='11'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["a_odd"]); ?></a></td>
+    <?php } ?>
 	
 	
-	 <? if ($_GET['BETTING']==1 and ($_GET['CALLAS']>0 and $_GET['CALLAS']<4) ){?>
-        <td class="ctd l <?echo (($_GET["BETTING"]=='1' and ($_GET['CALLAS']=='1' or $_GET['CALLAS']=='6') ) ?  $asl_class2: "")?>" <?echo ($_GET["SORTBY"]=='10'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["h_odd"]); ?></a></td>
-        <td class="ctd <?echo (($_GET["BETTING"]=='1' and ($_GET['CALLAS']=='3' or $_GET['CALLAS']=='8')) ?  $asl_class2: "")?>" <?echo ($_GET["SORTBY"]=='12'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["d_odd"]); ?></a></td>
-        <td class="ctd <?echo (($_GET["BETTING"]=='1' and ($_GET['CALLAS']=='2' or $_GET['CALLAS']=='7')) ?  $asl_class2: "")?>" <?echo ($_GET["SORTBY"]=='11'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["a_odd"]); ?></a></td>
-    <?}?>
+	 <?php if($_GET['BETTING']==1 and ($_GET['CALLAS']>0 and $_GET['CALLAS']<4) ){?>
+        <td class="ctd l <?php echo (($_GET["BETTING"]=='1' and ($_GET['CALLAS']=='1' or $_GET['CALLAS']=='6') ) ?  $asl_class2: "")?>" <?php echo ($_GET["SORTBY"]=='10'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["h_odd"]); ?></a></td>
+        <td class="ctd <?php echo (($_GET["BETTING"]=='1' and ($_GET['CALLAS']=='3' or $_GET['CALLAS']=='8')) ?  $asl_class2: "")?>" <?php echo ($_GET["SORTBY"]=='12'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["d_odd"]); ?></a></td>
+        <td class="ctd <?php echo (($_GET["BETTING"]=='1' and ($_GET['CALLAS']=='2' or $_GET['CALLAS']=='7')) ?  $asl_class2: "")?>" <?php echo ($_GET["SORTBY"]=='11'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["a_odd"]); ?></a></td>
+    <?php } ?>
 
 
-	<? if ($_GET['BETTING']>=3 and $_GET['CALLAS']>4 and $_GET['CALLAS']<14 ){?>
-        <td class="ctd <?echo (($_GET["BETTING"]=='1' and ($_GET['CALLAS']=='1' or $_GET['CALLAS']=='6') ) ?  $asl_class2: "")?>" <?echo ($_GET["SORTBY"]=='10'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["h_odd"]); ?></a></td>
-        <td class="ctd <?echo (($_GET["BETTING"]=='1' and ($_GET['CALLAS']=='3' or $_GET['CALLAS']=='8')) ?  $asl_class2: "")?>" <?echo ($_GET["SORTBY"]=='12'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["d_odd"]); ?></a></td>
-        <td class="ctd <?echo (($_GET["BETTING"]=='1' and ($_GET['CALLAS']=='2' or $_GET['CALLAS']=='7')) ?  $asl_class2: "")?>" <?echo ($_GET["SORTBY"]=='11'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["a_odd"]); ?></a></td>
-    <?}?>
+	<?php if($_GET['BETTING']>=3 and $_GET['CALLAS']>4 and $_GET['CALLAS']<14 ){?>
+        <td class="ctd <?php echo (($_GET["BETTING"]=='1' and ($_GET['CALLAS']=='1' or $_GET['CALLAS']=='6') ) ?  $asl_class2: "")?>" <?php echo ($_GET["SORTBY"]=='10'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["h_odd"]); ?></a></td>
+        <td class="ctd <?php echo (($_GET["BETTING"]=='1' and ($_GET['CALLAS']=='3' or $_GET['CALLAS']=='8')) ?  $asl_class2: "")?>" <?php echo ($_GET["SORTBY"]=='12'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["d_odd"]); ?></a></td>
+        <td class="ctd <?php echo (($_GET["BETTING"]=='1' and ($_GET['CALLAS']=='2' or $_GET['CALLAS']=='7')) ?  $asl_class2: "")?>" <?php echo ($_GET["SORTBY"]=='11'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["a_odd"]); ?></a></td>
+    <?php } ?>
 	
-	<? if ($_GET['BETTING']>=3 and $_GET['CALLAS']==14  ){?>
-        <td class="ctd <?echo (($_GET["BETTING"]=='3' and ($_GET['CALLAS']=='1' or $_GET['CALLAS']=='6') ) ?  $asl_class2: "")?>" <?echo ($_GET["SORTBY"]=='10'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["h_odd"]); ?></a></td>
-        <td class="ctd <?echo (($_GET["BETTING"]=='3' and ($_GET['CALLAS']=='14' or $_GET['CALLAS']=='8')) ?  $asl_class2: "")?>" <?echo ($_GET["SORTBY"]=='12'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["d_odd"]); ?></a></td>
-        <td class="ctd <?echo (($_GET["BETTING"]=='3' and ($_GET['CALLAS']=='2' or $_GET['CALLAS']=='7')) ?  $asl_class2: "")?>" <?echo ($_GET["SORTBY"]=='11'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["a_odd"]); ?></a></td>
-    <?}?>
+	<?php if($_GET['BETTING']>=3 and $_GET['CALLAS']==14  ){?>
+        <td class="ctd <?php echo (($_GET["BETTING"]=='3' and ($_GET['CALLAS']=='1' or $_GET['CALLAS']=='6') ) ?  $asl_class2: "")?>" <?php echo ($_GET["SORTBY"]=='10'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["h_odd"]); ?></a></td>
+        <td class="ctd <?php echo (($_GET["BETTING"]=='3' and ($_GET['CALLAS']=='14' or $_GET['CALLAS']=='8')) ?  $asl_class2: "")?>" <?php echo ($_GET["SORTBY"]=='12'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["d_odd"]); ?></a></td>
+        <td class="ctd <?php echo (($_GET["BETTING"]=='3' and ($_GET['CALLAS']=='2' or $_GET['CALLAS']=='7')) ?  $asl_class2: "")?>" <?php echo ($_GET["SORTBY"]=='11'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["a_odd"]); ?></a></td>
+    <?php } ?>
 	
-	 <? if ($_GET['BETTING']==1 and $_GET['CALLAS']==4 ){?>
-        <td class="ctd <?echo (($_GET["BETTING"]=='1' and $act_rt==1)  ?  $asl_class2: "")?>" <?echo ($_GET["SORTBY"]=='10'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["h_odd"]); ?></a></td>
-        <td class="ctd <?echo (($_GET["BETTING"]=='1' and $act_rt==3) ?  $asl_class2: "")?>" <?echo ($_GET["SORTBY"]=='12'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["d_odd"]); ?></a></td>
-        <td class="ctd <?echo (($_GET["BETTING"]=='1' and $act_rt==2) ?  $asl_class2: "")?>" <?echo ($_GET["SORTBY"]=='11'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["a_odd"]); ?></a></td>
-    <?}?>
+	 <?php if($_GET['BETTING']==1 and $_GET['CALLAS']==4 ){?>
+        <td class="ctd <?php echo (($_GET["BETTING"]=='1' and $act_rt==1)  ?  $asl_class2: "")?>" <?php echo ($_GET["SORTBY"]=='10'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["h_odd"]); ?></a></td>
+        <td class="ctd <?php echo (($_GET["BETTING"]=='1' and $act_rt==3) ?  $asl_class2: "")?>" <?php echo ($_GET["SORTBY"]=='12'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["d_odd"]); ?></a></td>
+        <td class="ctd <?php echo (($_GET["BETTING"]=='1' and $act_rt==2) ?  $asl_class2: "")?>" <?php echo ($_GET["SORTBY"]=='11'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["a_odd"]); ?></a></td>
+    <?php } ?>
 	
 	
 	
 	
 	<!-- Use Bookie Call -->
-	 <? if ($_GET['BETTING']==1 and $_GET['CALLAS']==5 ){?>
-        <td class="ctd <?echo (($_GET["BETTING"]=='1' and $_BOOKIECALL==1)  ?  $asl_class2: "")?>" <?echo ($_GET["SORTBY"]=='10'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["h_odd"]); ?></a></td>
-        <td class="ctd <?echo (($_GET["BETTING"]=='1' and $_BOOKIECALL==3) ?  $asl_class2: "")?>" <?echo ($_GET["SORTBY"]=='12'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["d_odd"]); ?></a></td>
-        <td class="ctd <?echo (($_GET["BETTING"]=='1' and $_BOOKIECALL==2) ?  $asl_class2: "")?>" <?echo ($_GET["SORTBY"]=='11'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["a_odd"]); ?></a></td>
+	 <?php if($_GET['BETTING']==1 and $_GET['CALLAS']==5 ){?>
+        <td class="ctd <?php echo (($_GET["BETTING"]=='1' and $_BOOKIECALL==1)  ?  $asl_class2: "")?>" <?php echo ($_GET["SORTBY"]=='10'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["h_odd"]); ?></a></td>
+        <td class="ctd <?php echo (($_GET["BETTING"]=='1' and $_BOOKIECALL==3) ?  $asl_class2: "")?>" <?php echo ($_GET["SORTBY"]=='12'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["d_odd"]); ?></a></td>
+        <td class="ctd <?php echo (($_GET["BETTING"]=='1' and $_BOOKIECALL==2) ?  $asl_class2: "")?>" <?php echo ($_GET["SORTBY"]=='11'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["a_odd"]); ?></a></td>
 		
-		<td class="ctd <?echo $asl_class2;?>">
+		<td class="ctd <?php echo $asl_class2;?>">
 		<?php 
 			switch ($row["bookiecall"]){
 				case 1: echo "1"; break;
@@ -2302,82 +2304,82 @@ week_box_new_3rows("Soccer Predictions Analysis Tool", $weekno, $wdate, $season,
 		  
 		?></td>
 		
-    <?}?>
+    <?php } ?>
 	
 	<!-- outright rev calls -->
-	<? if ($_GET['BETTING']==1 and ($_GET['CALLAS']==20 or $_GET['CALLAS']==21 or $_GET['CALLAS']==22 )  ){?>
-        <td class="ctd <?echo (($_GET["BETTING"]=='1' and $_BOOKIECALL==1)  ?  $asl_class2: "")?>" <?echo ($_GET["SORTBY"]=='10'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["h_odd"]); ?></a></td>
-        <td class="ctd <?echo (($_GET["BETTING"]=='1' and $_BOOKIECALL==3) ?  $asl_class2: "")?>" <?echo ($_GET["SORTBY"]=='12'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["d_odd"]); ?></a></td>
-        <td class="ctd <?echo (($_GET["BETTING"]=='1' and $_BOOKIECALL==2) ?  $asl_class2: "")?>" <?echo ($_GET["SORTBY"]=='11'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["a_odd"]); ?></a></td>
+	<?php if($_GET['BETTING']==1 and ($_GET['CALLAS']==20 or $_GET['CALLAS']==21 or $_GET['CALLAS']==22 )  ){?>
+        <td class="ctd <?php echo (($_GET["BETTING"]=='1' and $_BOOKIECALL==1)  ?  $asl_class2: "")?>" <?php echo ($_GET["SORTBY"]=='10'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["h_odd"]); ?></a></td>
+        <td class="ctd <?php echo (($_GET["BETTING"]=='1' and $_BOOKIECALL==3) ?  $asl_class2: "")?>" <?php echo ($_GET["SORTBY"]=='12'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["d_odd"]); ?></a></td>
+        <td class="ctd <?php echo (($_GET["BETTING"]=='1' and $_BOOKIECALL==2) ?  $asl_class2: "")?>" <?php echo ($_GET["SORTBY"]=='11'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["a_odd"]); ?></a></td>
 		
 		
-		<td class="ldark ctd <?echo ($call_it == "1/X" ?  $asl_class: "")?>" <?echo ($_GET["SORTBY"]=='20'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["hw_x"]); ?></a></td>
-        <td class="ctd <?echo ($call_it == "2/X" ?  $asl_class: "")?>" <?echo ($_GET["SORTBY"]=='21'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["aw_x"]); ?></a></td>
-        <td class="ctd <?echo ($call_it == "1/2" ?  $asl_class: "")?>" <?echo ($_GET["SORTBY"]=='22'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["hw_aw"]);?></a></td>
+		<td class="ldark ctd <?php echo ($call_it == "1/X" ?  $asl_class: "")?>" <?php echo ($_GET["SORTBY"]=='20'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["hw_x"]); ?></a></td>
+        <td class="ctd <?php echo ($call_it == "2/X" ?  $asl_class: "")?>" <?php echo ($_GET["SORTBY"]=='21'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["aw_x"]); ?></a></td>
+        <td class="ctd <?php echo ($call_it == "1/2" ?  $asl_class: "")?>" <?php echo ($_GET["SORTBY"]=='22'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["hw_aw"]);?></a></td>
 		
-    <?}?>	
+    <?php } ?>	
 	
 	
-	<? if ($_GET['BETTING']==1 and ($_GET['CALLAS']==25 or $_GET['CALLAS']==26)  ){?>
-        <td class="ctd " <?echo ($_GET["SORTBY"]=='10'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["h_odd"]); ?></a></td>
-        <td class="ctd w" <?echo ($_GET["SORTBY"]=='12'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["d_odd"]); ?></a></td>
-        <td class="ctd " <?echo ($_GET["SORTBY"]=='11'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["a_odd"]); ?></a></td>
+	<?php if($_GET['BETTING']==1 and ($_GET['CALLAS']==25 or $_GET['CALLAS']==26)  ){?>
+        <td class="ctd " <?php echo ($_GET["SORTBY"]=='10'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["h_odd"]); ?></a></td>
+        <td class="ctd w" <?php echo ($_GET["SORTBY"]=='12'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["d_odd"]); ?></a></td>
+        <td class="ctd " <?php echo ($_GET["SORTBY"]=='11'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["a_odd"]); ?></a></td>
 		
 		
-		<td class="ldark ctd <?echo (($_GET["CALLAS"]=='26' and $_rt_get=='1')  ?  $asl_class: "") ?>" <?echo ($_GET["SORTBY"]=='20'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["hw_odd"]); ?></a></td>
-        <td class="ctd <?echo (($_GET["CALLAS"]=='25' and $_rt_get=='1') ?  $asl_class: "") ?>" <?echo ($_GET["SORTBY"]=='21'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["aw_odd"]); ?></a></td>
+		<td class="ldark ctd <?php echo (($_GET["CALLAS"]=='26' and $_rt_get=='1')  ?  $asl_class: "") ?>" <?php echo ($_GET["SORTBY"]=='20'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["hw_odd"]); ?></a></td>
+        <td class="ctd <?php echo (($_GET["CALLAS"]=='25' and $_rt_get=='1') ?  $asl_class: "") ?>" <?php echo ($_GET["SORTBY"]=='21'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["aw_odd"]); ?></a></td>
 		
-    <?}?>	
+    <?php } ?>	
 	
 	
-	<? if ($_GET['BETTING']==2 and $_GET['CALLAS']>0){?>
-        <td class="ctd"><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["h_odd"]); ?></a></td>
-        <td class="ctd"><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["d_odd"]); ?></a></td>
-        <td class="ctd"><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["a_odd"]); ?></a></td>
-	<?}?>
+	<?php if($_GET['BETTING']==2 and $_GET['CALLAS']>0){?>
+        <td class="ctd"><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["h_odd"]); ?></a></td>
+        <td class="ctd"><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["d_odd"]); ?></a></td>
+        <td class="ctd"><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["a_odd"]); ?></a></td>
+	<?php } ?>
 	
-    <? if ($_GET['BETTING']==2){?>
+    <?php if($_GET['BETTING']==2){?>
 	
-        <td class="ctd ldark <?echo ($call_it == "1/X" ?  $asl_class: "")?>" <?echo ($_GET["SORTBY"]=='20'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["hw_x"]); ?></a></td>
-        <td class="ctd <?echo ($call_it == "2/X" ?  $asl_class: "")?>" <?echo ($_GET["SORTBY"]=='21'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["aw_x"]); ?></a></td>
-        <td class="ctd <?echo ($call_it == "1/2" ?  $asl_class: "")?>" <?echo ($_GET["SORTBY"]=='22'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["hw_aw"]);?></a></td>
-    <?}?>
+        <td class="ctd ldark <?php echo ($call_it == "1/X" ?  $asl_class: "")?>" <?php echo ($_GET["SORTBY"]=='20'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["hw_x"]); ?></a></td>
+        <td class="ctd <?php echo ($call_it == "2/X" ?  $asl_class: "")?>" <?php echo ($_GET["SORTBY"]=='21'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["aw_x"]); ?></a></td>
+        <td class="ctd <?php echo ($call_it == "1/2" ?  $asl_class: "")?>" <?php echo ($_GET["SORTBY"]=='22'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["hw_aw"]);?></a></td>
+    <?php } ?>
 
 	<!-- added bookies call 11 dec 2015 -->
-    <? if ($_GET['BETTING']==3 and  $_GET['CALLAS']== 0 ){?>
-        <td class="ctd <?echo (($_GET["BETTING"]=='3' and ($_GET['CALL']==1 or $_GET['CALL']==11)) ?  $asl_class: "")?>" <?echo ($_GET["SORTBY"]=='30'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["hw_odd"]); ?></a></td>
-        <td class="ctd <?echo (($_GET["BETTING"]=='3' and ($_GET['CALL']==2 or $_GET['CALL']==12)) ?  $asl_class: "")?>" <?echo ($_GET["SORTBY"]=='31'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["aw_odd"]); ?></a></td>
-    <?}?>
+    <?php if($_GET['BETTING']==3 and  $_GET['CALLAS']== 0 ){?>
+        <td class="ctd ldark <?php echo (($_GET["BETTING"]=='3' and ($_GET['CALL']==1 or $_GET['CALL']==11)) ?  $asl_class: "")?>" <?php echo ($_GET["SORTBY"]=='30'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["hw_odd"]); ?></a></td>
+        <td class="ctd <?php echo (($_GET["BETTING"]=='3' and ($_GET['CALL']==2 or $_GET['CALL']==12)) ?  $asl_class: "")?>" <?php echo ($_GET["SORTBY"]=='31'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["aw_odd"]); ?></a></td>
+    <?php } ?>
 
 	
 	
-    <? if ($_GET['BETTING']==3 and $_GET['CALLAS']>10){?>
-        <td class="ctd ldark <?echo (($_GET["BETTING"]=='3' and $_GET['CALLAS']==13) ?  $asl_class2: "")?>" <?echo ($_GET["SORTBY"]=='30'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["hw_odd"]); ?></a></td>
-        <td class="ctd <?echo (($_GET["BETTING"]=='3' and $_GET['CALLAS']==12) ?  $asl_class2: "")?>" <?echo ($_GET["SORTBY"]=='31'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["aw_odd"]); ?></a></td>
-    <?}?>
+    <?php if($_GET['BETTING']==3 and $_GET['CALLAS']>10){?>
+        <td class="ctd ldark <?php echo (($_GET["BETTING"]=='3' and $_GET['CALLAS']==13) ?  $asl_class2: "")?>" <?php echo ($_GET["SORTBY"]=='30'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["hw_odd"]); ?></a></td>
+        <td class="ctd <?php echo (($_GET["BETTING"]=='3' and $_GET['CALLAS']==12) ?  $asl_class2: "")?>" <?php echo ($_GET["SORTBY"]=='31'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["aw_odd"]); ?></a></td>
+    <?php } ?>
 	
-    <? if ($_GET['BETTING']==4 and $_GET['CALLAS']==0){?>
-        <td class="ctd ldark <?echo ($_GET["BETTING"]=='4'?  $asl_class2: "")?>" <?echo ($_GET["SORTBY"]=='40'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["un_odd"]); ?></a></td>
-        <td class="ctd <?echo ($_GET["BETTING"]=='5'?  $asl_class2: "")?>" <?echo ($_GET["SORTBY"]=='41'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["ov_odd"]); ?></a></td>
-    <?}?>
+    <?php if($_GET['BETTING']==4 and $_GET['CALLAS']==0){?>
+        <td class="ctd ldark <?php echo ($_GET["BETTING"]=='4'?  $asl_class2: "")?>" <?php echo ($_GET["SORTBY"]=='40'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["un_odd"]); ?></a></td>
+        <td class="ctd <?php echo ($_GET["BETTING"]=='5'?  $asl_class2: "")?>" <?php echo ($_GET["SORTBY"]=='41'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["ov_odd"]); ?></a></td>
+    <?php } ?>
 
-    <? if ($_GET['BETTING']==4  and $_GET['CALLAS']==11){?>
-        <td class="ctd ldark <?echo ($_GET["BETTING"]=='5'?  $asl_class2: "")?>" <?echo ($_GET["SORTBY"]=='40'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["un_odd"]); ?></a></td>
-        <td class="ctd <?echo ($_GET["BETTING"]=='4'?  $asl_class2: "")?>" <?echo ($_GET["SORTBY"]=='41'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["ov_odd"]); ?></a></td>
-    <?}?>
+    <?php if($_GET['BETTING']==4  and $_GET['CALLAS']==11){?>
+        <td class="ctd ldark <?php echo ($_GET["BETTING"]=='5'?  $asl_class2: "")?>" <?php echo ($_GET["SORTBY"]=='40'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["un_odd"]); ?></a></td>
+        <td class="ctd <?php echo ($_GET["BETTING"]=='4'?  $asl_class2: "")?>" <?php echo ($_GET["SORTBY"]=='41'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["ov_odd"]); ?></a></td>
+    <?php } ?>
 
-    <? if ($_GET['BETTING']==5 and $_GET['CALLAS']==0){?>
-        <td class="ctd ldark <?echo ($_GET["BETTING"]=='4'?  $asl_class2: "")?>" <?echo ($_GET["SORTBY"]=='40'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["un_odd"]); ?></a></td>
-        <td class="ctd <?echo ($_GET["BETTING"]=='5'?  $asl_class2: "")?>" <?echo ($_GET["SORTBY"]=='41'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["ov_odd"]); ?></a></td>
-    <?}?>
+    <?php if($_GET['BETTING']==5 and $_GET['CALLAS']==0){?>
+        <td class="ctd ldark <?php echo ($_GET["BETTING"]=='4'?  $asl_class2: "")?>" <?php echo ($_GET["SORTBY"]=='40'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["un_odd"]); ?></a></td>
+        <td class="ctd <?php echo ($_GET["BETTING"]=='5'?  $asl_class2: "")?>" <?php echo ($_GET["SORTBY"]=='41'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["ov_odd"]); ?></a></td>
+    <?php } ?>
 
-    <? if ($_GET['BETTING']==5  and $_GET['CALLAS']==10){?>
-        <td class="ctd ldark <?echo ($_GET["BETTING"]=='5'?  $asl_class2: "")?>" <?echo ($_GET["SORTBY"]=='40'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["un_odd"]); ?></a></td>
-        <td class="ctd <?echo ($_GET["BETTING"]=='4'?  $asl_class2: "")?>" <?echo ($_GET["SORTBY"]=='41'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?echo $row['mid'];?>&db=<?echo $db;?>')"><?echo ($row["ov_odd"]); ?></a></td>
-    <?}?>
+    <?php if($_GET['BETTING']==5  and $_GET['CALLAS']==10){?>
+        <td class="ctd ldark <?php echo ($_GET["BETTING"]=='5'?  $asl_class2: "")?>" <?php echo ($_GET["SORTBY"]=='40'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["un_odd"]); ?></a></td>
+        <td class="ctd <?php echo ($_GET["BETTING"]=='4'?  $asl_class2: "")?>" <?php echo ($_GET["SORTBY"]=='41'? "bgcolor='#D3EBAB'": "");?>><a class='md' href="javascript:tell('full_odds.php?id=<?php echo $row['mid'];?>&db=<?php echo $db;?>')"><?php echo ($row["ov_odd"]); ?></a></td>
+    <?php } ?>
 </tr>
 
-<?    }
+<?php    }
     }  
 
 
@@ -2387,36 +2389,36 @@ if ($_GET['weekno'] <> cur_week($db)) {
     
     
     <td colspan="3" class="rtd padd bot">Total Correct Calls&nbsp; </td>
-    <td colspan="1" class="ctd padd bot"><?echo $ngot; ?></td>
-    <td colspan="2" class="ctd padd bot"><?echo ($number-$postponed-$nobets>0 ? num2(($ngot/($number-$postponed-$nobets))*100) ."%" : "0.00%") ; ?></td>
+    <td colspan="1" class="ctd padd bot"><?php echo $ngot; ?></td>
+    <td colspan="2" class="ctd padd bot"><?php echo ($number-$postponed-$nobets>0 ? num2(($ngot/($number-$postponed-$nobets))*100) ."%" : "0.00%") ; ?></td>
 
     <td colspan="6" class="rtd padd bot">Total Correct Score Hits (PaW)&nbsp;</td>
-    <td colspan="1" class="ctd padd bot"><?echo $css; ?></td>
+    <td colspan="1" class="ctd padd bot"><?php echo $css; ?></td>
 
-    <td colspan="<?echo ($_GET['BETTING']>1? 6 : 5 ); ?>" class="rtd padd bot">Postponed/Void Matches&nbsp;</td>
-    <td colspan="<?echo ($_GET['BETTING']<3? 1 : 1 ); ?>" class="ctd padd bot"><?echo $postponed +$nobets; ?></td>
+    <td colspan="<?php echo ($_GET['BETTING']>1? 6 : 5 ); ?>" class="rtd padd bot">Postponed/Void Matches&nbsp;</td>
+    <td colspan="<?php echo ($_GET['BETTING']<3? 1 : 1 ); ?>" class="ctd padd bot"><?php echo $postponed +$nobets; ?></td>
  
   </tr> 
   <tr bgcolor="#f4f4f4">
     <td colspan="4" class="rtd padd bot">Units Laid Out&nbsp;</td>
-    <td colspan="2" class="ctd padd bot"><?echo num2($number-$postponed-$nobets); ?></td>
+    <td colspan="2" class="ctd padd bot"><?php echo num2($number-$postponed-$nobets); ?></td>
     <td colspan="2" class="rtd padd bot">Units Won&nbsp;</td>
-    <td colspan="2" class="ctd padd bot"><?echo num2($win_odds); ?></td>
+    <td colspan="2" class="ctd padd bot"><?php echo num2($win_odds); ?></td>
     <td colspan="2" class="rtd padd bot"> Profit/(Loss)&nbsp;</td>
 
     <?php if($win_odds - ($number-$postponed-$nobets)>=0){?>
-      <td colspan="2" class="ctd padd bot" style='color:blue;'><?echo num20($win_odds - ($number-$postponed-$nobets)) ; ?></td>
+      <td colspan="2" class="ctd padd bot" style='color:blue;'><?php echo num20($win_odds - ($number-$postponed-$nobets)) ; ?></td>
     <?php }else {?>
-      <td colspan="2" class="ctd padd bot"  style='color:red;'><?echo num20($win_odds - ($number-$postponed-$nobets)) ; ?></td>
+      <td colspan="2" class="ctd padd bot"  style='color:red;'><?php echo num20($win_odds - ($number-$postponed-$nobets)) ; ?></td>
     <?php }?>
-    <td colspan="<?echo ($_GET['BETTING']>1? 7 : 5 ); ?>" class="ctd padd bot">&nbsp;<?echo $captions; ?>  </td>
+    <td colspan="<?php echo ($_GET['BETTING']>1? 7 : 5 ); ?>" class="ctd padd bot">&nbsp;<?php echo $captions; ?>  </td>
   </tr>  
-<?}?>
+<?php } ?>
 
 
 </table>
 
-<?
+<?php
 
 	
  foreach($_GET as $key => $value){
@@ -2429,7 +2431,7 @@ if ($_GET['weekno'] <> cur_week($db)) {
 <div class='error_div' style="text-align: center;padding:10px;width:500px;margin:10px auto 10px auto">
 	
 
-    <a href="<? echo $summaryURL ?>"><span class="bb" style="font-size: 18px;">Summary for Season <?echo $_GET['season'];?></span></a>
+    <a href="<?php echo $summaryURL ?>"><span class="bb" style="font-size: 18px;">Summary for Season <?php echo $_GET['season'];?></span></a>
 </div>
 
 <!-- stopprint -->
@@ -2446,5 +2448,4 @@ if ($_GET['weekno'] <> cur_week($db)) {
   $eu = null;
   $sa = null;
   $sp = null;
-  
 ?>
