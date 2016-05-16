@@ -1,4 +1,7 @@
 <?php
+
+$java_ = 0;
+
 include("function.ini.php");
 include("bettingadvice-class.php");
 

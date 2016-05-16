@@ -64,8 +64,8 @@ class bettingadvice
 
 		$answer = stripslashes($d["answer"]);
 		
-		//$answer = ereg_replace("%image%", "<img border='0' alt='' src='images/bettingadvice/", $answer);
-		//$answer = ereg_replace("%endimage%", "' />", $answer);
+		$answer = preg_replace("/%image%/", "<img border='0' alt='' src='images/bettingadvice/", $answer);
+		$answer = preg_replace("/%endimage%/", "' />", $answer);
 
 		$this->answer = $answer;
 
