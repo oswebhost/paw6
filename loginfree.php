@@ -4,49 +4,55 @@ require_once("reguser.php"); $logerr='';
 
 $ACTION= $_POST["ACTION"];
 
-if ($ACTION=="Login"):
+if ($ACTION=="Login"){
 	
 	$userid= $_POST["userid"] ;
 	$pwd   = $_POST["pwdcode"] ;
 
 
 
-	if (strlen($userid)<=0):
+	if (strlen($userid)<=0){
 		$logerr='User Id required.';
-	endif;
-	if (strlen($pwd)<=0):
+	}
+	
+	if (strlen($pwd)<=0){
       $logerr .='Password required.'  ;
-	endif;
+	}
 	
-	
-	if (find_confirm($userid,$pwd,1)=="N"):
+	if (find_confirm($userid,$pwd,1)=="N"){
 	      $logerr .= 'Account not active.'  ;
-	endif;
-	if (find_confirm($userid,$pwd,1)=="NO"):
-	      $logerr .= 'Account not active. User Id/Password not found. '  ;
-	endif;
+	}
 
-	if (find_user($userid,$pwd,1)=="NO"):
+	if (find_confirm($userid,$pwd,1)=="NO"){
+	      $logerr .= 'Account not active. User Id/Password not found. '  ;
+	}
+
+	if (find_user($userid,$pwd,1)=="NO"){
 		$logerr= 'User Id/Password not found. Please try again.';
-	endif;
+	}
 	
-	if (strlen($logerr)==0):
+	
+	if (strlen($logerr)==0){
 		session_start();	
 		start_session($userid,1); 
 		  require_once("userinfo.php");
 		exit;
- endif;
+ 	}
 
-elseif ($ACTION=="Reset"):
-	if (strlen($email)<=0):
+} elseif ($ACTION=="Reset"){
+	
+	if (strlen($_POST['email'])<=0){
 		$logerr ='Email address required';
-	endif;
-	if (chg_pwd_email($email)=="NO"):
+	}
+	
+	if (chg_pwd_email($_POST['email'])=="NO"){
 		$logerr='Email address not found. Please try again.';
-	else:
+	
+	}else{
   	  $logerr='Your Password details have been sent to your email address.';
-    endif;
-endif;
+	}
+    
+}
 
 $page_title ="Login";
 
@@ -77,11 +83,13 @@ require_once("header.ini.php");
 
 
 <BR>
-<?php if (strlen($logerr)>0) :
+<?php 
+	
+	if (strlen($logerr)>0){
 		echo "<div style='margin-left:30px;margin-right:30px;margin-bottom:10px;padding:10px;border:1px solid #FFAAAA;background:#FFF4F4;font-size:12px;font-family:tahoma;font-weight:bold;text-align:center;'>";
 		echo $logerr;
 		echo "</div>";
-	endif;
+	}
 ?>
 
 

@@ -39,11 +39,12 @@ function find_ip($ip)
     $temp = $eu->prepare($qry) ;
     $temp->execute();
 
-	if ($temp->rowCount()>0):
+	if ($temp->rowCount()>0){
 		return "NO";
-	else:
+  }else{
 		return "OK";
-	endif;
+  }
+	
 }
 
 
@@ -60,11 +61,11 @@ function add_user($userid,$fullname,$email,$pwd,$address,$city,$bday,$refer_by)
   $pwd_m = $pwd; //($pwd);
   
 
-if (getenv(HTTP_X_FORWARDED_FOR)): 
+if (getenv(HTTP_X_FORWARDED_FOR)){ 
    $ip_add=getenv(HTTP_X_FORWARDED_FOR);
- else: 
+}else{ 
    $ip_add=getenv(REMOTE_ADDR); 
- endif; 
+} 
 // $ip_add = "203.177.227.199" ;
 
  $country= '';//ip2_country_code($ip_add);
@@ -121,11 +122,12 @@ function email_to_user($userid,$fullname,$email,$url,$pwd_m,$pwd)
 
 	 
   $headers  = "MIME-Version: 1.0\r\n";
-	 if ($aol=='aol.com'):
+	 if ($aol=='aol.com'){
 		$headers .= "Content-type: text/x-aol; \r\n";
-	 else:
+	 }else{
 		 $headers .= "Content-type: text/plain; charset=iso-8859-1\r\n";
-	 endif;
+   }
+	 
 	 $headers .= "From: admin@soccer-predictions.com  \n";
 	 $headers .= "Return-path: admin@soccer-predictions.com  \n";
 	 $headers .= "Reply-To: admin@soccer-predictions.com \n";
@@ -154,11 +156,12 @@ function find_id($userid)
   global $eu;
   $temp = $eu->prepare($qry) ;
   $temp->execute();
-  if ($temp->rowCount()>0):
+  if ($temp->rowCount()>0){
 	 return "YES";
-  else:
+  }else{
 	 return "NO" ;
-  endif;
+  }
+  
 }
 
 function find_confirm($userid,$pwd,$free=0) 
@@ -182,7 +185,7 @@ function find_confirm($userid,$pwd,$free=0)
       $temp->execute();
   }
 
-    if ($temp->rowCount()>0){
+  if ($temp->rowCount()>0){
     return 'OK';
   }else{
     return "N";  
@@ -214,15 +217,16 @@ function find_user($userid,$pwd,$free=0)
       $temp->execute();
   }
 
-  if ($temp->rowCount()>0):
-	 $logcount += 1;
+  if ($temp->rowCount()>0){
+	   $logcount += 1;
      $qry="UPDATE userlist set last_login=NOW(), logcount=logcount+1 WHERE  userid='$userid' limit 1";
      $temp = $eu->prepare($qry) ;
-	 $temp->execute();
-	 return "YES";
-  else:
-	 return "NO" ;
-  endif;
+	   $temp->execute();
+	   return "YES";
+  }else{
+	   return "NO" ;
+  }
+  
 }
 
 function find_payment_flag($userid)
@@ -245,11 +249,12 @@ function find_email_only($email)
   $temp = $eu->prepare($qry) ;
   $temp->execute();
 
-  if ($temp->rowCount()>0):
+  if ($temp->rowCount()>0){
 	 return "YES";
-  else:
+  }else{
 	 return "NO" ;
-  endif;
+  }
+  
 }
 
 
@@ -271,19 +276,22 @@ function chg_pwd_email($email)
   }
   
   
-  if ($num_of_rows>0):
-	 $pwd = makeRandomPassword(); 
+  if ($num_of_rows>0){
+	   $pwd = makeRandomPassword(); 
      $pwd_m = $pwd; //md5($pwd);
      $qry="UPDATE userlist set pwd='$pwd_m' WHERE  email='$email' limit 1";
-	 global $eu;
+	  
+     global $eu;
      $temp = $eu->prepare($qry) ;
      $temp->execute();
  
-	 email_pwd($email,$pwd,$fullname,$userid); 
-	 return "YES";
-  else:
+	   email_pwd($email,$pwd,$fullname,$userid); 
+	   return "YES";
+
+  }else{
 	 return "NO" ;
-  endif;
+  }
+  
 }
 
 //reset password by user
@@ -304,11 +312,12 @@ function email_pwd($email,$pwd,$fullname,$userid)
 	 Many thanks,
 	 Administrator - soccer-predictions.com"; 
     
-	 if ($aol=='aol.com'):
+	 if ($aol=='aol.com'){
 		$headers .= "Content-type: text/x-aol; \r\n";
-	 else:
+	 }else{
 		 $headers .= "Content-type: text/plain; charset=iso-8859-1\r\n";
-	 endif;
+   }
+	 
 	 $headers .= "From: $fromemail  \n";
 	 $headers .= "Return-path: admin@soccer-predictions.com \n";
 	 $headers .= "Reply-To: admin@soccer-predictions.com \n";
@@ -325,11 +334,11 @@ function chg_email_by_user($userid,$email)
   $temp = $eu->prepare($qry) ;
   $temp->execute();
  
-   if ($temp->rowCount()>0):
+   if ($temp->rowCount()>0){
   	  return "YES";
-   else:
+   }else{
 	  return "NO" ;
-   endif;
+   }
 }
 
 // chg_pwd_by_user==== userinfo.php
@@ -341,11 +350,11 @@ function chg_pwd_by_user($userid,$pwd)
   $temp = $eu->prepare($qry) ;
   $temp->execute();
       
-   if ($temp->rowCount()>0):
+   if ($temp->rowCount()>0){
   	  return "YES";
-   else:
+   }else{
 	  return "NO" ;
-   endif;
+   }
 }
 
 // Generate Random Password of 8 charachters
@@ -474,11 +483,13 @@ function chdate($datein)
 {
 	if(preg_match('/^[0-9]{2}-[0-9]{2}-[0-9]{4}$/', $datein)){ 
 		list($day , $month , $year) = explode('-',$datein); 
-		if ( ($month>12) or ($day>31) ):
+
+		if ( ($month>12) or ($day>31) ){
 			return "no";
-		else:
+    }else{
 			return "OK";
-		endif;
+    }
+		
 	}else{ 
 	 return "no";
 	} 
@@ -501,11 +512,12 @@ function attempted_payment($email,$fullname,$userid,$AMT,$URL,$by)
 	 $message .= "\n\nDate: ". date("d-M-Y H:i") ;
 	 $message .= "\n\n" . $URL ;
     
-	 if ($aol=='aol.com'):
+	 if ($aol=='aol.com'){
 		$headers .= "Content-type: text/x-aol; \r\n";
-	 else:
+	 }else{
 		 $headers .= "Content-type: text/plain; charset=iso-8859-1\r\n";
-	 endif;
+   }
+	 
 	 $headers .= "From: $fromemail  \n";
 	 $headers .= "Return-path: admin@soccer-predictions.com  \n";
 	 $headers .= "Reply-To: admin@soccer-predictions.com \n";

@@ -21,16 +21,20 @@ require_once("reguser.php");
 	$raw_post_data = file_get_contents('php://input');
 	$raw_post_array = explode('&', $raw_post_data);
 	$myPost = array();
+
 	foreach ($raw_post_array as $keyval) {
 		$keyval = explode ('=', $keyval);
 		if (count($keyval) == 2)
 			$myPost[$keyval[0]] = urldecode($keyval[1]);
 	}
+
 	// read the post from PayPal system and add 'cmd'
 	$req = 'cmd=_notify-validate';
+
 	if(function_exists('get_magic_quotes_gpc')) {
 		$get_magic_quotes_exists = true;
 	}
+
 	foreach ($myPost as $key => $value) {
 		if($get_magic_quotes_exists == true && get_magic_quotes_gpc() == 1) {
 			$value = urlencode(stripslashes($value));
@@ -39,6 +43,7 @@ require_once("reguser.php");
 		}
 		$req .= "&$key=$value";
 	}
+
 	// Post IPN data back to PayPal to validate the IPN data is genuine
 	// Without this step anyone can fake IPN data
 	
@@ -52,6 +57,7 @@ require_once("reguser.php");
 	if ($ch == FALSE) {
 		return FALSE;
 	}
+
 	curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
 	curl_setopt($ch, CURLOPT_POST, 1);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
@@ -163,8 +169,8 @@ require_once("reguser.php");
 
 	if(DEBUG == true) {
 			error_log(date('[Y-m-d H:i e] '). "Verified IPN: $req ". PHP_EOL, 3, LOG_FILE);
-		}
-	} else if (strcmp ($res, "INVALID") == 0) {
+		//}
+	} elseif (strcmp ($res, "INVALID") == 0) {
 		// log for manual investigation
 		// Add business logic here which deals with invalid IPN messages
 		if(DEBUG == true) {

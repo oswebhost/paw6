@@ -1,14 +1,15 @@
 <?php
- session_start();
 
- if (!isset($_SESSION['userid'])):
+session_start();
+
+if (!isset($_SESSION['userid'])){
 	header('Location: loginfree.php');
 	exit;
- endif;
+}
 
 
 									 // check the date here...
- if ( isset($_SESSION['userid']) and $_SESSION['validupto'] < date('d-m-Y') ):
+if ( isset($_SESSION['userid']) and $_SESSION['validupto'] < date('d-m-Y') ){
 	$errlog = "Expired." ;
 	
 	include("header.ini.php");
@@ -17,12 +18,12 @@
 	include("footer.ini.php");
 	exit;
 
-elseif ( isset($_SESSION['userid']) and $_SESSION['expire']>=$_SESSION['cur_week'] ):
+}elseif ( isset($_SESSION['userid']) and $_SESSION['expire']>=$_SESSION['cur_week'] ){
 	// do nothing
-else:
-	header("location: notauthorize.php");
+}else{
+	//header("location: notauthorize.php");
 	exit;
- endif;
+}
 
 
 ?>

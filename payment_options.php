@@ -143,7 +143,7 @@ page_header("Subscribe");
 	<?php
 
 
-	for ($i=2; $i<9; $i++){
+	for ($i=6; $i<9; $i++){
 
 		echo "<tr bgcolor='white'>\n\n";
 		echo "<td class='mytd' style='padding:10px;'>";

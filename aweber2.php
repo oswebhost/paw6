@@ -25,14 +25,17 @@
             
         }
 		
-		$qry = "insert into userlist (userid,email,pwd,regdate,memtype,refer_by) values ('$_POST[userid]', '$_POST[email]', '$_POST[pass]',now(),'FREE','aweber')";
+		$qry = "insert into userlist (userid,email,pwd,regdate,memtype,refer_by) 
+            values ('$_POST[userid]', '$_POST[email]', '$_POST[pass]',now(),'FREE','aweber')";
+
 		$temp = $eu->prepare($qry);
 		$temp->execute();
     $lastid = $eu->lastInsertId();
     
     $foundat = ""; $foundusing = "";
     
-    switch ($_POST['group1']){
+    switch ($_POST['group1'])
+    {
       case 1:
         $foundat = "Google";
         $foundusing = $_POST['googletext'];

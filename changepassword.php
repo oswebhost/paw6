@@ -11,21 +11,25 @@ include("header.ini.php");
 
 $emailerr ="";
 
-if ($_POST['ACTION']=="ChgPassword"):
-    if (strlen($_POST['pwd'])<=0):
+if ($_POST['ACTION']=="ChgPassword"){
+ 
+    if (strlen($_POST['pwd'])<=0){
 		$emailerr ='<b><FONT COLOR="#FF3300">Error:&nbsp;</font><br>Password Require.</b>';
-    elseif (strlen($_POST['pwd'])<6 or strlen($_POST['pwd'])>12):
+    
+    }elseif (strlen($_POST['pwd'])<6 or strlen($_POST['pwd'])>12){
 		$emailerr ='<b><FONT COLOR="#FF3300">Error:&nbsp;</font><br><font size="1">Password must be 6-12 Character long.</font></b>';
-	else:
+    
+    }else{
 		// Change Password here...
 		 $ok=chg_pwd_by_user($_SESSION["userid"],$_POST['pwd']);
-		 if ($ok=="YES"):
+
+		if ($ok=="YES"){
 			 $emailerr='<b><FONT COLOR="#FF3300">Status:&nbsp;</font><br>Password reset successfully.</b>';
-		else:
+		}else{
 			 $emailerr='<b><FONT COLOR="#FF3300">Error:&nbsp;</font><br>Cannot reset Password.</b>';
-		 endif;
-	 endif;
-endif;
+		}
+	}
+}
 
 
  page_header("Change Password") ; 
@@ -44,7 +48,7 @@ endif;
 <table border="0" width="60%"  style="border:1px solid #F4C300;" bgcolor="#F6F6F6" cellspacing="1" cellpadding="5">
 <tr>
   <td width="100%" align="center" height="30"><BR>
-  <form method="POST" action="<?echo$PHP_SELF?>">
+  <form method="POST" action="<?php echo $PHP_SELF?>">
 	<INPUT TYPE="hidden" name='ACTION' value='ChgPassword'>
 	<b>Change Password:<br>
 	</b>
@@ -64,7 +68,7 @@ endif;
 </div>
 <BR>
 
-<?
+<?php
 	include("footer.ini.php");
 ?>
 
