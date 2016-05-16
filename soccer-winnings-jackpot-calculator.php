@@ -7,8 +7,8 @@ unset($_SESSION['cur_sea']);
 unset($_SESSION['db']);
 
 
-include("config.ini.php") ;
-include("function.ini.php") ;
+require_once("config.ini.php") ;
+require_once("function.ini.php") ;
 
 $db = $_GET['db'];
 
@@ -117,7 +117,7 @@ if ($db=='eu'){
 		
 		setTimeout("Effect.toggle('mainAreaLoading3');", 2500);
 		setTimeout("Element.show('TotalArea');",3500);
-		document.getElementById("final").value = "£" + addCommas(total) ;
+		document.getElementById("final").value = String.fromCharCode('163') + addCommas(total) ;
 		
 	}
 
@@ -168,9 +168,11 @@ color:#0000ff;
 </style>
 
 </head>
-<? 
-$page_title="Correct Scores Jackpot Winnings Calculator "; 
-page_header($page_title) ; 
+
+<?php
+
+	$page_title="Correct Scores Jackpot Winnings Calculator "; 
+	page_header($page_title) ; 
 ?>
 
 
@@ -180,7 +182,7 @@ page_header($page_title) ;
 
 <div style="padding-bottom:5px"></div>
 
-<? if (isset($_GET['db'])) { ?>
+<?php if (isset($_GET['db'])) { ?>
 
 
 <center>
@@ -199,7 +201,7 @@ page_header($page_title) ;
 
     <span class='credit'>Week No.</span>
   		<select name='weekid' style='width:50px;font-size:13px;' onChange="loadContent();">
-  		<? 
+  		<?php
   			for ($i=1; $i<=cur_week($db); $i++):
   			  echo "<option value='$i'". ($i==cur_week($db) ? "selected" : "") ."> $i </option>\n";
   			endfor;
@@ -211,7 +213,7 @@ page_header($page_title) ;
   		
   		<select name='divid' style='width:320px;font-size:13px;' onChange="loadContent();">
   		<option value=''></option>
-  		<? 
+  		<?php 
   			for ($i=0; $i<count($divs); $i++):
   			  echo "<option value='$i'>" . divname($divs[$i]) . "</option>\n";
   			endfor;
@@ -282,10 +284,10 @@ page_header($page_title) ;
 </tr>
 </table>
 
-<?}else{
+<?php }else{
 
-  	include("select-option.ini.php");
+  	require_once("select-option.ini.php");
   }
   
-  ?>
+?>
 </center>

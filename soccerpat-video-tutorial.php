@@ -1,10 +1,10 @@
-<?
+<?php
 
 $page_title ="SoccerPAT- Video  Tutorial";
 
-include("config.ini.php");
-include("function.ini.php");
-include("header.ini.php");
+require_once("config.ini.php");
+require_once("function.ini.php");
+require_once("header.ini.php");
 
 
 page_header($page_title); 
@@ -16,4 +16,4 @@ page_header($page_title);
     </div>
     
 
-<? include("footer.ini.php"); ?>
+<?php require_once("footer.ini.php"); ?>

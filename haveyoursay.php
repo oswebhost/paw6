@@ -1,13 +1,13 @@
 <?php
 
-include("config.ini.php");
-include("function.ini.php");
+require_once("config.ini.php");
+require_once("function.ini.php");
 
 $page_title = 'Have Your Say!';
 
 
 
-include("header.ini.php");
+require_once("header.ini.php");
 page_header($page_title);
 
 
@@ -34,4 +34,4 @@ This page is where our Registered Members can speak their minds on any topic, pr
 
 <div class="fb-comments" data-href="http://soccer-predictions.com/haveyoursay.php" data-numposts="20"></div>	
 	
-<? include("footer.ini.php"); ?>
+<?php require_once("footer.ini.php"); ?>

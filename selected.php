@@ -1,23 +1,24 @@
 <?php
 session_start();
 
-include("config.ini.php") ;
-include("function.ini.php") ;
+require_once("config.ini.php") ;
+require_once("function.ini.php") ;
 
-if (!isset($_SESSION['match_ids'])):
+if (!isset($_SESSION['match_ids'])){
    $_SESSION['match_ids'][] = $_POST['mid'] ;
-else:
-	if (!in_array($_POST['mid'], $_SESSION["match_ids"],TRUE)):
+}else{
+
+	if (!in_array($_POST['mid'], $_SESSION["match_ids"],TRUE)){
 		if (isset($_POST['mid'])) $_SESSION['match_ids'][] = $_POST['mid'] ;
-	endif;
-endif;
+	}
+	
+}
 
 if ($_POST['d']=='del'):
 	unset($_SESSION["match_ids"][$_POST["id"]]);
 endif;
 
-
-if (count($_SESSION['match_ids'])>0) :
+if (count($_SESSION['match_ids'])>0){
 
 
 ?>
@@ -41,7 +42,7 @@ if (count($_SESSION['match_ids'])>0) :
 	<td class='ctd'><img src='images/tbcap/odd-y.gif' border='0' alt=''/></td>
 </tr>
 
-<?
+<?php
 	$match = new Match();
 	$x = 0; 
 	
@@ -81,8 +82,8 @@ if (count($_SESSION['match_ids'])>0) :
 
 </form>
 
-<?
-endif; 
+<?php
+} 
 
 class Match
 {
