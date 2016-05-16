@@ -12,7 +12,8 @@
 
 
 
-<?
+<?php
+
 $odd_max_diff =  20;
 $db = $_GET["db"];
 
@@ -37,7 +38,9 @@ if ($_GET['ASL2GET']=='all'){
 }
 
 $Checking_weekno = 21;	  
+
 for ($weekno=1; $weekno<=$max_week; $weekno++){
+
 //for ($weekno=$Checking_weekno; $weekno<=$Checking_weekno; $weekno++){
 
 	
@@ -1028,24 +1031,24 @@ $query1 = $qry . $proption . $onlyAsl . $_divs . $period . $call .  $filter .  $
 ?>
 
 
-<tr <?echo rowcol($weekno);?>>
+<tr <?php echo rowcol($weekno);?>>
 
-    <td class="ctd" ><?echo $weekno ;?></td>
-    <td class="ctd" ><?echo num0($number-$postponed-$nobets);?></td>
-    <td class="ctd" ><?echo $ngot;?></td>
-    <td class="ctd" ><?echo $css;?></td>
-    <td class="ctd" ><?echo $postponed +$nobets;?></td>
-    <td class="ctd" ><?echo num2($win_odds);?></td>
+    <td class="ctd" ><?php echo $weekno ;?></td>
+    <td class="ctd" ><?php echo num0($number-$postponed-$nobets);?></td>
+    <td class="ctd" ><?php echo $ngot;?></td>
+    <td class="ctd" ><?php echo $css;?></td>
+    <td class="ctd" ><?php echo $postponed +$nobets;?></td>
+    <td class="ctd" ><?php echo num2($win_odds);?></td>
     
     <?php if($win_odds - ($number-$postponed-$nobets)>=0){?>
-        <td class="ctd padd bot" style='color:blue;'><?echo num20($win_odds - ($number-$postponed-$nobets));?></td>
+        <td class="ctd padd bot" style='color:blue;'><?php echo num20($win_odds - ($number-$postponed-$nobets));?></td>
     <?php }else {?>
-        <td class="ctd padd bot"  style='color:red;'><?echo num20($win_odds - ($number-$postponed-$nobets)) ; ?></td>
+        <td class="ctd padd bot"  style='color:red;'><?php echo num20($win_odds - ($number-$postponed-$nobets)) ; ?></td>
     <?php }?>
  
  </tr>
 
-<?
+<?php
 
 
 } // endof FOR weekno
@@ -1055,16 +1058,16 @@ $query1 = $qry . $proption . $onlyAsl . $_divs . $period . $call .  $filter .  $
 <tr bgcolor="#f4f4f4">
 
     <td class="ctd credit" style="padding: 10px 0px;" >TOTAL</td>
-    <td class="ctd credit" ><?echo num0($Tnumber-$Tpostponed-$Tnobets);?></td>
-    <td class="ctd credit" ><?echo $Tngot;?></td>
-    <td class="ctd credit" ><?echo $Tcss;?></td>
-    <td class="ctd credit" ><?echo $Tpostponed +$Tnobets;?></td>
-    <td class="ctd credit" ><?echo num2($Twin_odds);?></td>
+    <td class="ctd credit" ><?php echo num0($Tnumber-$Tpostponed-$Tnobets);?></td>
+    <td class="ctd credit" ><?php echo $Tngot;?></td>
+    <td class="ctd credit" ><?php echo $Tcss;?></td>
+    <td class="ctd credit" ><?php echo $Tpostponed +$Tnobets;?></td>
+    <td class="ctd credit" ><?php echo num2($Twin_odds);?></td>
     
     <?php if($Twin_odds - ($Tnumber-$Tpostponed-$Tnobets)>=0){?>
-        <td class="credit ctd padd" style='color:blue;'><?echo num20($Twin_odds - ($Tnumber-$Tpostponed-$Tnobets));?></td>
+        <td class="credit ctd padd" style='color:blue;'><?php echo num20($Twin_odds - ($Tnumber-$Tpostponed-$Tnobets));?></td>
     <?php }else {?>
-        <td class="credit ctd padd"  style='color:red;'><?echo num20($Twin_odds - ($Tnumber-$Tpostponed-$Tnobets)) ; ?></td>
+        <td class="credit ctd padd"  style='color:red;'><?php echo num20($Twin_odds - ($Tnumber-$Tpostponed-$Tnobets)) ; ?></td>
     <?php }?>
  
  </tr>

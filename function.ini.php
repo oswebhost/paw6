@@ -372,7 +372,8 @@ function pat_rev_call($hgoal, $agoal, $callAs){
 	
 }
  
- 
+
+
 function fixture_date($season, $weekno, $db, $selected_value,$divs){
   global $eu, $sa;
 

@@ -1,7 +1,8 @@
 <?php
-include("config.ini.php");
-include("function.ini.php");
-include("combinations.php");
+
+require("config.ini.php");
+require("function.ini.php");
+require("combinations.php");
 
 
 ?>
@@ -19,7 +20,7 @@ include("combinations.php");
 
 
 
-<?
+<?php
 
 $db = $_GET["db"];
 $season = $_GET["season"];
@@ -533,7 +534,7 @@ for ($weekno=1; $weekno<=$max_week; $weekno++){
    
 	
 	
-;
+
 
 	
    // if ($weekno==30) echo "<pre>" . print_r($_GET) . "</pre>";
@@ -953,6 +954,7 @@ for ($weekno=1; $weekno<=$max_week; $weekno++){
 			
 			$find_sting .= $match_id . "," ;
 		}
+
 		$whereSql =  " WHERE " . substr($find_sting, 0, strlen($find_sting)-1) . ")";
 			
 			
@@ -1413,25 +1415,25 @@ for ($weekno=1; $weekno<=$max_week; $weekno++){
 	
 ?>
 	
-	<tr <?echo rowcol($weekno);?>>
+	<tr <?php echo rowcol($weekno);?>>
 		
 		<?php $Tcorect_calls += $weekly_correct; $Tno_win_number += $no_win_number;?>
 		
-		<td class="ctd" ><?echo $weekno ;?></td>
-		<td class="ctd" ><?echo num0($number-$no_win_number);?></td>
-		<td class="ctd" ><?echo num0($weekly_correct); ?></td>
-		<td class="ctd" ><?echo num2($weekly_wins);?></td>
+		<td class="ctd" ><?php echo $weekno ;?></td>
+		<td class="ctd" ><?php echo num0($number-$no_win_number);?></td>
+		<td class="ctd" ><?php echo num0($weekly_correct); ?></td>
+		<td class="ctd" ><?php echo num2($weekly_wins);?></td>
 	
 		<?php if($weekly_wins - ($number-$no_win_number)>=0){?>
-			<td class="ctd padd bot" style='color:blue;'><?echo num20($weekly_wins - ($number-$no_win_number));?></td>
+			<td class="ctd padd bot" style='color:blue;'><?php echo num20($weekly_wins - ($number-$no_win_number));?></td>
 		<?php }else {?>
-			<td class="ctd padd bot"  style='color:red;'><?echo num20($weekly_wins - ($number-$no_win_number)) ; ?></td>
+			<td class="ctd padd bot"  style='color:red;'><?php echo num20($weekly_wins - ($number-$no_win_number)) ; ?></td>
 		<?php }?>
  
 	</tr>
 
  
-<?
+<?php
 
 
 	if ($weekly_wins - ($number-$no_win_number) > 0 ){
@@ -1474,17 +1476,17 @@ for ($weekno=1; $weekno<=$max_week; $weekno++){
 <tr bgcolor="#f4f4f4">
 
     <td class="ctd credit" style="padding: 10px 0px;" >TOTAL</td>
-    <td class="ctd credit" ><?echo num0($Tnumber-$Tno_win_number);?></td>
+    <td class="ctd credit" ><?php echo num0($Tnumber-$Tno_win_number);?></td>
     
-	<td class="ctd credit" ><?echo num0($Tcorect_calls);?></td>
+	<td class="ctd credit" ><?php echo num0($Tcorect_calls);?></td>
 	
-	<td class="ctd credit" ><?echo num2($Twin_odds);?></td>
+	<td class="ctd credit" ><?php echo num2($Twin_odds);?></td>
 	
     
     <?php if($Twin_odds - ($Tnumber-$Tpostponed-$Tnobets)>=0){?>
-        <td class="credit ctd padd" style='color:blue;'><?echo num20($Twin_odds - ($Tnumber-$Tno_win_number));?></td>
+        <td class="credit ctd padd" style='color:blue;'><?php echo num20($Twin_odds - ($Tnumber-$Tno_win_number));?></td>
     <?php }else {?>
-        <td class="credit ctd padd"  style='color:red;'><?echo num20($Twin_odds - ($Tnumber-$Tno_win_number)) ; ?></td>
+        <td class="credit ctd padd"  style='color:red;'><?php echo num20($Twin_odds - ($Tnumber-$Tno_win_number)) ; ?></td>
     <?php }?>
  
  </tr>
@@ -1517,7 +1519,3 @@ for ($weekno=1; $weekno<=$max_week; $weekno++){
 
 </tr>
 </table>
-
-
-
-
