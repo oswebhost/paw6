@@ -1,4 +1,6 @@
-<? //session_start();
+<?php
+
+
 $stripImages = "yes"; 
 $stripHref   = "yes"; //yes/no
 
@@ -25,35 +27,35 @@ $start= strpos($value, "$startingpoint");
 $finish= strpos($value, "$endingpoint"); 
 $length= $finish-$start;
 $value=substr($value, $start, $length);
-$value = ereg_replace("100%","60%",$value);
+$value = preg_replace("/100%/","60%",$value);
 
 function i_denude($variable)
 {
-return(eregi_replace("<img [^>]*>", "", $variable));
+	return(pregi_replace("/<img [^>]*>/", "", $variable));
 }
 //<img src=[^>]*>
 
 function i_denudef($variable)
 {
-return(eregi_replace("<font[^>]*>", "", $variable));
+	return(eregi_replace("/<font[^>]*>/", "", $variable));
 }
 
 function i_href($variable)
 {
-return(eregi_replace("<a [^>]*>", "", $variable));
+	return(pregi_replace("/<a [^>]*>/", "", $variable));
 }
 
 $PHPrint = ("$value"); 
 
 if ($stripImages == "yes") {
-$PHPrint = i_denude("$PHPrint");
+	$PHPrint = i_denude("$PHPrint");
 }
 if ($stripHref == "yes") {
-$PHPrint = i_Href("$PHPrint");
+	$PHPrint = i_Href("$PHPrint");
 }
 
 $PHPrint = i_denudef("$PHPrint");
-$PHPrint = eregi_replace( "</font>", "", $PHPrint );
+$PHPrint = pregi_replace( "/</font>/", "", $PHPrint );
 $PHPrint = stripslashes("$PHPrint"); 
 
 // 
@@ -64,22 +66,25 @@ echo "</head><body>";
 echo '<div align=center>';
 echo '<IMG SRC="images/paweuro.gif" BORDER=0 ALT="">';
 echo "<br>";
-for ($i=0; $i<=100; $i++):
+for ($i=0; $i<=100; $i++){
 	echo "=";
-endfor;
+}
+
 echo "</div> ";
 echo "<br><B><FONT SIZE=3 face=Arial>$msg</FONT></B>";
 echo "<br><p>$PHPrint</p>";
 
 echo '<div align=center>' ;
-for ($i=0; $i<=140; $i++):
+for ($i=0; $i<=140; $i++){
 	echo "-";
-endfor;
+}
+
 
 echo '<font face="arial" size="1"><b>'; 
 
 echo '<BR>Copyright&nbsp;&copy; BetWare Ltd (Hong Kong)<br>';
-echo "http://www.Predict-a-Win.com<BR>File:$refpage<BR>";
+echo "http://www.soccer-predictions.com<BR>File:$refpage<BR>";
 echo "Date: " . date("d-M-Y"). "</font></b>";
 echo "</div></div></body></html>";
+
 ?>
