@@ -8,8 +8,8 @@ require_once ("javas/jpgraph1/src/jpgraph_line.php");
 // Create the graph. These two calls are always required
 $graph = new Graph(500,200,"auto",0,ture);   
 $graph->SetScale('textint',0,110); 
-
-
+$graph->ClearTheme();
+$graph->SetMarginColor("#ccc");
 
 
 // Create the linear plot

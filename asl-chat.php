@@ -20,7 +20,7 @@
 
 <?php 
 
-print_r($_SESSION['cs_y']); 
+
 	
    
     

@@ -1,5 +1,6 @@
 <?php	
 
+
 $page_title="Soccer Prediction FAQs";
 require_once("config.ini.php");
 require_once("function.ini.php");

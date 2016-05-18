@@ -3,8 +3,7 @@ session_start();
 
 require_once ("javas/jpgraph1/src/jpgraph.php");
 require_once ("javas/jpgraph1/src/jpgraph_bar.php");
-
-
+ 	
 
 
 
@@ -19,6 +18,12 @@ $data_x=array("Win","Draw","Loss");
 
 $graph = new Graph(230,210,"auto",0,ture);    
 $graph->SetScale('textint',0,46); 
+$graph->ClearTheme();
+$graph->SetMarginColor("#ccc");
+
+$graph->xaxis->SetColor('black'); 
+$graph->yaxis->SetColor('black');
+$graph->SetMarginColor("#ccc");
 
 $graph->xaxis->SetTickLabels($data_x);
 
@@ -44,7 +49,6 @@ $bplot2->value->Show();
 $bplot2->SetFillColor(array('#8282FF','#00CC99','#FFA8A8'));
 $bplot2->value->SetFormat('%2.0f');
 $bplot2->value->SetAngle(90);
-
 
 $gbplot = new GroupBarPlot(array($bplot,$bplot2));
 // ...and add it to the graPH

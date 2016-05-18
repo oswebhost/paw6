@@ -754,8 +754,7 @@ page_header("$page_title") ;
 
 			<?php 
 				
-
-				 require_once("asl-chat.php"); 
+				 require("asl-chat.php"); 
 			?>
 		</td>
 	</tr>
@@ -792,9 +791,13 @@ page_header("$page_title") ;
 	</tr>
 				
 	<tr>
-		<td valign='top' style='padding-left:5px;text-align:center'><IMG SRC="Rt-bar-all.php?<?php echo bar_data($home,"Home",$db);?>" BORDER="0"  alt=''> </td>
+		<td valign='top' style='padding-left:5px;text-align:center'>
+			<IMG SRC="Rt-bar-all.php?<?php echo bar_data($home,"Home",$db);?>" BORDER="0"  alt=''>
+		</td>
 		<td > </td>
-		<td valign='top'> <IMG SRC="Rt-bar-all.php?<?php echo bar_data($away,"Away",$db);?>" BORDER="0"  alt=''> </td>
+		<td valign='top'>
+			<IMG SRC="Rt-bar-all.php?<?php echo bar_data($away,"Away",$db);?>" BORDER="0"  alt=''>
+		</td>
 	</tr>
 	
 <!-- away and home -->
@@ -856,7 +859,9 @@ page_header("$page_title") ;
 		
 	</tr>
 	<tr>
-		<td style='text-align:center' valign='top'><img src="Rb-Chart.php" border="0">  </td>
+		<td style='text-align:center' valign='top'>
+			<img src="Rb-Chart.php" border="0">
+		</td>
 		
 	</tr>	
 
