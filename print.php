@@ -1,4 +1,6 @@
 <?php
+
+
 ob_flush();
 ob_clean();
 session_start();
@@ -57,38 +59,38 @@ $start= strpos($value, "$startingpoint");
 $finish= strpos($value, "$endingpoint"); 
 $length= $finish-$start;
 $value=substr($value, $start, $length);
-$value = ereg_replace("100%","60%",$value);
+$value = preg_replace("/100%/","60%",$value);
 
 //echo $value;
 
 
 function i_denude($variable)
 {
-return(eregi_replace("<img [^>]*>", "", $variable));
+	return(preg_replace("/<img(?!).*$/", "", $variable));
 }
-//<img src=[^>]*>
+
 function i_denudef($variable)
 {
-return(eregi_replace("<font[^>]*>", "", $variable));
+	return(preg_replace("/<font[^>]*>/", "", $variable));
 }
 
 
 function i_href($variable)
 {
-    return(eregi_replace("<a [^>]*>", "", $variable));
+    return(preg_replace("/<a [^>]*>/", "", $variable));
 }
 
 
 $PHPrint = ("$value"); 
 
 if ($stripImages == "yes") {
-$PHPrint = i_denude("$PHPrint");
+	$PHPrint = i_denude("$PHPrint");
 }
 if ($stripHref == "yes") {
-$PHPrint = i_href("$PHPrint");
+	$PHPrint = i_href("$PHPrint");
 }
 
-$PHPrint = ereg_replace("display: none;", "display:block", $PHPrint);
+$PHPrint = preg_replace("/display: none;/", "display:block", $PHPrint);
 
 $PHPrint = stripslashes("$PHPrint"); 
 
@@ -110,10 +112,10 @@ $PHPrint = stripslashes("$PHPrint");
 	<h1>Soccer Predictions</h1>
 	
 	  <h3 style="text-align:center;border-bottom:0px solid;color:bule;font-size:15px;">
-			<? echo $msg ; ?>
+			<?php echo $msg ; ?>
 	  </h3>
 		
-	<? echo $PHPrint; ?> 
+	<?php echo $PHPrint; ?> 
 </div>
 
 <br/><br/>

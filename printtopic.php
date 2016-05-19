@@ -31,18 +31,18 @@ $value = preg_replace("/100%/","60%",$value);
 
 function i_denude($variable)
 {
-	return(pregi_replace("/<img [^>]*>/", "", $variable));
+	return(preg_replace("/<img [^>]*>/", "", $variable));
 }
 //<img src=[^>]*>
 
 function i_denudef($variable)
 {
-	return(eregi_replace("/<font[^>]*>/", "", $variable));
+	return(preg_replace("/<font[^>]*>/", "", $variable));
 }
 
 function i_href($variable)
 {
-	return(pregi_replace("/<a [^>]*>/", "", $variable));
+	return(preg_replace("/<a [^>]*>/", "", $variable));
 }
 
 $PHPrint = ("$value"); 
@@ -55,7 +55,7 @@ if ($stripHref == "yes") {
 }
 
 $PHPrint = i_denudef("$PHPrint");
-$PHPrint = pregi_replace( "/</font>/", "", $PHPrint );
+$PHPrint = preg_replace( "/</font>/", "", $PHPrint );
 $PHPrint = stripslashes("$PHPrint"); 
 
 // 

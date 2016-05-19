@@ -842,16 +842,16 @@ function last_five_matches($team, $div,$HomeAway,$cur_Wk, $db){
     $season = curseason($db);
     
     if ($HomeAway=="H"){
-        $qry ="select match_date, hteam, ateam, `div`, h_s, a_s from fixtures where season='$season' and `div`='$div' and hteam=\"$team\" and weekno<'$cur_Wk' and h_s<>'P' order by match_date desc limit 5";
+        $qry ="select match_date, hteam, ateam, `div`, h_s, a_s from fixtures where season='$season' and `div`='$div' and hteam=\"$team\" and weekno<='$cur_Wk' and h_s<>'P' order by match_date desc limit 5";
         
         $qry = "select q.* from ($qry) q order by q.match_date";
 
     }elseif ($HomeAway=="A"){
-        $qry ="select match_date, hteam, ateam, `div`, h_s, a_s from fixtures where season='$season' and `div`='$div' and ateam=\"$team\" and weekno<'$cur_Wk' and h_s<>'P' order by match_date desc limit 5";
+        $qry ="select match_date, hteam, ateam, `div`, h_s, a_s from fixtures where season='$season' and `div`='$div' and ateam=\"$team\" and weekno<='$cur_Wk' and h_s<>'P' order by match_date desc limit 5";
         $qry = "select q.* from ($qry) q order by q.match_date";
 
     }else{
-        $qry ="select match_date, hteam, ateam, `div`, h_s, a_s from fixtures where season='$season' and `div`='$div' and (hteam=\"$team\" or ateam=\"$team\") and weekno<'$cur_Wk' and h_s<>'P' order by match_date desc limit 5";	
+        $qry ="select match_date, hteam, ateam, `div`, h_s, a_s from fixtures where season='$season' and `div`='$div' and (hteam=\"$team\" or ateam=\"$team\") and weekno<='$cur_Wk' and h_s<>'P' order by match_date desc limit 5";	
         $qry = "select q.* from ($qry) q order by q.match_date";
 
     }

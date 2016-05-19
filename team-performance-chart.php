@@ -436,7 +436,7 @@ page_header("$page_title") ;
 				 <tr>
 					<td >
 					<div id="countrydivcontainer1" style="width:504px;padding: 0px;margin-top:4px;">
-						<?php require_once("ltable-rank.php"); ?>
+						<?php require("ltable-rank.php"); ?>
 					</div>
 				 
 				</tr>
@@ -472,7 +472,7 @@ page_header("$page_title") ;
 				 <tr>
 					<td >
 					<div id="countrydivcontainer2" style="width:504px;padding: 0px;margin-top:4px;">
-						<?php  require_once("ltable-rank.php"); ?>
+						<?php  require("ltable-rank.php"); ?>
 					</div>
 				 
 				</tr>
