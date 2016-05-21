@@ -50,8 +50,8 @@ if ($_GET['ASL2GET']=='all'){
 }
 
 $debugging = 0; // if 1 = create TABLE  if 0 = create temparary file
-$Checking_weekno = 12;	
-
+// debugging options
+$Checking_weekno = 0;	  // should be ZERO;
 
 //for ($weekno=$Checking_weekno; $weekno<=$Checking_weekno; $weekno++){
 

@@ -21,18 +21,6 @@ $resp = null;
 $error = null;
 
 
-
-
-?>
-
-
-
-
-
-
-<?
-
-
    
 # was there a reCAPTCHA response?
 
@@ -80,7 +68,9 @@ if ($_POST["recaptcha_response_field"]) {
 
 
 
-<? include("footer.ini.php");
+<?php 
+
+include("footer.ini.php");
 
 function contact_temp()
 {
@@ -121,15 +111,15 @@ return '<table borderColor="#ffffff" cellSpacing="0" cellPadding="4" width="92%"
 
 function contact_txt()
 {
-return "Date :   %today%
+  return "Date :   %today%
 
-From : %full_name%  
+  From : %full_name%  
 
-Email: %email%
+  Email: %email%
 
-Telephone: %telephone% 
+  Telephone: %telephone% 
 
-Message:%comments% " ; 
+  Message:%comments% " ; 
 }
 
 

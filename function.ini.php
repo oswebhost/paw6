@@ -275,6 +275,7 @@ function Winonly_char($h_s, $a_s, $hpreds, $apreds){
   if ($prd_rt==3){
     $winchar = "N/A";
   }
+
   if ($h_s=="P"){
     $winchar = "P";
   }
@@ -283,13 +284,11 @@ function Winonly_char($h_s, $a_s, $hpreds, $apreds){
 }
 
 
-function Rt_type($hgoal, $agoal){
+function Rt_type($hgoal, $agoal)
+{
   $Rt = 0;
   
-  if ($hgoal == "P"){
-	$Rt = 0;
-  }
-  
+   
   if ($hgoal>$agoal){
     $Rt = 1;
   }elseif ($agoal>$hgoal){
@@ -298,13 +297,16 @@ function Rt_type($hgoal, $agoal){
     $Rt = 3;
   }
   
+  if ($hgoal == "P"){
+   $Rt = 0;
+  }
 
-  
   return $Rt;
 }
 
 
-function return_gotit($hpreds, $apreds, $hgoal, $agoal, $callAs){
+function return_gotit($hpreds, $apreds, $hgoal, $agoal, $callAs)
+{
 	
 	$_gotit = 0 ;
 	
@@ -327,7 +329,8 @@ function return_gotit($hpreds, $apreds, $hgoal, $agoal, $callAs){
 }
 
 
-function pat_rev_call($hgoal, $agoal, $callAs){
+function pat_rev_call($hgoal, $agoal, $callAs)
+{
 	$_gotit = 0 ;
 	$actual_rt  = Rt_type($hgoal, $agoal);
 	
@@ -374,7 +377,8 @@ function pat_rev_call($hgoal, $agoal, $callAs){
  
 
 
-function fixture_date($season, $weekno, $db, $selected_value,$divs){
+function fixture_date($season, $weekno, $db, $selected_value,$divs)
+{
   global $eu, $sa;
 
   $sqry = " select distinct(c.match_date) as dlsit, date_format(c.match_date,'%d-%b-%Y &nbsp;&nbsp; %W')as dates, weekday(c.match_date) as wday 
@@ -1349,7 +1353,7 @@ function prtZero($num)
 
 function num($number,$yy)
 {
-	return number_format($number,$yy,'.',',');
+	return number_format($number,0,'.',',');
 }
 
 function num0($number)

@@ -1061,8 +1061,8 @@ function tell(url)
 		  
 		    <td class='rtd'>
 			<b><font size="2" color="#0000FF">Odds Range</font></b></td>
-            <td><input type='text' style='width:40px;text-align:center;' name='min_odd' value='<?php echo num($_GET['min_odd'],2)?>'/> Min
-              &nbsp;<input type='text' style='width:40px;text-align:center;' name='max_odd' value='<?php echo num($_GET['max_odd'],2)?>'/> Max
+            <td><input type='text' style='width:40px;text-align:center;' name='min_odd' value='<?php echo num2($_GET['min_odd'],2)?>'/> Min
+              &nbsp;<input type='text' style='width:40px;text-align:center;' name='max_odd' value='<?php echo num2($_GET['max_odd'],2)?>'/> Max
               
               
               
