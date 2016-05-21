@@ -37,116 +37,130 @@ if ($_GET['ASL2GET']=='all'){
 	$onlyAsl = " and f.hgoal = '" . substr($_GET['ASL2GET'],0,1) . "' and f.agoal = '" . substr($_GET['ASL2GET'],1,1) . "'" ;
 }
 
-$Checking_weekno = 21;	  
+// debugging options
+$Checking_weekno = 0;	  // should be ZERO;
+if ($Checking_weekno == 0) {
+    $tempfile  = "temp";
+}else{
+    $tempfile  = "file";
+
+}
+
+
 
 for ($weekno=1; $weekno<=$max_week; $weekno++){
-
 //for ($weekno=$Checking_weekno; $weekno<=$Checking_weekno; $weekno++){
 
-	
-	$qry = "SELECT f.bookiecall, f.hodddif, f.aodddif, f.dodddif, concat(f.hgoal,f.agoal) as asl2show, f.prvalue, c.dcr_ht, c.dcr_at, c.dcr_av,c.dcr_dif,
-		 abs(c.dcr_dif) as dcrdif,f.`div`, f.hteam,f.ateam,f.match_time,f.hgoal,f.agoal,f.h_s,f.a_s,f.gotit,f.mvalue,f.mid,f.pawrank, 
-		 date_format(f.match_date,'%d-%b-%y') as mdate,
-        f.hwinpb, f.drawpb, f.awinpb, f.h_odd, f.d_odd, f.a_odd, r.ptr_ht, r.ptr_at, r.ptr_av,r.ptr_dif, abs(r.ptr_dif) as ptrdif ,
-        (f.hgoal-f.agoal) as goaldif, (f.hgoal+f.agoal) as goalsum, ((f.drawpb*0.5) + f.hwinpb /(f.hwinpb+f.awinpb)*100) as x1probs, 
-        ((f.drawpb*0.5) + f.awinpb /(f.hwinpb+f.awinpb)*100) as x2probs, g.gpr_ht, g.gpr_at, g.gpr_av, a.air_ht, a.air_at,a.air_av,a.air_dif ";
+        $qry = "SELECT f.bookiecall, f.hodddif, f.aodddif, f.dodddif, concat(f.hgoal,f.agoal) as asl2show, f.prvalue, c.dcr_ht, 
+            c.dcr_at, c.dcr_av,c.dcr_dif, abs(c.dcr_dif) as dcrdif,f.`div`, f.hteam,f.ateam,f.match_time,
+            f.hgoal,f.agoal,f.h_s,f.a_s,f.gotit,f.mvalue,f.mid,f.pawrank, date_format(f.match_date,'%d-%b-%y') as mdate,
+            f.hwinpb, f.drawpb, f.awinpb, f.h_odd, f.d_odd, f.a_odd, r.ptr_ht, r.ptr_at, r.ptr_av,r.ptr_dif, 
+            abs(r.ptr_dif) as ptrdif , (f.hgoal-f.agoal) as goaldif, (f.hgoal+f.agoal) as goalsum, 
+            ((f.drawpb*0.5) + f.hwinpb /(f.hwinpb+f.awinpb)*100) as x1probs, 
+            ((f.drawpb*0.5) + f.awinpb /(f.hwinpb+f.awinpb)*100) as x2probs, 
+            g.gpr_ht, g.gpr_at, g.gpr_av, a.air_ht, a.air_at,a.air_av,a.air_dif ";
 
-switch ($_GET['BETTING']){
-    
-    case 1: 
-        $qry .= "FROM cur_reb_dcr c, fixtures f, cur_reb_ptr r, cur_reb g, cur_reb_air a   
-        WHERE c.weekno='$weekno' and c.season='$season' and  
-        c.matchno=f.mid and f.season=c.season and f.weekno=c.weekno and 
-        g.matchno=f.mid and g.season=f.season and g.weekno=f.weekno and 
-        a.matchno=f.mid and a.season=f.season and a.weekno=f.weekno and 
-        r.matchno=f.mid and r.season=f.season and r.weekno=f.weekno and f.h_odd>0 " ;
-        break;
+
+    switch ($_GET['BETTING']){
         
-    case 2: 
-    
-        $qry .= ", o.hw_x, o.aw_x, o.hw_aw        
-        FROM cur_reb_dcr c, fixtures f, cur_reb_ptr r, other_odds o, cur_reb g, cur_reb_air a     
-        WHERE c.weekno='$weekno' and c.season='$season' and 
-        c.matchno=f.mid and c.season=f.season and c.weekno=f.weekno and 
-        g.matchno=f.mid and g.season=f.season and g.weekno=f.weekno and  
-        a.matchno=f.mid and a.season=f.season and a.weekno=f.weekno and 
-        r.matchno=f.mid and r.season=f.season and r.weekno=f.weekno and 
-        o.matchno=f.mid and o.season=f.season and o.weekno=f.weekno and o.hw_x>0 " ;
-		
-		//bookies calls
-		switch($_GET['CALL']){
-			case 16: $qry .= " and o.hw_x < o.aw_x "; break;
-			case 17: $qry .= " and o.aw_x < o.hw_x "; break;
-		}		
-		
-        break;
-
-    case 3: 
-        $qry .= ", o.hw_odd, o.aw_odd        
-        FROM cur_reb_dcr c, fixtures f, cur_reb_ptr r, other_odds o , cur_reb g, cur_reb_air a    
-        WHERE c.weekno='$weekno' and c.season='$season' and 
-        c.matchno=f.mid and c.season=f.season and c.weekno=f.weekno and  
-        g.matchno=f.mid and g.season=f.season and g.weekno=f.weekno and 
-        a.matchno=f.mid and a.season=f.season and a.weekno=f.weekno and  
-        r.matchno=f.mid and r.season=f.season and r.weekno=f.weekno and 
-        o.matchno=f.mid and o.season=f.season and o.weekno=f.weekno and o.hw_odd>0 " ;
-    
-		//bookies calls
-		switch($_GET['CALL']){
-			case 11: $qry .= " and o.hw_odd < o.aw_odd "; break;
-			case 12: $qry .= " and o.aw_odd < o.hw_odd "; break;
-		}
-		
-		break;	
-
-    case 4: 
-        $qry .= ", o.un_odd, o.ov_odd        
-        FROM cur_reb_dcr c, fixtures f, cur_reb_ptr r, other_odds o, cur_reb g, cur_reb_air a     
-        WHERE c.weekno='$weekno' and c.season='$season' and 
-        c.matchno=f.mid and c.season=f.season and c.weekno=f.weekno and  
-        g.matchno=f.mid and g.season=c.season and g.weekno=c.weekno and 
-        a.matchno=f.mid and a.season=c.season and a.weekno=c.weekno and  
-        r.matchno=f.mid and r.season=c.season and r.weekno=c.weekno and  
-        o.matchno=f.mid and o.season=c.season and o.weekno=c.weekno and " ;
-
-		if ($_GET['CALL']>3){
-			$qry .= " o.un_odd < o.ov_odd and o.ov_odd > 0 ";
-		}else{
-			$qry .= " (f.hgoal+f.agoal)< 2.5 and o.un_odd>0 ";
-		}
-
-        break;
+        case 1: 
+            $qry .= ", o.hw_x, o.aw_x, o.hw_aw, o.hw_odd, o.aw_odd, o.un_odd, o.ov_odd           
+            FROM cur_reb_dcr c, fixtures f, cur_reb_ptr r, other_odds o, cur_reb g, cur_reb_air a     
+            WHERE c.weekno='$weekno' and c.season='$season' and 
+            c.matchno=f.mid and c.season=f.season and c.weekno=f.weekno and 
+            g.matchno=f.mid and g.season=f.season and g.weekno=f.weekno and  
+            a.matchno=f.mid and a.season=f.season and a.weekno=f.weekno and 
+            r.matchno=f.mid and r.season=f.season and r.weekno=f.weekno and 
+            o.matchno=f.mid and o.season=f.season and o.weekno=f.weekno  " ;
+            break;
+            
+            
+        case 2: 
         
-    case 5: 
-        $qry .= ", o.un_odd, o.ov_odd        
-        FROM cur_reb_dcr c, fixtures f, cur_reb_ptr r, other_odds o, cur_reb g, cur_reb_air a     
-        WHERE c.weekno='$weekno' and c.season='$season' and 
-        c.matchno=f.mid and c.season=f.season and c.weekno=f.weekno and  
-        g.matchno=f.mid and g.season=c.season and g.weekno=c.weekno and 
-        a.matchno=f.mid and a.season=c.season and a.weekno=c.weekno and  
-        r.matchno=f.mid and r.season=c.season and r.weekno=c.weekno and  
-        o.matchno=f.mid and o.season=c.season and o.weekno=c.weekno and  " ;
-		
-		if ($_GET['CALL']>3){
-			$qry .= " o.ov_odd < o.un_odd and o.ov_odd > 0 ";
-		}else{
-			$qry .= " (f.hgoal+f.agoal)>2.5 and o.un_odd>0 " ;
-		}
-		
-        break;
-      
-    case 6: 
-        $qry .= ", o.ht_odd, o.at_odd, o.ht_hcap, o.at_hcap          
-        FROM cur_reb_dcr c, fixtures f, cur_reb_ptr r, ahcap_odds o, cur_reb g, cur_reb_air a     
-        WHERE c.weekno='$weekno' and c.season='$season' and 
-        c.matchno=f.mid and c.season=f.season and c.weekno=f.weekno and  
-        g.matchno=f.mid and g.season=c.season and g.weekno=c.weekno and 
-        a.matchno=f.mid and a.season=c.season and a.weekno=c.weekno and  
-        r.matchno=f.mid and r.season=c.season and r.weekno=c.weekno and  
-        o.matchno=f.mid and o.season=c.season and o.weekno=c.weekno " ;
-        break;
-        
-}
+            $qry .= ", o.hw_x, o.aw_x, o.hw_aw        
+            FROM cur_reb_dcr c, fixtures f, cur_reb_ptr r, other_odds o, cur_reb g, cur_reb_air a     
+            WHERE c.weekno='$weekno' and c.season='$season' and 
+            c.matchno=f.mid and c.season=f.season and c.weekno=f.weekno and 
+            g.matchno=f.mid and g.season=f.season and g.weekno=f.weekno and  
+            a.matchno=f.mid and a.season=f.season and a.weekno=f.weekno and 
+            r.matchno=f.mid and r.season=f.season and r.weekno=f.weekno and 
+            o.matchno=f.mid and o.season=f.season and o.weekno=f.weekno and o.hw_x>0 " ;
+    		
+    		//bookies calls
+    		switch($_GET['CALL']){
+    			case 16: $qry .= " and o.hw_x < o.aw_x "; break;
+    			case 17: $qry .= " and o.aw_x < o.hw_x "; break;
+    		}		
+    		
+            break;
+
+        case 3: 
+            $qry .= ", o.hw_odd, o.aw_odd        
+            FROM cur_reb_dcr c, fixtures f, cur_reb_ptr r, other_odds o , cur_reb g, cur_reb_air a    
+            WHERE c.weekno='$weekno' and c.season='$season' and 
+            c.matchno=f.mid and c.season=f.season and c.weekno=f.weekno and  
+            g.matchno=f.mid and g.season=f.season and g.weekno=f.weekno and 
+            a.matchno=f.mid and a.season=f.season and a.weekno=f.weekno and  
+            r.matchno=f.mid and r.season=f.season and r.weekno=f.weekno and 
+            o.matchno=f.mid and o.season=f.season and o.weekno=f.weekno and o.hw_odd>0 " ;
+
+    		//bookies calls
+    		switch($_GET['CALL']){
+    			case 11: $qry .= " and o.hw_odd < o.aw_odd "; break;
+    			case 12: $qry .= " and o.aw_odd < o.hw_odd "; break;
+    		}
+    		
+    		break;	
+
+        case 4: 
+            $qry .= ", o.un_odd, o.ov_odd        
+            FROM cur_reb_dcr c, fixtures f, cur_reb_ptr r, other_odds o, cur_reb g, cur_reb_air a     
+            WHERE c.weekno='$weekno' and c.season='$season' and 
+            c.matchno=f.mid and c.season=f.season and c.weekno=f.weekno and  
+            g.matchno=f.mid and g.season=c.season and g.weekno=c.weekno and 
+            a.matchno=f.mid and a.season=c.season and a.weekno=c.weekno and  
+            r.matchno=f.mid and r.season=c.season and r.weekno=c.weekno and  
+            o.matchno=f.mid and o.season=c.season and o.weekno=c.weekno and " ;
+
+    		if ($_GET['CALL']>3){
+    			$qry .= " o.un_odd < o.ov_odd and o.ov_odd > 0 ";
+    		}else{
+    			$qry .= " (f.hgoal+f.agoal)< 2.5 and o.un_odd>0 ";
+    		}
+
+            break;
+            
+        case 5: 
+            $qry .= ", o.un_odd, o.ov_odd        
+            FROM cur_reb_dcr c, fixtures f, cur_reb_ptr r, other_odds o, cur_reb g, cur_reb_air a     
+            WHERE c.weekno='$weekno' and c.season='$season' and 
+            c.matchno=f.mid and c.season=f.season and c.weekno=f.weekno and  
+            g.matchno=f.mid and g.season=c.season and g.weekno=c.weekno and 
+            a.matchno=f.mid and a.season=c.season and a.weekno=c.weekno and  
+            r.matchno=f.mid and r.season=c.season and r.weekno=c.weekno and  
+            o.matchno=f.mid and o.season=c.season and o.weekno=c.weekno and  " ;
+    		
+    		if ($_GET['CALL']>3){
+    			$qry .= " o.ov_odd < o.un_odd and o.ov_odd > 0 ";
+    		}else{
+    			$qry .= " (f.hgoal+f.agoal)>2.5 and o.un_odd>0 " ;
+    		}
+    		
+            break;
+          
+        case 6: 
+
+            $qry .= ", o.ht_odd, o.at_odd, o.ht_hcap, o.at_hcap          
+            FROM cur_reb_dcr c, fixtures f, cur_reb_ptr r, ahcap_odds o, cur_reb g, cur_reb_air a     
+            WHERE c.weekno='$weekno' and c.season='$season' and 
+            c.matchno=f.mid and c.season=f.season and c.weekno=f.weekno and  
+            g.matchno=f.mid and g.season=c.season and g.weekno=c.weekno and 
+            a.matchno=f.mid and a.season=c.season and a.weekno=c.weekno and  
+            r.matchno=f.mid and r.season=c.season and r.weekno=c.weekno and  
+            o.matchno=f.mid and o.season=c.season and o.weekno=c.weekno " ;
+            break;
+            
+    }
 
 $proption="";
 
@@ -520,9 +534,16 @@ $query1 = $qry . $proption . $onlyAsl . $_divs . $period . $call .  $filter .  $
     }
 
     
-     
-   $xx = "CREATE TEMPORARY TABLE `" . $filename . "` (".$query1.")";
-  //$xx = "CREATE TABLE `" . $filename . "` (".$query1.")";
+    if ($tempfile == "temp")
+    {  
+       $xx = "CREATE TEMPORARY TABLE `" . $filename . "` (".$query1.")";
+    }
+    else
+    {
+       $xx = "CREATE TABLE `" . $filename . "` (".$query1.")";  
+    }
+
+  
    // if ($weekno==9) echo "xx = $xx";
     
     if ($db=='eu'){
@@ -636,90 +657,127 @@ $query1 = $qry . $proption . $onlyAsl . $_divs . $period . $call .  $filter .  $
 				}
 			
 			}else{
-					//bookies call 1x2
-					$asl_class = " ";  // no CS correct for Bookie
-					$asl_class2 = " ";
+				//bookies call 1x2
+				$asl_class = " ";  // no CS correct for Bookie
+				$asl_class2 = " ";
 					
 				if ($row['mvalue']>0){
 						switch ($_GET['CALL']){
 						  
 						  case 6: 
+                                $_rt_get = 0 ;
+                                $_rt_get = Rt_type($row['h_s'],$row['a_s']) ;
+                                
+                                
+                                if ($_GET['CALLAS']>0 and $_GET['CALLAS']<4){  // rev. home
+                                    $_rt_get = ($_GET['CALLAS'] == $_rt_get ? 1 : 0); //
+                                }
+                                
+                                $act_rt = Rt_type($row["h_s"], $row["a_s"]);
+                                $paw_rt = Rt_type($row["hpreds"], $row["apreds"]);
+                                
+                                
+                                if($_GET['CALLAS']==4 ){ // rev. paw
+                                    $_rt_get  =  return_gotit($row["hgoal"], $row["agoal"],$row["h_s"], $row["a_s"], 0);
+                                    //echo "  -- $_rt_get  " ;
+                                    
+                                }
+                                
+                                if($_GET['CALLAS']==0){ // rev. paw
+                                    $_rt_get  =  return_gotit($row["hgoal"], $row["agoal"],$row["h_s"], $row["a_s"], 1);
+                                }
+                                
+                                if($_GET['CALLAS']>19){ 
+                                    $_rt_get = pat_rev_call($row["h_s"], $row["a_s"],$_GET['CALLAS']);
+                                }
+                                
+                                if($_GET['CALLAS']==25 or $_GET['CALLAS']==26 ){
+                                    if ($row["h_s"]==$row["a_s"]){
+                                        $nobets++;
+                                    }
+                                }
+                                //echo $win_odds . "====>";
+                                
+                                $ngot += $_rt_get ;
 
-								$_rt_get = 0 ;
-								$_rt_get = Rt_type($row['h_s'],$row['a_s']) ;
-								
-								if ($_GET['CALLAS']>0 and $_GET['CALLAS']<4){  // rev. home
-									$_rt_get = ($_GET['CALLAS'] == $_rt_get ? 1 : 0); //
-								}
-								
-								$act_rt = Rt_type($row["h_s"], $row["a_s"]);
-								
-								if($_GET['CALLAS']==4){ // rev. paw
-									$_rt_get  =  return_gotit($row["hgoal"], $row["agoal"],$row["h_s"], $row["a_s"], 0);
-									$my_value = "  -- $_rt_get  " ;
-								}
-								
-								if($_GET['CALLAS']==0){ // rev. paw
-									$_rt_get  =  return_gotit($row["hgoal"], $row["agoal"],$row["h_s"], $row["a_s"], 1);
-								}
-								
-								$ngot += ($_rt_get==1? 1 : 0 ) ;
-								if ($_rt_get == 1){
-									switch ($_GET['CALLAS']){
-									  case 0: $win_odds+= $row['h_odd']; $asl_class = " gotrt"; $asl_class2 = $asl_class; break;
-									  case 1: $win_odds+= $row['h_odd']; $asl_class = " gotrt"; $asl_class2 = $asl_class; break;
-									  case 2: $win_odds+= $row['a_odd']; $asl_class = " gotrt"; $asl_class2 = $asl_class; break;
-									  case 3: $win_odds+= $row['d_odd']; $asl_class = " gotrt"; $asl_class2 = $asl_class; break;
-									  case 4: 
-										switch ($act_rt){
-											case 1: $win_odds+= $row['h_odd']; $asl_class = " gotrt"; $asl_class2 = $asl_class; break;
-											case 2: $win_odds+= $row['a_odd']; $asl_class = " gotrt"; $asl_class2 = $asl_class; break;
-											case 3: $win_odds+= $row['d_odd']; $asl_class = " gotrt"; $asl_class2 = $asl_class; break;
-										}
-									}
-								}
-								
-								break;
+                                if ($_rt_get == 1){
+                                    switch ($_GET['CALLAS']){
+                                      case 0: $win_odds+= $row['h_odd']; $asl_class = " gotrt"; $asl_class2 = $asl_class; break;
+                                      case 1: $win_odds+= $row['h_odd']; $asl_class = " gotrt"; $asl_class2 = $asl_class; break;
+                                      case 2: $win_odds+= $row['a_odd']; $asl_class = " gotrt"; $asl_class2 = $asl_class; break;
+                                      case 3: $win_odds+= $row['d_odd']; $asl_class = " gotrt"; $asl_class2 = $asl_class; break;
+                                      
+                                      case 4: 
+                                     
+                                        switch ($act_rt){
+                                            case 1: $win_odds+= $row['h_odd']; $asl_class = " gotrt"; $asl_class2 = $asl_class; break;
+                                            case 2: $win_odds+= $row['a_odd']; $asl_class = " gotrt"; $asl_class2 = $asl_class; break;
+                                            case 3: $win_odds+= $row['d_odd']; $asl_class = " gotrt"; $asl_class2 = $asl_class; break;
+                                        }
+                                         break;
+                                         
+                                        case 20: $win_odds+= $row['hw_x'];  $call_it= "1/X"; $asl_class = " gotrt"; $asl_class2 = $asl_class;  break;
+                                        case 21: $win_odds+= $row['hw_aw']; $call_it= "1/2"; $asl_class = " gotrt"; $asl_class2 = $asl_class; break;
+                                        case 22: $win_odds+= $row['aw_x'];  $call_it= "2/X"; $asl_class = " gotrt"; $asl_class2 = $asl_class; break;
+                                        
+                                        case 25: $win_odds+= $row['aw_odd']; $asl_class = " gotrt"; $asl_class2 = $asl_class;  break;
+                                        case 26: $win_odds+= $row['hw_odd']; $asl_class = " gotrt"; $asl_class2 = $asl_class;  break;
+                                    }
+                                }
+                                
+                                break;
 						  
 						  case 7:
-								//$win_odds+= ($row['a_s']>$row['h_s']?  $row['a_odd'] : 0) ;
-								//$ngot += ($row['a_s']>$row['h_s']? 1 : 0) ;
-								//$_rt_get = return_gotit($row["hgoal"], $row["agoal"],$row["h_s"], $row["a_s"], $_GET['CALLAS']);
-								
-								$_rt_get = 0 ;
-								$_rt_get = Rt_type($row['h_s'],$row['a_s']) ;
-								
-								$act_rt = Rt_type($row["h_s"], $row["a_s"]);
-								
-								if ($_GET['CALLAS']>0 and $_GET['CALLAS']<4){  // rev. home
-									$_rt_get = ($_GET['CALLAS'] == $_rt_get ? 1 : 0); //
-								}
-								
-								if($_GET['CALLAS']==4 ){ // rev. paw
-									$_rt_get  =  return_gotit($row["hgoal"], $row["agoal"],$row["h_s"], $row["a_s"], 0);
-								}
-								
-								if($_GET['CALLAS']==0){ // rev. paw
-									$_rt_get  =  return_gotit($row["hgoal"], $row["agoal"],$row["h_s"], $row["a_s"], 2);
-								}
-								
-								$ngot += ($_rt_get==1? 1 : 0 ) ;
-								if ($_rt_get == 1){
-									switch ($_GET['CALLAS']){
-									  case 0: $win_odds+= $row['a_odd']; $asl_class = " gotrt"; $asl_class2 = $asl_class; break;
-									  case 1: $win_odds+= $row['h_odd']; $asl_class = " gotrt"; $asl_class2 = $asl_class; break;
-									  case 2: $win_odds+= $row['a_odd']; $asl_class = " gotrt"; $asl_class2 = $asl_class; break;
-									  case 3: $win_odds+= $row['d_odd']; $asl_class = " gotrt"; $asl_class2 = $asl_class; break;
-									  case 4: 
-										switch ($act_rt){
-											case 1: $win_odds+= $row['h_odd']; $asl_class = " gotrt"; $asl_class2 = $asl_class; break;
-											case 2: $win_odds+= $row['a_odd']; $asl_class = " gotrt"; $asl_class2 = $asl_class; break;
-											case 3: $win_odds+= $row['d_odd']; $asl_class = " gotrt"; $asl_class2 = $asl_class; break;
-										}
-									}
-								}
-								
-								break;
+                                //$win_odds+= ($row['a_s']>$row['h_s']?  $row['a_odd'] : 0) ;
+                                //$ngot += ($row['a_s']>$row['h_s']? 1 : 0) ;
+                                //$_rt_get = return_gotit($row["hgoal"], $row["agoal"],$row["h_s"], $row["a_s"], $_GET['CALLAS']);
+                                
+                                $_rt_get = 0 ;
+                                $_rt_get = Rt_type($row['h_s'],$row['a_s']) ;
+                                
+                                $act_rt = Rt_type($row["h_s"], $row["a_s"]);
+                                
+                                if ($_GET['CALLAS']>0 and $_GET['CALLAS']<4){  // rev. home
+                                    $_rt_get = ($_GET['CALLAS'] == $_rt_get ? 1 : 0); //
+                                }
+                                
+                                if($_GET['CALLAS']==4){ // rev. paw
+                                    $_rt_get  =  return_gotit($row["hgoal"], $row["agoal"],$row["h_s"], $row["a_s"], 0);
+                                }
+                                
+                                if($_GET['CALLAS']==0){ // rev. paw
+                                    $_rt_get  =  return_gotit($row["hgoal"], $row["agoal"],$row["h_s"], $row["a_s"], 2);
+                                }
+                                
+                                if($_GET['CALLAS']>=20){ 
+                                    $_rt_get = pat_rev_call($row["h_s"], $row["a_s"],$_GET['CALLAS']);
+                                }                               
+                                
+                                $ngot += ($_rt_get==1? 1 : 0 ) ;
+                                if ($_rt_get == 1){
+                                    switch ($_GET['CALLAS']){
+                                      case 0: $win_odds+= $row['a_odd']; $asl_class = " gotrt"; $asl_class2 = $asl_class; break;
+                                      case 1: $win_odds+= $row['h_odd']; $asl_class = " gotrt"; $asl_class2 = $asl_class; break;
+                                      case 2: $win_odds+= $row['a_odd']; $asl_class = " gotrt"; $asl_class2 = $asl_class; break;
+                                      case 3: $win_odds+= $row['d_odd']; $asl_class = " gotrt"; $asl_class2 = $asl_class; break;
+                                      case 4: 
+                                        switch ($act_rt){
+                                            case 1: $win_odds+= $row['h_odd']; $asl_class = " gotrt"; $asl_class2 = $asl_class; break;
+                                            case 2: $win_odds+= $row['a_odd']; $asl_class = " gotrt"; $asl_class2 = $asl_class; break;
+                                            case 3: $win_odds+= $row['d_odd']; $asl_class = " gotrt"; $asl_class2 = $asl_class; break;
+                                        }
+                                        break;
+                                      case 20: $win_odds+= $row['hw_x'];  $call_it= "1/X"; $asl_class = " gotrt"; $asl_class2 = $asl_class;  break;
+                                      case 21: $win_odds+= $row['hw_aw']; $call_it= "1/2"; $asl_class = " gotrt"; $asl_class2 = $asl_class; break;
+                                      case 22: $win_odds+= $row['aw_x'];  $call_it= "2/X"; $asl_class = " gotrt"; $asl_class2 = $asl_class; break;
+                                    
+                                      case 25: $win_odds+= $row['aw_odd']; $asl_class = " gotrt"; $asl_class2 = $asl_class;  break;
+                                      case 26: $win_odds+= $row['hw_odd']; $asl_class = " gotrt"; $asl_class2 = $asl_class;  break;
+                                        
+                                    }
+                                }
+                                
+                                break;
 						  
 						  case 8:
 								//$win_odds+= ($row['h_s']==$row['a_s']?  $row['d_odd'] : 0) ;
@@ -766,15 +824,16 @@ $query1 = $qry . $proption . $onlyAsl . $_divs . $period . $call .  $filter .  $
 
         
         case 2:     // double change WIN or Draw
-             $captions = "For Standard Double Change Betting";
+             $captions = "For Singles Double Change Betting";
                
                 if ($row['mvalue']>0){
-					
+					 $call_it = "";
 					if ($_GET['CALLAS']==0){
 					switch ($_GET['CALL']){
 					   case 1:
 					   case 2:						
-					   $dc_char = dc_char($row['h_s'], $row['a_s'], $row['hgoal'], $row['agoal']);   
+					   $dc_char = dc_char($row['h_s'], $row['a_s'], $row['hgoal'], $row['agoal']); 
+
 					   if ($dc_char=="Y"){
 						 $asl_class = " gotrt"; $ngot ++;
 							 switch ($_GET['CALL']){

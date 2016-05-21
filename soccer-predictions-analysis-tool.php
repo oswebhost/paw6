@@ -104,12 +104,14 @@ if ($_GET['ASL2GET']=='all'){
   
 //echo $onlyAsl;
    
- $qry = "SELECT f.bookiecall, f.hodddif, f.aodddif, f.dodddif, concat(f.hgoal,f.agoal) as asl2show, f.prvalue, c.dcr_ht, c.dcr_at, c.dcr_av,c.dcr_dif,
-		 abs(c.dcr_dif) as dcrdif,f.`div`, f.hteam,f.ateam,f.match_time,f.hgoal,f.agoal,f.h_s,f.a_s,f.gotit,f.mvalue,f.mid,f.pawrank, 
-		 date_format(f.match_date,'%d-%b-%y') as mdate,
-        f.hwinpb, f.drawpb, f.awinpb, f.h_odd, f.d_odd, f.a_odd, r.ptr_ht, r.ptr_at, r.ptr_av,r.ptr_dif, abs(r.ptr_dif) as ptrdif ,
-        (f.hgoal-f.agoal) as goaldif, (f.hgoal+f.agoal) as goalsum, ((f.drawpb*0.5) + f.hwinpb /(f.hwinpb+f.awinpb)*100) as x1probs, 
-        ((f.drawpb*0.5) + f.awinpb /(f.hwinpb+f.awinpb)*100) as x2probs, g.gpr_ht, g.gpr_at, g.gpr_av, a.air_ht, a.air_at,a.air_av,a.air_dif ";
+ $qry = "SELECT f.bookiecall, f.hodddif, f.aodddif, f.dodddif, concat(f.hgoal,f.agoal) as asl2show, f.prvalue, c.dcr_ht, 
+        c.dcr_at, c.dcr_av,c.dcr_dif, abs(c.dcr_dif) as dcrdif,f.`div`, f.hteam,f.ateam,f.match_time,
+        f.hgoal,f.agoal,f.h_s,f.a_s,f.gotit,f.mvalue,f.mid,f.pawrank, date_format(f.match_date,'%d-%b-%y') as mdate,
+        f.hwinpb, f.drawpb, f.awinpb, f.h_odd, f.d_odd, f.a_odd, r.ptr_ht, r.ptr_at, r.ptr_av,r.ptr_dif, 
+        abs(r.ptr_dif) as ptrdif , (f.hgoal-f.agoal) as goaldif, (f.hgoal+f.agoal) as goalsum, 
+        ((f.drawpb*0.5) + f.hwinpb /(f.hwinpb+f.awinpb)*100) as x1probs, 
+        ((f.drawpb*0.5) + f.awinpb /(f.hwinpb+f.awinpb)*100) as x2probs, 
+        g.gpr_ht, g.gpr_at, g.gpr_av, a.air_ht, a.air_at,a.air_av,a.air_dif ";
 
 
 
@@ -744,7 +746,7 @@ function tell(url)
           $max_week = find_last_week_of_season($_GET['season'],$db) ;
         }
         for ($i=$max_week; $i>=1; $i--){ ?>
-			    <option value="<?php echo $i;?>" <? if($i==$weekno): echo " selected"; endif;?>>
+			    <option value="<?php echo $i;?>" <?php if($i==$weekno): echo " selected"; endif;?>>
                     &nbsp;<?php echo $i;?>&nbsp;&nbsp;&nbsp;
                 </option>
 		  <?php } ?>		 
@@ -1798,11 +1800,12 @@ week_box_new_3rows("Soccer Predictions Analysis Tool", $weekno, $wdate, $season,
 									$_rt_get  =  return_gotit($row["hgoal"], $row["agoal"],$row["h_s"], $row["a_s"], 2);
 								}
 								
-								if($_GET['CALLAS']>=20){ 
+								if($_GET['CALLAS']>19){ 
 									$_rt_get = pat_rev_call($row["h_s"], $row["a_s"],$_GET['CALLAS']);
 								}								
 								
-								$ngot += ($_rt_get==1? 1 : 0 ) ;
+								$ngot += $_rt_get ;
+
 								if ($_rt_get == 1){
 									switch ($_GET['CALLAS']){
 									  case 0: $win_odds+= $row['a_odd']; $asl_class = " gotrt"; $asl_class2 = $asl_class; break;
@@ -1816,8 +1819,14 @@ week_box_new_3rows("Soccer Predictions Analysis Tool", $weekno, $wdate, $season,
 											case 3: $win_odds+= $row['d_odd']; $asl_class = " gotrt"; $asl_class2 = $asl_class; break;
 										}
 										break;
-									  case 20: $win_odds+= $row['hw_x'];  $call_it= "1/X"; $asl_class = " gotrt"; $asl_class2 = $asl_class;  break;
-									  case 21: $win_odds+= $row['hw_aw']; $call_it= "1/2"; $asl_class = " gotrt"; $asl_class2 = $asl_class; break;
+									  case 20: 
+                                            $win_odds+= $row['hw_x']; $call_it= "1/X"; 
+                                            $asl_class = " gotrt";    $asl_class2 = $asl_class;  
+                                        break;
+									  case 21: 
+                                            $win_odds+= $row['hw_aw']; $call_it= "1/2"; 
+                                            $asl_class = " gotrt"; $asl_class2 = $asl_class; 
+                                        break;
 									  case 22: $win_odds+= $row['aw_x'];  $call_it= "2/X"; $asl_class = " gotrt"; $asl_class2 = $asl_class; break;
 									
 									  case 25: $win_odds+= $row['aw_odd']; $asl_class = " gotrt"; $asl_class2 = $asl_class;  break;
@@ -1878,6 +1887,7 @@ week_box_new_3rows("Soccer Predictions Analysis Tool", $weekno, $wdate, $season,
 		
         case 2:     // double change WIN or Draw
              $captions = "For Singles Double Chance Betting";
+
               if ($row['mvalue']>0){
 				    $call_it = "";
 					if ($_GET['CALLAS']==0){
@@ -1885,8 +1895,7 @@ week_box_new_3rows("Soccer Predictions Analysis Tool", $weekno, $wdate, $season,
 					   case 1:
 					   case 2:						
 					   $dc_char = dc_char($row['h_s'], $row['a_s'], $row['hgoal'], $row['agoal']);   
-					   
-					   
+					    $call_it = "";					   
 					   if ($dc_char=="Y"){
 						 $asl_class = " gotrt"; $ngot ++;
 							 switch ($_GET['CALL']){

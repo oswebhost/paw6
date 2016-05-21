@@ -60,111 +60,118 @@ for ($weekno=1; $weekno<=$max_week; $weekno++){
 
  $number=0; $weekly_wins = 0; $win_odds = 1;
 	 
-	$qry = "SELECT f.bookiecall, f.hodddif, f.aodddif, f.dodddif, concat(f.hgoal,f.agoal) as asl2show, f.prvalue, c.dcr_ht, c.dcr_at, c.dcr_av,c.dcr_dif,
-		 abs(c.dcr_dif) as dcrdif,f.`div`, f.hteam,f.ateam,f.match_time,f.hgoal,f.agoal,f.h_s,f.a_s,f.gotit,f.mvalue,f.mid,f.pawrank, 
-		 date_format(f.match_date,'%d-%b-%y') as mdate,
-        f.hwinpb, f.drawpb, f.awinpb, f.h_odd, f.d_odd, f.a_odd, r.ptr_ht, r.ptr_at, r.ptr_av,r.ptr_dif, abs(r.ptr_dif) as ptrdif ,
-        (f.hgoal-f.agoal) as goaldif, (f.hgoal+f.agoal) as goalsum, ((f.drawpb*0.5) + f.hwinpb /(f.hwinpb+f.awinpb)*100) as x1probs, 
-        ((f.drawpb*0.5) + f.awinpb /(f.hwinpb+f.awinpb)*100) as x2probs, g.gpr_ht, g.gpr_at, g.gpr_av, a.air_ht, a.air_at,a.air_av,a.air_dif ";
+
+    $qry = "SELECT f.bookiecall, f.hodddif, f.aodddif, f.dodddif, concat(f.hgoal,f.agoal) as asl2show, f.prvalue, c.dcr_ht, 
+        c.dcr_at, c.dcr_av,c.dcr_dif, abs(c.dcr_dif) as dcrdif,f.`div`, f.hteam,f.ateam,f.match_time,
+        f.hgoal,f.agoal,f.h_s,f.a_s,f.gotit,f.mvalue,f.mid,f.pawrank, date_format(f.match_date,'%d-%b-%y') as mdate,
+        f.hwinpb, f.drawpb, f.awinpb, f.h_odd, f.d_odd, f.a_odd, r.ptr_ht, r.ptr_at, r.ptr_av,r.ptr_dif, 
+        abs(r.ptr_dif) as ptrdif , (f.hgoal-f.agoal) as goaldif, (f.hgoal+f.agoal) as goalsum, 
+        ((f.drawpb*0.5) + f.hwinpb /(f.hwinpb+f.awinpb)*100) as x1probs, 
+        ((f.drawpb*0.5) + f.awinpb /(f.hwinpb+f.awinpb)*100) as x2probs, 
+        g.gpr_ht, g.gpr_at, g.gpr_av, a.air_ht, a.air_at,a.air_av,a.air_dif ";
 
 
-		switch ($_GET['BETTING']){
+	switch ($_GET['BETTING']){
+	    
+	    case 1: 
+	        $qry .= ", o.hw_x, o.aw_x, o.hw_aw, o.hw_odd, o.aw_odd, o.un_odd, o.ov_odd           
+	        FROM cur_reb_dcr c, fixtures f, cur_reb_ptr r, other_odds o, cur_reb g, cur_reb_air a     
+	        WHERE c.weekno='$weekno' and c.season='$season' and 
+	        c.matchno=f.mid and c.season=f.season and c.weekno=f.weekno and 
+	        g.matchno=f.mid and g.season=f.season and g.weekno=f.weekno and  
+	        a.matchno=f.mid and a.season=f.season and a.weekno=f.weekno and 
+	        r.matchno=f.mid and r.season=f.season and r.weekno=f.weekno and 
+	        o.matchno=f.mid and o.season=f.season and o.weekno=f.weekno  " ;
+	        break;
+	        
+	        
+	    case 2: 
+	    
+	        $qry .= ", o.hw_x, o.aw_x, o.hw_aw        
+	        FROM cur_reb_dcr c, fixtures f, cur_reb_ptr r, other_odds o, cur_reb g, cur_reb_air a     
+	        WHERE c.weekno='$weekno' and c.season='$season' and 
+	        c.matchno=f.mid and c.season=f.season and c.weekno=f.weekno and 
+	        g.matchno=f.mid and g.season=f.season and g.weekno=f.weekno and  
+	        a.matchno=f.mid and a.season=f.season and a.weekno=f.weekno and 
+	        r.matchno=f.mid and r.season=f.season and r.weekno=f.weekno and 
+	        o.matchno=f.mid and o.season=f.season and o.weekno=f.weekno and o.hw_x>0 " ;
 			
-			case 1: 
-				$qry .= ", o.hw_x, o.aw_x, o.hw_aw, o.hw_odd, o.aw_odd, o.un_odd, o.ov_odd           
-				FROM cur_reb_dcr c, fixtures f, cur_reb_ptr r, other_odds o, cur_reb g, cur_reb_air a     
-				WHERE c.weekno='$weekno' and c.season='$season' and 
-				c.matchno=f.mid and c.season=f.season and c.weekno=f.weekno and 
-				g.matchno=f.mid and g.season=f.season and g.weekno=f.weekno and  
-				a.matchno=f.mid and a.season=f.season and a.weekno=f.weekno and 
-				r.matchno=f.mid and r.season=f.season and r.weekno=f.weekno and 
-				o.matchno=f.mid and o.season=f.season and o.weekno=f.weekno  " ;
-				break;
-				
-			case 2: 
+			//bookies calls
+			switch($_GET['CALL']){
+				case 16: $qry .= " and o.hw_x < o.aw_x "; break;
+				case 17: $qry .= " and o.aw_x < o.hw_x "; break;
+			}		
 			
-				$qry .= ", o.hw_x, o.aw_x, o.hw_aw        
-				FROM cur_reb_dcr c, fixtures f, cur_reb_ptr r, other_odds o, cur_reb g, cur_reb_air a     
-				WHERE c.weekno='$weekno' and c.season='$season' and 
-				c.matchno=f.mid and c.season=f.season and c.weekno=f.weekno and 
-				g.matchno=f.mid and g.season=f.season and g.weekno=f.weekno and  
-				a.matchno=f.mid and a.season=f.season and a.weekno=f.weekno and 
-				r.matchno=f.mid and r.season=f.season and r.weekno=f.weekno and 
-				o.matchno=f.mid and o.season=f.season and o.weekno=f.weekno and o.hw_x>0 " ;
-				
-				//bookies calls
-				switch($_GET['CALL']){
-					case 16: $qry .= " and o.hw_x < o.aw_x "; break;
-					case 17: $qry .= " and o.aw_x < o.hw_x "; break;
-				}		
-				
-				break;
+	        break;
 
-			case 3: 
-				$qry .= ", o.hw_odd, o.aw_odd        
-				FROM cur_reb_dcr c, fixtures f, cur_reb_ptr r, other_odds o , cur_reb g, cur_reb_air a    
-				WHERE c.weekno='$weekno' and c.season='$season' and 
-				c.matchno=f.mid and c.season=f.season and c.weekno=f.weekno and  
-				g.matchno=f.mid and g.season=f.season and g.weekno=f.weekno and 
-				a.matchno=f.mid and a.season=f.season and a.weekno=f.weekno and  
-				r.matchno=f.mid and r.season=f.season and r.weekno=f.weekno and 
-				o.matchno=f.mid and o.season=f.season and o.weekno=f.weekno and o.hw_odd>0 " ;
-				//bookies calls
-				switch($_GET['CALL']){
-					case 11: $qry .= " and o.hw_odd < o.aw_odd "; break;
-					case 12: $qry .= " and o.aw_odd < o.hw_odd "; break;
-				}
-				
-				break;	
+	    case 3: 
+	        $qry .= ", o.hw_odd, o.aw_odd        
+	        FROM cur_reb_dcr c, fixtures f, cur_reb_ptr r, other_odds o , cur_reb g, cur_reb_air a    
+	        WHERE c.weekno='$weekno' and c.season='$season' and 
+	        c.matchno=f.mid and c.season=f.season and c.weekno=f.weekno and  
+	        g.matchno=f.mid and g.season=f.season and g.weekno=f.weekno and 
+	        a.matchno=f.mid and a.season=f.season and a.weekno=f.weekno and  
+	        r.matchno=f.mid and r.season=f.season and r.weekno=f.weekno and 
+	        o.matchno=f.mid and o.season=f.season and o.weekno=f.weekno and o.hw_odd>0 " ;
 
-			case 4: 
-				$qry .= ", o.un_odd, o.ov_odd        
-				FROM cur_reb_dcr c, fixtures f, cur_reb_ptr r, other_odds o, cur_reb g, cur_reb_air a     
-				WHERE c.weekno='$weekno' and c.season='$season' and 
-				c.matchno=f.mid and c.season=f.season and c.weekno=f.weekno and  
-				g.matchno=f.mid and g.season=c.season and g.weekno=c.weekno and 
-				a.matchno=f.mid and a.season=c.season and a.weekno=c.weekno and  
-				r.matchno=f.mid and r.season=c.season and r.weekno=c.weekno and  
-				o.matchno=f.mid and o.season=c.season and o.weekno=c.weekno and " ;
+			//bookies calls
+			switch($_GET['CALL']){
+				case 11: $qry .= " and o.hw_odd < o.aw_odd "; break;
+				case 12: $qry .= " and o.aw_odd < o.hw_odd "; break;
+			}
+			
+			break;	
 
-				if ($_GET['CALL']>3){
-					$qry .= " o.un_odd < o.ov_odd and o.ov_odd > 0 ";
-				}else{
-					$qry .= " (f.hgoal+f.agoal)< 2.5 and o.un_odd>0 ";
-				}
+	    case 4: 
+	        $qry .= ", o.un_odd, o.ov_odd        
+	        FROM cur_reb_dcr c, fixtures f, cur_reb_ptr r, other_odds o, cur_reb g, cur_reb_air a     
+	        WHERE c.weekno='$weekno' and c.season='$season' and 
+	        c.matchno=f.mid and c.season=f.season and c.weekno=f.weekno and  
+	        g.matchno=f.mid and g.season=c.season and g.weekno=c.weekno and 
+	        a.matchno=f.mid and a.season=c.season and a.weekno=c.weekno and  
+	        r.matchno=f.mid and r.season=c.season and r.weekno=c.weekno and  
+	        o.matchno=f.mid and o.season=c.season and o.weekno=c.weekno and " ;
 
-				break;
-				
-			case 5: 
-				$qry .= ", o.un_odd, o.ov_odd        
-				FROM cur_reb_dcr c, fixtures f, cur_reb_ptr r, other_odds o, cur_reb g, cur_reb_air a     
-				WHERE c.weekno='$weekno' and c.season='$season' and 
-				c.matchno=f.mid and c.season=f.season and c.weekno=f.weekno and  
-				g.matchno=f.mid and g.season=c.season and g.weekno=c.weekno and 
-				a.matchno=f.mid and a.season=c.season and a.weekno=c.weekno and  
-				r.matchno=f.mid and r.season=c.season and r.weekno=c.weekno and  
-				o.matchno=f.mid and o.season=c.season and o.weekno=c.weekno and  " ;
-				
-				if ($_GET['CALL']>3){
-					$qry .= " o.ov_odd < o.un_odd and o.ov_odd > 0 ";
-				}else{
-					$qry .= " (f.hgoal+f.agoal)>2.5 and o.un_odd>0 " ;
-				}
-				
-				break;
-			  
-			case 6: 
-				$qry .= ", o.ht_odd, o.at_odd, o.ht_hcap, o.at_hcap          
-				FROM cur_reb_dcr c, fixtures f, cur_reb_ptr r, ahcap_odds o, cur_reb g, cur_reb_air a     
-				WHERE c.weekno='$weekno' and c.season='$season' and 
-				c.matchno=f.mid and c.season=f.season and c.weekno=f.weekno and  
-				g.matchno=f.mid and g.season=c.season and g.weekno=c.weekno and 
-				a.matchno=f.mid and a.season=c.season and a.weekno=c.weekno and  
-				r.matchno=f.mid and r.season=c.season and r.weekno=c.weekno and  
-				o.matchno=f.mid and o.season=c.season and o.weekno=c.weekno " ;
-				break;
-				
-		}
+			if ($_GET['CALL']>3){
+				$qry .= " o.un_odd < o.ov_odd and o.ov_odd > 0 ";
+			}else{
+				$qry .= " (f.hgoal+f.agoal)< 2.5 and o.un_odd>0 ";
+			}
+
+	        break;
+	        
+	    case 5: 
+	        $qry .= ", o.un_odd, o.ov_odd        
+	        FROM cur_reb_dcr c, fixtures f, cur_reb_ptr r, other_odds o, cur_reb g, cur_reb_air a     
+	        WHERE c.weekno='$weekno' and c.season='$season' and 
+	        c.matchno=f.mid and c.season=f.season and c.weekno=f.weekno and  
+	        g.matchno=f.mid and g.season=c.season and g.weekno=c.weekno and 
+	        a.matchno=f.mid and a.season=c.season and a.weekno=c.weekno and  
+	        r.matchno=f.mid and r.season=c.season and r.weekno=c.weekno and  
+	        o.matchno=f.mid and o.season=c.season and o.weekno=c.weekno and  " ;
+			
+			if ($_GET['CALL']>3){
+				$qry .= " o.ov_odd < o.un_odd and o.ov_odd > 0 ";
+			}else{
+				$qry .= " (f.hgoal+f.agoal)>2.5 and o.un_odd>0 " ;
+			}
+			
+	        break;
+	      
+	    case 6: 
+
+	        $qry .= ", o.ht_odd, o.at_odd, o.ht_hcap, o.at_hcap          
+	        FROM cur_reb_dcr c, fixtures f, cur_reb_ptr r, ahcap_odds o, cur_reb g, cur_reb_air a     
+	        WHERE c.weekno='$weekno' and c.season='$season' and 
+	        c.matchno=f.mid and c.season=f.season and c.weekno=f.weekno and  
+	        g.matchno=f.mid and g.season=c.season and g.weekno=c.weekno and 
+	        a.matchno=f.mid and a.season=c.season and a.weekno=c.weekno and  
+	        r.matchno=f.mid and r.season=c.season and r.weekno=c.weekno and  
+	        o.matchno=f.mid and o.season=c.season and o.weekno=c.weekno " ;
+	        break;
+	        
+	}
+
 
 	$proption="";
 
