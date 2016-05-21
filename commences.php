@@ -1,4 +1,4 @@
-<?
+<?php
 
 $page_title ="European Season 2013-2014";
 
@@ -20,4 +20,4 @@ page_header($page_title);
 </div>
 
 
-<? include("footer.ini.php"); ?>
+<?php include("footer.ini.php"); ?>
