@@ -125,7 +125,7 @@ endif;
    
   
   
-$query1 = $qry . $divs . $period . $ordered_by ;
+$query1 = $qry . $_divs . $period . $ordered_by ;
 
 if (isset($_GET['db'])){
   $page_title = "Double Chance Reliabilities " . s_title($db) . " Season $season Week $weekno";

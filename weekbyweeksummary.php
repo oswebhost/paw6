@@ -69,7 +69,7 @@ foreach($_GET as $key => $value){
 
 <div style="padding-bottom:5px"></div>
 
-<?php if(isset($_GET['db'])){ 
+<?php if(isset($_GET['db'])){
      
 ?>
 <div style='padding-left:30px;'>
@@ -107,7 +107,7 @@ foreach($_GET as $key => $value){
                   <option value="99" <?php echo selected($_GET['DIV'],'99')?>>All Divisions</option> 
 					
             
-                    <optgroup label="One Division Only">
+               <optgroup label="One Division Only">
           			<?php for($_i=0; $_i<count($arry_div); $_i++){ ?>
           			   <?php if($_i<>4 and $_i<>9 and $_i<>18){ ?>
           					<option value="<?php echo $arry_div[$_i];?>" <?php echo selected($_GET['DIV'], $arry_div[$_i]);?>><?php echo divname($arry_div[$_i]); ?></option>
@@ -181,7 +181,7 @@ foreach($_GET as $key => $value){
               </optgroup>
 			  
 			   
-			 <optgroup label="Goals">  
+			      <optgroup label="Goals">  
            		 <option value="13" <?php echo selected($_GET['SORTBY'],'13')?>> Total Goals Predicted</option>
            		 <option value="14" <?php echo selected($_GET['SORTBY'],'14')?>> ASL Goal Difference</option>
              </optgroup>
@@ -319,15 +319,15 @@ foreach($_GET as $key => $value){
             <select size="1" name="ASL2GET" class="text" style="width:120px;padding:3px;">
               	<option value="all">ALL</option>
               	
-               <?php if ($_GET['CALL']==3 ){ ?>
-              		<option value="00" <?php echo selected($_GET['ASL2GET'],'00')?> >0-0</option>
-              		<option value="11" <?php echo selected($_GET['ASL2GET'],'11')?> >1-1</option>
-              		<option value="22" <?php echo selected($_GET['ASL2GET'],'22')?> >2-2</option>
-              		<option value="33" <?php echo selected($_GET['ASL2GET'],'33')?> >3-3</option>
-              <?php }?>
+           <?php if ($_GET['CALL']==3 ){ ?>
+          		<option value="00" <?php echo selected($_GET['ASL2GET'],'00')?> >0-0</option>
+          		<option value="11" <?php echo selected($_GET['ASL2GET'],'11')?> >1-1</option>
+          		<option value="22" <?php echo selected($_GET['ASL2GET'],'22')?> >2-2</option>
+          		<option value="33" <?php echo selected($_GET['ASL2GET'],'33')?> >3-3</option>
+          <?php }?>
 			
 			   <?php if ($_GET['CALL']==1){ ?>
-					<option value="10" <?php echo selected($_GET['ASL2GET'],'10')?> >1-0</option>
+					       <option value="10" <?php echo selected($_GET['ASL2GET'],'10')?> >1-0</option>
               		<option value="20" <?php echo selected($_GET['ASL2GET'],'20')?> >2-0</option>
               		<option value="21" <?php echo selected($_GET['ASL2GET'],'21')?> >2-1</option>
               		<option value="30" <?php echo selected($_GET['ASL2GET'],'30')?> >3-0</option>
@@ -347,6 +347,7 @@ foreach($_GET as $key => $value){
               		<option value="23" <?php echo selected($_GET['ASL2GET'],'23')?> >2-3</option>
               		<option value="04" <?php echo selected($_GET['ASL2GET'],'04')?> >0-4</option>
               		<option value="14" <?php echo selected($_GET['ASL2GET'],'14')?> >1-4</option>
+
               <?php }?>
               
               </select>
@@ -604,55 +605,64 @@ foreach($_GET as $key => $value){
 </table>
 
 
+<?php
+
+if ($_GET['B1']=="View Data"){
+
+    foreach($_GET as $key => $value)
+    {
+
+        $url .= "$key=$value&";
+    }
+
+    $summaryURL =  substr($url, 0, strlen($url)-14) 
+  
+?>
+
+
+      <table  width="90%">
+      <tr>
+        <td></td>
+        <td align="center"><span class='bot'></span></td>
+        <td align="right"> <?php echo printscr(); ?></td>
+      </tr>
+      <tr>
+      	<td colspan='3' style='padding-left:3px;'>
+      		<ul id="countrytabs" class="shadetabs" style='margin:0px;padding:0'>
+      			<li><a href="#" rel="#default" class="selected">SINGLES</a></li>
+      			<li><a href="doubles.php?<?php echo $summaryURL;?>" rel="countrycontainer">DOUBLES</a></li>
+      			<li><a href="triples.php?<?php echo $summaryURL;?>" rel="countrycontainer">TREBLES</a></li>
+      			<li><a href="quadruples.php?<?php echo $summaryURL;?>" rel="countrycontainer">QUADRUPLES</a></li>
+      			<li><a href="quintuples.php?<?php echo $summaryURL;?>" rel="countrycontainer">QUINTUPLES</a></li>
+      			<li><a href="sextuples.php?<?php echo $summaryURL;?>" rel="countrycontainer">SEXTUPLES</a></li>
+      		</ul>
+      	</td>
+      </tr>
+      </table>
 
 
 
-<table  width="90%">
-<tr>
-  <td></td>
-  <td align="center"><span class='bot'></span></td>
-  <td align="right"> <?php echo printscr(); ?></td>
-</tr>
-<tr>
-	<td colspan='3' style='padding-left:3px;'>
-	<?php
-		foreach($_GET as $key => $value){
+      <!-- startprint -->
 
-				$url .= "$key=$value&";
-		}
+      <div id="countrydivcontainer" style="width:630px;padding: 0px;margin-top:1px;">
+      	<?php 
+            require("singles.php"); 
+        ?>
+      </div>
 
-		$summaryURL =  substr($url, 0, strlen($url)-14) 
-	
-	?>
-		<ul id="countrytabs" class="shadetabs" style='margin:0px;padding:0'>
-			<li><a href="#" rel="#default" class="selected">SINGLES</a></li>
-			<li><a href="doubles.php?<?php echo $summaryURL;?>" rel="countrycontainer">DOUBLES</a></li>
-			<li><a href="triples.php?<?php echo $summaryURL;?>" rel="countrycontainer">TREBLES</a></li>
-			<li><a href="quadruples.php?<?php echo $summaryURL;?>" rel="countrycontainer">QUADRUPLES</a></li>
-			<li><a href="quintuples.php?<?php echo $summaryURL;?>" rel="countrycontainer">QUINTUPLES</a></li>
-			<li><a href="sextuples.php?<?php echo $summaryURL;?>" rel="countrycontainer">SEXTUPLES</a></li>
-		</ul>
+      <script type="text/javascript">
+      	var countries=new ddajaxtabs("countrytabs", "countrydivcontainer")
+      	countries.setpersist(false)
+      	countries.setselectedClassTarget("link") //"link" or "linkparent"
+      	countries.init()
+      </script>
 
-	</td>
-</tr>
-</table>
+<?php } 
 
 
 
-<!-- startprint -->
-
-<div id="countrydivcontainer" style="width:630px;padding: 0px;margin-top:1px;">
-	<?php require("singles.php"); ?>
-</div>
-
-<script type="text/javascript">
-	var countries=new ddajaxtabs("countrytabs", "countrydivcontainer")
-	countries.setpersist(false)
-	countries.setselectedClassTarget("link") //"link" or "linkparent"
-	countries.init()
-</script>
-
-<?php }?>
+}
+?>
 
 </div>
 
@@ -668,3 +678,4 @@ foreach($_GET as $key => $value){
   $sa = null;
   $sp = null;
 ?>
+
