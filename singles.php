@@ -1073,11 +1073,15 @@ $query1 = $qry . $proption . $onlyAsl . $_divs . $period . $call .  $filter .  $
         $Tngot += $ngot;
         $Tnobets += $nobets;
 		
-		if ($win_odds - ($number-$postponed-$nobets) > 0 ){
-			$win_week ++;
-			$prv_week = 0;
-		}
-		
+        if ($win_odds - ($number-$postponed-$nobets) > 0 ){
+            $win_week ++;
+            $prv_week = 0;
+        }
+        
+        if ($weekly_wins - ($number-$no_win_number) == 0 ){
+            $prv_week = 0;
+        }
+
 		if ($win_odds - ($number-$postponed-$nobets) < 0 ){
 			$loss_week ++;
 			$prv_week ++;
